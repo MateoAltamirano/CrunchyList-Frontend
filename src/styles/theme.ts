@@ -14,17 +14,17 @@ const Button = {
   variants: {
     outline: {
       border: "2px solid",
-      borderColor: "orange.400",
-      color: "orange.400",
+      borderColor: "primary.main",
+      color: "primary.main",
     },
     solid: {
-      backgroundColor: "orange.400",
+      backgroundColor: "primary.main",
       color: "white",
       _hover: {
-        backgroundColor: "orange.500",
+        backgroundColor: "primary.dark",
       },
       _active: {
-        backgroundColor: "orange.400",
+        backgroundColor: "primary.main",
       },
     },
   },
@@ -36,6 +36,18 @@ const Button = {
 };
 
 export const theme = extendTheme({
+  colors: {
+    primary: {
+      main: "#f37623",
+      light: "#ffa753",
+      dark: "#ba4700",
+    },
+    secondary: {
+      main: "#19bcbe",
+      light: "#65eff1",
+      dark: "#008b8e",
+    },
+  },
   components: {
     Button,
   },
