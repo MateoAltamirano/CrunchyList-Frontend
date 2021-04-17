@@ -6,8 +6,8 @@ const initialState: IUser = {
   isAuthenticated: false,
   firstName: "",
 };
-type UserContext = {
-  userState: IUser;
+export type UserContext = {
+  state: IUser;
   dispatch: React.Dispatch<IReducer>;
 };
 export const userContext = createContext<UserContext | undefined>(undefined);
@@ -15,7 +15,7 @@ export const userContext = createContext<UserContext | undefined>(undefined);
 const UserContextProvider: React.FC = ({ children }) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);
   return (
-    <userContext.Provider value={{ userState, dispatch }}>
+    <userContext.Provider value={{ state: userState, dispatch }}>
       {children}
     </userContext.Provider>
   );
