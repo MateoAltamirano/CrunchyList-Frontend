@@ -25,7 +25,7 @@ const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box minW="100vw">
+    <Box minW={"98vw"} position={"fixed"} zIndex={"1"}>
       <Flex
         bg={"white"}
         color={"gray.600"}
@@ -52,14 +52,18 @@ const NavBar = () => {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Text
+          <Link
             textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color={"gray.800"}
+            fontWeight={500}
+            color={"gray.600"}
+            _hover={{
+              textDecoration: "none",
+              color: "gray.800",
+            }}
+            href="/"
           >
-            Logo
-          </Text>
-
+            LOGO
+          </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>
@@ -71,8 +75,8 @@ const NavBar = () => {
           direction={"row"}
           spacing={6}
         >
-          <Button variant={"link"}>Sign In</Button>
-          <Button href={"#"}>Sign Up</Button>
+          <Button variant={"link"}>Ingresar</Button>
+          <Button>Registrarme</Button>
         </Stack>
       </Flex>
 

@@ -11,14 +11,9 @@ const Button = {
     },
   },
   sizes: {},
-  // Two variants: outline and solid
+  // 3 variants: primary, secondary, outline
   variants: {
-    outline: {
-      border: "2px solid",
-      borderColor: "primary.main",
-      color: "primary.main",
-    },
-    solid: {
+    primary: {
       backgroundColor: "primary.main",
       color: "white",
       _hover: {
@@ -28,17 +23,35 @@ const Button = {
         backgroundColor: "primary.main",
       },
     },
+    secondary: {
+      backgroundColor: "secondary.main",
+      color: "white",
+      _hover: {
+        backgroundColor: "secondary.dark",
+      },
+      _active: {
+        backgroundColor: "secondary.main",
+      },
+    },
+    outline: {
+      border: "2px solid",
+      borderColor: "primary.main",
+      color: "primary.main",
+    },
   },
   // The default size and variant values
   defaultProps: {
     size: "md",
-    variant: "solid",
+    variant: "primary",
   },
 };
 
 const Link = {
   baseStyle: {
     userSelect: "none",
+    _focus: {
+      boxShadow: "none",
+    },
   },
 };
 
