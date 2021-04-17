@@ -4,3 +4,6 @@
   justify-content: center;
   min-height: 100vh;
 }
+.btn {
+  height: 50%;
+}
