@@ -5,6 +5,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import NavBar from "./components/NavBar";
 import { Box } from "@chakra-ui/layout";
+import UserContextProvider from "./providers/UserContext";
 
 const App = () => {
   return (
@@ -12,17 +13,19 @@ const App = () => {
       <Router>
         <NavBar />
         <Box paddingTop={"60px"}>
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
+          <UserContextProvider>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/profile">
+                <Profile />
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </UserContextProvider>
         </Box>
       </Router>
     </div>
