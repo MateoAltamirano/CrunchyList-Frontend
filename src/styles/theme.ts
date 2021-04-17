@@ -1,5 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
 
+//Styles for normal component
 const Button = {
   // The styles all button have in common
   baseStyle: {
@@ -35,6 +36,12 @@ const Button = {
   },
 };
 
+const Link = {
+  baseStyle: {
+    userSelect: "none",
+  },
+};
+
 export const theme = extendTheme({
   colors: {
     primary: {
@@ -50,5 +57,6 @@ export const theme = extendTheme({
   },
   components: {
     Button,
+    Link,
   },
 });
