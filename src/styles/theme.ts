@@ -55,6 +55,31 @@ const Link = {
   },
 };
 
+const Card = {
+  baseStyle: {
+    display: "flex",
+    flexDirection: "column",
+    background: "white",
+    alignItems: "center",
+    gap: 6,
+  },
+  variants: {
+    rounded: {
+      padding: 8,
+      borderRadius: "xl",
+      boxShadow: "xl",
+    },
+    smooth: {
+      padding: 6,
+      borderRadius: "base",
+      boxShadow: "md",
+    },
+  },
+  defaultProps: {
+    variant: "smooth",
+  },
+};
+
 export const theme = extendTheme({
   colors: {
     primary: {
@@ -71,5 +96,6 @@ export const theme = extendTheme({
   components: {
     Button,
     Link,
+    Card,
   },
 });
