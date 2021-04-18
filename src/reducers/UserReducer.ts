@@ -4,7 +4,7 @@ export enum UserActionType {
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
   SIGN_IN = "SIGN_IN",
-  UPDATE_USER = "UPDATE_NAME",
+  UPDATE_NAME = "UPDATE_NAME",
 }
 export interface IReducer {
   type: UserActionType;
@@ -13,8 +13,9 @@ export interface IReducer {
 
 export const userReducer = (state: IUser, action: IReducer) => {
   switch (action.type) {
-    case UserActionType.UPDATE_USER:
-      return action.user;
+    case UserActionType.UPDATE_NAME:
+      const { firstName } = action.user;
+      return { ...state, firstName };
     case UserActionType.LOGIN:
       return { ...state, isAuthenticated: action.user.isAuthenticated };
     case UserActionType.LOGOUT:
