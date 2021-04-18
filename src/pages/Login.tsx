@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { userContext } from "../providers/UserContext";
 import { UserActionType } from "../reducers/UserReducer";
 import '../styles/login.css'
-import logo from '../assets/img/logoMALPNG.png'
+import logo from '../assets/img/LogoWhiteMAL.png'
 
 
 const LogIn = () =>{
