@@ -1,29 +1,31 @@
-import { Button } from "@chakra-ui/button";
-import { Flex } from "@chakra-ui/layout";
+import { Flex, CircularProgress, Button } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { useContext, useEffect } from "react";
+import { getUserById } from "../api/api";
 import { userContext } from "../providers/UserContext";
-import { UserActionType } from "../reducers/UserReducer";
+import { Status } from "../reducers/UserReducer";
 
 const Profile = () => {
   const user = useContext(userContext);
   if (user === undefined)
     throw new Error("Please use within UserContextProvider");
 
+  const getUser = useCallback(() => {
+    getUserById("1", user.dispatch);
+  }, [user.dispatch]);
+
   useEffect(() => {
-    // To update the state:
-    user.dispatch({
-      type: UserActionType.UPDATE_NAME,
-      user: { firstName: "Mateo" },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getUser();
+  }, [getUser]);
+
   return (
     <Flex flexDirection="column">
       {/* To read the state: */}
-      {user.state.firstName}
-      <Button>Crunchy List</Button>
-      <Button variant="outline">Crunchy List</Button>
-      <Button variant="secondary">Crunchy List</Button>
+      {user.state.status === Status.LOADING ? (
+        <CircularProgress isIndeterminate color="secondary.main" />
+      ) : (
+        <Button>{user.state.firstName}</Button>
+      )}
     </Flex>
   );
 };
