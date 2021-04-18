@@ -25,7 +25,7 @@ const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box minW={"98vw"} position={"fixed"} zIndex={"1"}>
+    <Box minW={"100%"} position={"fixed"} zIndex={"1"}>
       <Flex
         bg={"white"}
         color={"gray.600"}
