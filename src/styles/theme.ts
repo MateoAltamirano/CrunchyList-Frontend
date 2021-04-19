@@ -54,6 +54,42 @@ const Link = {
     },
   },
 };
+const Input={
+    // The parts of the component
+    parts: ["field", "addon"],
+    // The base styles for each part
+    baseStyle: {
+      field:{
+        backgroundColor:"#FF0000"
+      },
+      addon:{
+
+      }
+    },
+    // The size styles for each part
+    sizes: {},
+    // The variant styles for each part
+    variants: {
+      primary:{
+        field:{
+          backgroundColor:"white",
+          marginTop:"10px",
+          marginBottom:"10px",
+          
+          _focus:{
+            border:"2px solid #19bcbe",
+          },
+          _placeholder:{
+            color:"black",
+          }
+        }
+      }
+    },
+    // The default `size` or `variant` values
+    defaultProps: {
+      variant: "primary"
+    },
+}
 
 export const theme = extendTheme({
   colors: {
@@ -67,9 +103,11 @@ export const theme = extendTheme({
       light: "#65eff1",
       dark: "#008b8e",
     },
+    white: "#FFFFFF"
   },
   components: {
     Button,
     Link,
+    Input
   },
 });

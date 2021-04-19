@@ -9,13 +9,14 @@
 .loginCard{
   position: absolute;
   right: 0;
-  padding: 20px;
+  padding: 40px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 300px;
-  margin-right: 20px;
+  margin-right: 80px;
+  margin-top: 50px;
 }
 
 .loginCard img{
