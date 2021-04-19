@@ -48,6 +48,7 @@ const Button = {
 
 const Link = {
   baseStyle: {
+    color:"white",
     userSelect: "none",
     _focus: {
       boxShadow: "none",
@@ -58,14 +59,6 @@ const Input={
     // The parts of the component
     parts: ["field", "addon"],
     // The base styles for each part
-    baseStyle: {
-      field:{
-        backgroundColor:"#FF0000"
-      },
-      addon:{
-
-      }
-    },
     // The size styles for each part
     sizes: {},
     // The variant styles for each part
@@ -74,7 +67,7 @@ const Input={
         field:{
           backgroundColor:"white",
           marginTop:"10px",
-          marginBottom:"10px",
+          marginBottom:"2px",
           
           _focus:{
             border:"2px solid #19bcbe",
@@ -115,6 +108,7 @@ const Card = {
     variant: "smooth",
   },
 };
+
 
 export const theme = extendTheme({
   colors: {

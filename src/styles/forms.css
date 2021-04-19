@@ -1,0 +1,18 @@
+form{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box{
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.input-box span{
+  position: absolute;
+  color: #b00;
+  font-size: 12px;
+  width: 100%;
+  bottom: -15px;
+  left: 0;
+}

@@ -17,7 +17,7 @@ import "../styles/login.css";
 import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
 
-const LogIn = () => {
+const SignUp = () => {
 
   const {
     register,
@@ -32,6 +32,24 @@ const LogIn = () => {
       <Box backgroundColor={"primary.main"} className="loginCard">
         <img src={logo}></img>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <Box className={"input-box"}>
+            <Input
+              type={"text"}
+              placeholder={"Nombre"}
+              {...register("name", { required: "El campo es requerido" })}
+            />
+            {errors.name && <span>{errors.name.message}</span>}
+          </Box>
+          
+          <Box className={"input-box"}>
+            <Input
+              type={"text"}
+              placeholder={"Usuario"}
+              {...register("user", { required: "El campo es requerido" })}
+            />
+            {errors.user && <span>{errors.user.message}</span>}
+          </Box>
+          
           <Box className={"input-box"}>
             <Input
               type={"text"}
@@ -56,15 +74,24 @@ const LogIn = () => {
             {errors.password && <span>{errors.password.message}</span>}
           </Box>
           
+          <Box className={"input-box"}>
+            <Input
+              type={"date"}
+              placeholder={"Fecha de nacimiento"}
+              {...register("date", { required: "El campo es requerido" })}
+            />
+            {errors.date && <span>{errors.date.message}</span>}
+          </Box>
+          
           <Button marginTop={"10px"} backgroundColor={"primary.dark"} type={"submit"}>
             Ingresar
           </Button>
         </form>
-        <p>No tiene una cuenta?</p>
-        <Link to="/signup">Crear cuenta</Link>
+        <p>Ya tiene una cuenta?</p>
+        <Link to="/login">Iniciar Sesión</Link>
       </Box>
     </Box>
   );
 };
 
-export default LogIn;
+export default SignUp;
