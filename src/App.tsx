@@ -2,7 +2,7 @@ import "./styles/App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import LogIn from './pages/Login';
+import LogIn from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import NavBar from "./components/NavBar";
 import { Box } from "@chakra-ui/layout";
@@ -12,9 +12,9 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-        <NavBar />
-        <Box paddingTop={"60px"} height={'100%'}>
-          <UserContextProvider>
+        <UserContextProvider>
+          <NavBar />
+          <Box paddingTop={"60px"} height={"100%"}>
             <Switch>
               <Route exact path="/">
                 <Home />
@@ -23,14 +23,14 @@ const App = () => {
                 <Profile />
               </Route>
               <Route path="/login">
-                <LogIn/>
+                <LogIn />
               </Route>
               <Route path="*">
                 <NotFound />
               </Route>
             </Switch>
-          </UserContextProvider>
-        </Box>
+          </Box>
+        </UserContextProvider>
       </Router>
     </div>
   );

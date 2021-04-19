@@ -20,10 +20,16 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { userContext } from "../providers/UserContext";
+import { useContext } from "react";
+import { Props } from "framer-motion/types/types";
 
 const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
-
+  const user = useContext(userContext);
+  if (user === undefined)
+    throw new Error("Please use within UserContextProvider");
+  const { isAuthenticated } = user.state;
   return (
     <Box minW={"100%"} position={"fixed"} zIndex={"1"}>
       <Flex
@@ -65,19 +71,20 @@ const NavBar = () => {
             LOGO
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav />
+            <DesktopNav isAuthenticated={isAuthenticated} />
           </Flex>
         </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Button variant={"link"}>Ingresar</Button>
-          <Button>Registrarme</Button>
-        </Stack>
+        {!isAuthenticated ? (
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={"flex-end"}
+            direction={"row"}
+            spacing={6}
+          >
+            <Button variant={"link"}>Ingresar</Button>
+            <Button>Registrarme</Button>
+          </Stack>
+        ) : undefined}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -87,7 +94,7 @@ const NavBar = () => {
   );
 };
 
-const DesktopNav = () => {
+const DesktopNav = (props: Props) => {
   return (
     <Stack direction={"row"} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
@@ -126,6 +133,19 @@ const DesktopNav = () => {
           </Popover>
         </Box>
       ))}
+      {props.isAuthenticated ? (
+        <Link
+          fontWeight={500}
+          color={"gray.600"}
+          _hover={{
+            textDecoration: "none",
+            color: "gray.800",
+          }}
+          href="/profile"
+        >
+          Perfil
+        </Link>
+      ) : undefined}
     </Stack>
   );
 };
