@@ -3,13 +3,6 @@ import Card from "../components/Card";
 import "../styles/home.css";
 
 const Home = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
   return (
     <Box h="100%">
       <Box className="home">
@@ -27,6 +20,12 @@ const Home = () => {
           </Heading>
           <Text alignSelf="self-start" fontSize="md">
             Los animes más populares de la temporada te esperan
+          </Text>
+          <Heading size="lg" alignSelf="self-start" color="gray.700">
+            Recomendados
+          </Heading>
+          <Text alignSelf="self-start" fontSize="md">
+            Los animes más recomendados en base a tus gustos personales
           </Text>
         </Card>
       </Flex>

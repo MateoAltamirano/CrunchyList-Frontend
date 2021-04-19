@@ -8,3 +8,7 @@
   justify-content: center;
   padding-left: 3rem;
 }
+
+.carousel-img {
+  src: url("../assets/img/home.jpg");
+}
