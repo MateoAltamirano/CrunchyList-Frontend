@@ -1,0 +1,14 @@
+.home {
+  background-image: url("../assets/img/home.jpg");
+  background-size: cover;
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 3rem;
+}
+
+.carousel-img {
+  src: url("../assets/img/home.jpg");
+}
