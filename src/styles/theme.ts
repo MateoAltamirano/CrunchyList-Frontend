@@ -68,10 +68,7 @@ const Input={
           backgroundColor:"white",
           marginTop:"10px",
           marginBottom:"2px",
-          
-          _focus:{
-            border:"2px solid #19bcbe",
-          },
+          boxSizing: "border-box",
           _placeholder:{
             color:"black",
           }

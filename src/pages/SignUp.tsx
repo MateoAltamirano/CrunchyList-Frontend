@@ -2,7 +2,6 @@ import {
   Box,
   Input,
   Button,
-  Link,
   Flex,
   FormControl,
   FormLabel,
@@ -16,6 +15,9 @@ import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
+import {
+  Link, Router,
+} from 'react-router-dom';
 
 const SignUp = () => {
 
@@ -36,7 +38,7 @@ const SignUp = () => {
             <Input
               type={"text"}
               placeholder={"Nombre"}
-              {...register("name", { required: "El campo es requerido" })}
+              {...register("name", { required: "El nombre es requerido" })}
             />
             {errors.name && <span>{errors.name.message}</span>}
           </Box>
@@ -45,7 +47,7 @@ const SignUp = () => {
             <Input
               type={"text"}
               placeholder={"Usuario"}
-              {...register("user", { required: "El campo es requerido" })}
+              {...register("user", { required: "El usuario es requerido" })}
             />
             {errors.user && <span>{errors.user.message}</span>}
           </Box>
@@ -69,7 +71,7 @@ const SignUp = () => {
             <Input
               type={"password"}
               placeholder={"Contraseña"}
-              {...register("password", { required: "El campo es requerido" })}
+              {...register("password", { required: "Debe incresar una contraseña" })}
             />
             {errors.password && <span>{errors.password.message}</span>}
           </Box>
@@ -78,7 +80,7 @@ const SignUp = () => {
             <Input
               type={"date"}
               placeholder={"Fecha de nacimiento"}
-              {...register("date", { required: "El campo es requerido" })}
+              {...register("date", { required: "Debe ingresar la fecha de nacimiento" })}
             />
             {errors.date && <span>{errors.date.message}</span>}
           </Box>
@@ -88,7 +90,7 @@ const SignUp = () => {
           </Button>
         </form>
         <p>Ya tiene una cuenta?</p>
-        <Link to="/login">Iniciar Sesión</Link>
+        <Link style={{color: "white"}} to="/login">Iniciar Sesión</Link>
       </Box>
     </Box>
   );

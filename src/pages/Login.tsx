@@ -2,7 +2,6 @@ import {
   Box,
   Input,
   Button,
-  Link,
   Flex,
   FormControl,
   FormLabel,
@@ -16,6 +15,9 @@ import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
+import {
+  Link, Router,
+} from 'react-router-dom';
 
 const LogIn = () => {
 
@@ -61,7 +63,7 @@ const LogIn = () => {
           </Button>
         </form>
         <p>No tiene una cuenta?</p>
-        <Link to="/signup">Crear cuenta</Link>
+        <Link style={{color: "white"}} to="/signup">Crear cuenta</Link>
       </Box>
     </Box>
   );
