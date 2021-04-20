@@ -1,8 +1,14 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { useContext } from "react";
 import Card from "../components/Card";
+import { userContext } from "../providers/UserContext";
 import "../styles/home.css";
 
 const Home = () => {
+  const user = useContext(userContext);
+  if (user === undefined)
+    throw new Error("Please use within UserContextProvider");
+  const { isAuthenticated } = user.state;
   return (
     <Box h="100%">
       <Box className="home">
@@ -21,12 +27,16 @@ const Home = () => {
           <Text alignSelf="self-start" fontSize="md">
             Los animes más populares de la temporada te esperan
           </Text>
-          <Heading size="lg" alignSelf="self-start" color="gray.700">
-            Recomendados
-          </Heading>
-          <Text alignSelf="self-start" fontSize="md">
-            Los animes más recomendados en base a tus gustos personales
-          </Text>
+          {isAuthenticated ? (
+            <Box w={"100%"}>
+              <Heading size="lg" alignSelf="self-start" color="gray.700">
+                Recomendados
+              </Heading>
+              <Text alignSelf="self-start" fontSize="md">
+                Los animes más recomendados en base a tus gustos personales
+              </Text>
+            </Box>
+          ) : undefined}
         </Card>
       </Flex>
     </Box>
