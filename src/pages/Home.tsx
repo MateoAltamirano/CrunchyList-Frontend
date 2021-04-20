@@ -93,25 +93,97 @@ const Home = () => {
               </Text>
               <Box w={"100%"}>
                 <Slider {...recommendedCarouselSettings}>
-                  <Box h={"25rem"} w={"25rem"} bgColor="red">
+                  <Box h={"20rem"} w={"20rem"} bgColor="red">
                     1
                   </Box>
-                  <Box h={"25rem"} w={"25rem"} bgColor="blue">
+                  <Box h={"20rem"} w={"20rem"} bgColor="blue">
                     2
                   </Box>
-                  <Box h={"25rem"} w={"25rem"} bgColor="green">
+                  <Box h={"20rem"} w={"20rem"} bgColor="green">
                     3
                   </Box>
-                  <Box h={"25rem"} w={"25rem"} bgColor="yellow">
+                  <Box h={"20rem"} w={"20rem"} bgColor="yellow">
                     4
                   </Box>
-                  <Box h={"25rem"} w={"25rem"} bgColor="pink">
+                  <Box h={"20rem"} w={"20rem"} bgColor="pink">
                     5
                   </Box>
                 </Slider>
               </Box>
             </Box>
           ) : undefined}
+          <Box w={"100%"} marginTop="1rem">
+            <Heading size="lg" alignSelf="self-start" color="gray.700">
+              Categoria X
+            </Heading>
+            <Box w={"100%"}>
+              <Slider {...recommendedCarouselSettings}>
+                <Box h={"15rem"} w={"15rem"} bgColor="red">
+                  1
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="blue">
+                  2
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="green">
+                  3
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="yellow">
+                  4
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="pink">
+                  5
+                </Box>
+              </Slider>
+            </Box>
+          </Box>
+          <Box w={"100%"} marginTop="1rem">
+            <Heading size="lg" alignSelf="self-start" color="gray.700">
+              Categoria Y
+            </Heading>
+            <Box w={"100%"}>
+              <Slider {...recommendedCarouselSettings}>
+                <Box h={"15rem"} w={"15rem"} bgColor="red">
+                  1
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="blue">
+                  2
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="green">
+                  3
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="yellow">
+                  4
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="pink">
+                  5
+                </Box>
+              </Slider>
+            </Box>
+          </Box>
+          <Box w={"100%"} marginTop="1rem">
+            <Heading size="lg" alignSelf="self-start" color="gray.700">
+              Categoria Z
+            </Heading>
+            <Box w={"100%"}>
+              <Slider {...recommendedCarouselSettings}>
+                <Box h={"15rem"} w={"15rem"} bgColor="red">
+                  1
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="blue">
+                  2
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="green">
+                  3
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="yellow">
+                  4
+                </Box>
+                <Box h={"15rem"} w={"15rem"} bgColor="pink">
+                  5
+                </Box>
+              </Slider>
+            </Box>
+          </Box>
         </Card>
       </Flex>
     </Box>
