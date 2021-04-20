@@ -8,7 +8,6 @@ import {
   Text,
   Divider,
   useRadioGroup,
-  HStack,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { useContext, useEffect } from "react";
@@ -18,7 +17,6 @@ import { userContext } from "../providers/UserContext";
 import { Status } from "../reducers/UserReducer";
 import "../styles/profile.css";
 import { CheckIcon, StarIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Props } from "framer-motion/types/types";
 import Slider from "react-slick";
 import RadioButton from "../components/RadioButton";
 
