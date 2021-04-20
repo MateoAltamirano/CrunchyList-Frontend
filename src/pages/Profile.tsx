@@ -7,6 +7,8 @@ import {
   Image,
   Text,
   Divider,
+  useRadioGroup,
+  HStack,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { useContext, useEffect } from "react";
@@ -18,6 +20,7 @@ import "../styles/profile.css";
 import { CheckIcon, StarIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import { Props } from "framer-motion/types/types";
 import Slider from "react-slick";
+import RadioButton from "../components/RadioButton";
 
 const Profile = () => {
   const user = useContext(userContext);
@@ -31,6 +34,30 @@ const Profile = () => {
   useEffect(() => {
     getUser();
   }, [getUser]);
+
+  const radioOptions = [
+    {
+      icon: <StarIcon boxSize="1.5rem" marginBottom="0.5rem" />,
+      value: "Favoritos",
+    },
+    {
+      icon: <TimeIcon boxSize="1.5rem" marginBottom="0.5rem" />,
+      value: "Planeo ver",
+    },
+    {
+      icon: <ViewIcon boxSize="1.5rem" marginBottom="0.5rem" />,
+      value: "Estoy viendo",
+    },
+  ];
+
+  const onRadioChange = (value: string) => {
+    console.log(value);
+  };
+  const { getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "Favoritos",
+    onChange: onRadioChange,
+  });
 
   const settings = {
     infinite: true,
@@ -166,8 +193,22 @@ const Profile = () => {
                   </Flex>
                 </Flex>
                 <Flex flexWrap="wrap" flexDirection="column" marginTop="1rem">
-                  <Flex alignSelf="center">Btns</Flex>
-                  <Box w={"100%"}>
+                  <Flex alignSelf="center" flexWrap="wrap">
+                    {radioOptions.map((option) => {
+                      console.log(option.value);
+                      const { value, icon } = option;
+                      const radio = getRadioProps({ value });
+                      return (
+                        <RadioButton key={value} {...radio}>
+                          <Flex flexDirection="column" alignItems="center">
+                            {icon}
+                            {value}
+                          </Flex>
+                        </RadioButton>
+                      );
+                    })}
+                  </Flex>
+                  <Box w={"100%"} marginTop="1rem">
                     <Slider {...settings}>
                       <Box h={"25rem"} w={"25rem"} bgColor="red">
                         1
