@@ -16,6 +16,7 @@ import { userContext } from "../providers/UserContext";
 import { Status } from "../reducers/UserReducer";
 import "../styles/profile.css";
 import { CheckIcon, StarIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
+import { Props } from "framer-motion/types/types";
 import Slider from "react-slick";
 
 const Profile = () => {
@@ -31,6 +32,38 @@ const Profile = () => {
     getUser();
   }, [getUser]);
 
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <Flex h="100%" flexDirection="column">
       {/* To read the state: */}
@@ -39,10 +72,16 @@ const Profile = () => {
       ) : (
         <Box h="100%">
           <Box className="profile"></Box>
-          <Flex position="absolute" top={"40%"} w={"100%"}>
-            <Card w={"100%"} margin={"0 3rem"}>
+          <Flex
+            position="absolute"
+            top={"40%"}
+            w={"100%"}
+            padding="0 3rem"
+            flexDirection="column"
+          >
+            <Card w={"100%"}>
               <Flex flexDirection="column" w={"100%"}>
-                <Flex flexWrap="wrap" marginBottom="1rem">
+                <Flex flexWrap="wrap" marginBottom="1rem" w={"100%"}>
                   <Flex flexGrow={1} alignItems="center" flexDirection="column">
                     <Image
                       borderRadius="1rem"
@@ -127,8 +166,29 @@ const Profile = () => {
                   </Flex>
                 </Flex>
                 <Flex flexWrap="wrap" flexDirection="column" marginTop="1rem">
-                  <Flex>Btns</Flex>
-                  <Flex>Anime Lists</Flex>
+                  <Flex alignSelf="center">Btns</Flex>
+                  <Box w={"100%"}>
+                    <Slider {...settings}>
+                      <Box h={"25rem"} w={"25rem"} bgColor="red">
+                        1
+                      </Box>
+                      <Box h={"25rem"} w={"25rem"} bgColor="blue">
+                        2
+                      </Box>
+                      <Box h={"25rem"} w={"25rem"} bgColor="green">
+                        3
+                      </Box>
+                      <Box h={"25rem"} w={"25rem"} bgColor="yellow">
+                        4
+                      </Box>
+                      <Box h={"25rem"} w={"25rem"} bgColor="pink">
+                        5
+                      </Box>
+                      <Box h={"25rem"} w={"25rem"} bgColor="gray">
+                        6
+                      </Box>
+                    </Slider>
+                  </Box>
                 </Flex>
               </Flex>
             </Card>

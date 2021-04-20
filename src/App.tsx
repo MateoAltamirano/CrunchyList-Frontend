@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound";
 import NavBar from "./components/NavBar";
 import { Box } from "@chakra-ui/layout";
 import UserContextProvider from "./providers/UserContext";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const App = () => {
   return (
