@@ -14,7 +14,7 @@ const Home = () => {
         </Text>
       </Box>
       <Flex position="absolute" top={"75%"} w={"100%"}>
-        <Card w={"100%"} margin={"0 3rem"}>
+        <Card w={"100%"} margin={"0 3rem"} marginBottom="60px">
           <Heading size="lg" alignSelf="self-start" color="gray.700">
             Populares
           </Heading>

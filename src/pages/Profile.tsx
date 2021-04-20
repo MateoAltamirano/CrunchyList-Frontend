@@ -104,7 +104,7 @@ const Profile = () => {
             padding="0 3rem"
             flexDirection="column"
           >
-            <Card w={"100%"}>
+            <Card w={"100%"} marginBottom="60px">
               <Flex flexDirection="column" w={"100%"}>
                 <Flex flexWrap="wrap" marginBottom="1rem" w={"100%"}>
                   <Flex flexGrow={1} alignItems="center" flexDirection="column">
