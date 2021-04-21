@@ -9,8 +9,6 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
-import { userContext } from "../providers/UserContext";
-import { UserActionType } from "../reducers/UserReducer";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
@@ -18,35 +16,64 @@ import logo from "../assets/img/LogoWhiteMAL.png";
 import {
   Link, Router,
 } from 'react-router-dom';
+import {logIn} from '../api/user'
+import { IUser, IUserLogIn } from "../models/";
+import axios, { AxiosResponse, AxiosError } from "axios";
+import { useHistory } from "react-router-dom";
+import { userContext } from "../providers/UserContext";
+import { IReducer, UserActionType, Status } from "../reducers/UserReducer";
 
 const LogIn = () => {
-
+  const user = useContext(userContext);
+  const history = useHistory();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: IUserLogIn) => {
     console.log(data);
+    let res = logIn
+    res(data).then((response: AxiosResponse) => {
+      console.log("response login",response);
+      if(response.status==201 && response.data!="No existe el usuario"){
+        if(user)
+        user.dispatch({
+          type: UserActionType.SET_INFO,
+          user: { 
+              isAuthenticated: true,
+              firstName: data.username,
+              status: Status.SUCCESS,
+              token:response.data[0].token.toString()
+          },
+        });
+        history.push("/");
+
+      }else{
+        alert(response.data)
+      }
+    })
+    .catch((error: AxiosError) => {
+      console.log(error.message);
+      alert(error.message)
+    });
   };
   return (
     <Box className="bg">
       <Box backgroundColor={"primary.main"} className="loginCard">
         <img src={logo}></img>
+        <h1>Iniciar Sesión</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={"input-box"}>
             <Input
               type={"text"}
-              placeholder={"Email"}
-              {...register("email", {
+              placeholder={"Usuario"}
+              {...register("username", {
                 required: "Debe ingresar un email",
-                pattern: {
-                  value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                  message: "Debe ingresar un email válido",
-                },
+                
               })}
             />
-            {errors.email && <span>{errors.email.message}</span>}
+            {errors.username && <span>{errors.username.message}</span>}
           </Box>
           
           <Box className={"input-box"}>

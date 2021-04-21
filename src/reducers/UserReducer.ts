@@ -16,6 +16,7 @@ export enum Status {
 export interface IReducer {
   type: UserActionType;
   user: IUser;
+  
 }
 
 export const userReducer = (state: IUser, action: IReducer) => {

@@ -6,6 +6,7 @@ const initialState: IUser = {
   isAuthenticated: false,
   firstName: "",
   status: Status.LOADING,
+  token:""
 };
 
 export type UserContext = {

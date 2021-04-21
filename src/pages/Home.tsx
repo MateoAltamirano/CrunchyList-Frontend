@@ -1,8 +1,14 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Card from "../components/Card";
+import { userContext } from "../providers/UserContext";
+import { useContext, useEffect } from "react";
 import "../styles/home.css";
 
 const Home = () => {
+  const user = useContext(userContext);
+    if (user === undefined)
+      throw new Error("Please use within UserContextProvider");
+  console.log(user)
   return (
     <Box h="100%">
       <Box className="home">

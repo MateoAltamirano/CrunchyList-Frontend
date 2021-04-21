@@ -15,10 +15,10 @@ export const getUserById = (id: string, dispatch: React.Dispatch<IReducer>) => {
       console.log(error.message);
     });
   //Esto es temporal solo es para simular que hace el request
-  setTimeout(() => {
-    dispatch({
-      type: UserActionType.SET_INFO,
-      user: { firstName: "Mateo", status: Status.SUCCESS },
-    });
-  }, 3000);
+  // setTimeout(() => {
+  //   dispatch({
+  //     type: UserActionType.SET_INFO,
+  //     user: { firstName: "Mateo", status: Status.SUCCESS },
+  //   });
+  // }, 3000);
 };

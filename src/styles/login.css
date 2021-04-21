@@ -9,14 +9,14 @@
 .loginCard {
   position: absolute;
   right: 0;
-  padding: 20px;
+  padding: 15px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 300px;
   margin-right: 80px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .loginCard img {
@@ -25,4 +25,10 @@
 }
 p{
   color:white
+}
+
+h1{
+  color: white;
+  font-size: 25px !important;
+  font-weight: 7px !important;
 }

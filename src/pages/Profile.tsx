@@ -17,7 +17,7 @@ const Profile = () => {
   useEffect(() => {
     getUser();
   }, [getUser]);
-
+  
   return (
     <Flex flexDirection="column">
       {/* To read the state: */}

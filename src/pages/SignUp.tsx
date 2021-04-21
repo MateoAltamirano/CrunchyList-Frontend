@@ -18,45 +18,74 @@ import logo from "../assets/img/LogoWhiteMAL.png";
 import {
   Link, Router,
 } from 'react-router-dom';
+import { useCallback } from "react";
+import {createUser} from '../api/user'
+import { IUser } from "../models/";
+import axios, { AxiosResponse, AxiosError } from "axios";
+import { useHistory } from "react-router-dom";
+
 
 const SignUp = () => {
+  const history = useHistory();
+  const user = useContext(userContext);
+  if (user === undefined)
+    throw new Error("Please use within UserContextProvider");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+
+  const onSubmit = (data: IUser) => {
+    console.log(data)
+    //let createdUser = createUser;
+    let res = createUser;
+    res(data).then((response: AxiosResponse) => {
+      console.log(response);
+      if(response.status==200){
+        alert("Usuario creado")
+        history.push("/login");
+      }
+      // dispatch({
+      //   type: UserActionType.SET_INFO,
+      //   user: { ...response.data, status: Status.SUCCESS },
+      // });
+    })
+    .catch((error: AxiosError) => {
+      console.log(error.message);
+    });
   };
+
   return (
     <Box className="bg">
       <Box backgroundColor={"primary.main"} className="loginCard">
         <img src={logo}></img>
+        <h1>Crear Cuenta</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={"input-box"}>
             <Input
               type={"text"}
               placeholder={"Nombre"}
-              {...register("name", { required: "El nombre es requerido" })}
+              {...register("nombre", { required: "El nombre es requerido" })}
             />
-            {errors.name && <span>{errors.name.message}</span>}
+            {errors.nombre && <span>{errors.nombre.message}</span>}
           </Box>
           
           <Box className={"input-box"}>
             <Input
               type={"text"}
               placeholder={"Usuario"}
-              {...register("user", { required: "El usuario es requerido" })}
+              {...register("username", { required: "El usuario es requerido" })}
             />
-            {errors.user && <span>{errors.user.message}</span>}
+            {errors.username && <span>{errors.username.message}</span>}
           </Box>
           
           <Box className={"input-box"}>
             <Input
               type={"text"}
               placeholder={"Email"}
-              {...register("email", {
+              {...register("correo", {
                 required: "Debe ingresar un email",
                 pattern: {
                   value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
@@ -64,7 +93,7 @@ const SignUp = () => {
                 },
               })}
             />
-            {errors.email && <span>{errors.email.message}</span>}
+            {errors.correo && <span>{errors.correo.message}</span>}
           </Box>
           
           <Box className={"input-box"}>
@@ -80,9 +109,9 @@ const SignUp = () => {
             <Input
               type={"date"}
               placeholder={"Fecha de nacimiento"}
-              {...register("date", { required: "Debe ingresar la fecha de nacimiento" })}
+              {...register("fechaNacimiento", { required: "Debe ingresar la fecha de nacimiento" })}
             />
-            {errors.date && <span>{errors.date.message}</span>}
+            {errors.fechaNacimiento && <span>{errors.fechaNacimiento.message}</span>}
           </Box>
           
           <Button marginTop={"10px"} backgroundColor={"primary.dark"} type={"submit"}>
