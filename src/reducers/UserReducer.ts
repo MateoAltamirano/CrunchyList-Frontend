@@ -7,12 +7,6 @@ export enum UserActionType {
   UPDATE_NAME = "UPDATE_NAME",
   SET_INFO = "SET_USER_INFO",
 }
-
-export enum Status {
-  LOADING = "LOADING",
-  SUCCESS = "SUCCESS",
-  FAILED = "FAILED",
-}
 export interface IReducer {
   type: UserActionType;
   user: IUser;

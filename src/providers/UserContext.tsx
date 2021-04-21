@@ -1,6 +1,7 @@
 import { createContext, useReducer } from "react";
 import { IUser } from "../models/User";
-import { userReducer, IReducer, Status } from "../reducers/UserReducer";
+import { userReducer, IReducer } from "../reducers/UserReducer";
+import { Status } from "../utils/types";
 
 const initialState: IUser = {
   isAuthenticated: false,
