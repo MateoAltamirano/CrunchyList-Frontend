@@ -21,7 +21,7 @@ export const userReducer = (state: IUser, action: IUserReducer) => {
       const { firstName } = action.user;
       return { ...state, firstName };
     case UserActionType.LOGIN:
-      return { ...state, isAuthenticated: action.user.isAuthenticated };
+      return { ...state,...action.user };
     case UserActionType.LOGOUT:
       return { ...state, isAuthenticated: action.user.isAuthenticated };
     default:
