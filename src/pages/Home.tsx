@@ -1,14 +1,15 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { useContext } from "react";
 import Slider from "react-slick";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
+import { useContext, useEffect } from "react";
 import "../styles/home.css";
 
 const Home = () => {
   const user = useContext(userContext);
   if (user === undefined)
     throw new Error("Please use within UserContextProvider");
+  console.log(user)
   const popularCarouselSettings = {
     infinite: true,
     speed: 500,

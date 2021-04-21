@@ -10,6 +10,7 @@ export enum UserActionType {
 export interface IUserReducer {
   type: UserActionType;
   user: IUser;
+  
 }
 
 export const userReducer = (state: IUser, action: IUserReducer) => {
