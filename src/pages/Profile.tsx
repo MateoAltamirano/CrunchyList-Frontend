@@ -11,14 +11,14 @@ import {
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { useContext, useEffect } from "react";
-import { getUserById } from "../api/api";
+import { getUserById } from "../api/user";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
-import { Status } from "../reducers/UserReducer";
 import "../styles/profile.css";
 import { CheckIcon, StarIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import Slider from "react-slick";
 import RadioButton from "../components/RadioButton";
+import { Status } from "../utils/types";
 
 const Profile = () => {
   const user = useContext(userContext);

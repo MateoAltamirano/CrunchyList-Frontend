@@ -1,13 +1,17 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
-import { IReducer, UserActionType, Status } from "../reducers/UserReducer";
+import { IUserReducer, UserActionType } from "../reducers/UserReducer";
+import { Status } from "../utils/types";
 
-export const getUserById = (id: string, dispatch: React.Dispatch<IReducer>) => {
+export const getUserById = (
+  id: string,
+  dispatch: React.Dispatch<IUserReducer>
+) => {
   axios
     .get(`http://localhost:8080/user/${id}`)
     .then((response: AxiosResponse) => {
       console.log(response.data);
       dispatch({
-        type: UserActionType.SET_INFO,
+        type: UserActionType.SET_USER,
         user: { ...response.data, status: Status.SUCCESS },
       });
     })
@@ -17,7 +21,7 @@ export const getUserById = (id: string, dispatch: React.Dispatch<IReducer>) => {
   //Esto es temporal solo es para simular que hace el request
   setTimeout(() => {
     dispatch({
-      type: UserActionType.SET_INFO,
+      type: UserActionType.SET_USER,
       user: { firstName: "Mateo", status: Status.SUCCESS },
     });
   }, 3000);

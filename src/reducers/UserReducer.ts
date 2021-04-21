@@ -5,16 +5,16 @@ export enum UserActionType {
   LOGOUT = "LOGOUT",
   SIGN_IN = "SIGN_IN",
   UPDATE_NAME = "UPDATE_NAME",
-  SET_INFO = "SET_USER_INFO",
+  SET_USER = "SET_USER",
 }
-export interface IReducer {
+export interface IUserReducer {
   type: UserActionType;
   user: IUser;
 }
 
-export const userReducer = (state: IUser, action: IReducer) => {
+export const userReducer = (state: IUser, action: IUserReducer) => {
   switch (action.type) {
-    case UserActionType.SET_INFO:
+    case UserActionType.SET_USER:
       return { ...state, ...action.user };
     case UserActionType.UPDATE_NAME:
       const { firstName } = action.user;

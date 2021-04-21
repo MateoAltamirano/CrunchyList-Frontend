@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
 import { IUser } from "../models/User";
-import { userReducer, IReducer } from "../reducers/UserReducer";
+import { userReducer, IUserReducer } from "../reducers/UserReducer";
 import { Status } from "../utils/types";
 
 const initialState: IUser = {
@@ -11,7 +11,7 @@ const initialState: IUser = {
 
 export type UserContext = {
   state: IUser;
-  dispatch: React.Dispatch<IReducer>;
+  dispatch: React.Dispatch<IUserReducer>;
 };
 
 export const userContext = createContext<UserContext | undefined>(undefined);
