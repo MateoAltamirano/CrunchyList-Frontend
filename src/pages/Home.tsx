@@ -1,17 +1,8 @@
-import { StarIcon } from "@chakra-ui/icons";
-import {
-  Badge,
-  Box,
-  CircularProgress,
-  Flex,
-  Heading,
-  Image,
-  Link,
-  Text,
-} from "@chakra-ui/react";
+import { Box, CircularProgress, Flex, Heading, Text } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect } from "react";
 import Slider from "react-slick";
 import { getAnimesByCategory } from "../api/categories";
+import AnimeCategoryCard from "../components/AnimeCategoryCard";
 import Card from "../components/Card";
 import { categoriesContext } from "../providers/CategoriesContext";
 import { userContext } from "../providers/UserContext";
@@ -154,40 +145,7 @@ const Home = () => {
                   <Box w={"100%"}>
                     <Slider {...recommendedCarouselSettings}>
                       {category.animes.map((anime) => (
-                        <Box key={anime.idAnime} h={"20rem"} padding="0.5rem">
-                          <Card h={"100%"} padding="0" overflow="hidden">
-                            <Image
-                              h={"80%"}
-                              w={"100%"}
-                              objectFit="cover"
-                              src={anime.imagen}
-                              alt={anime.nombre}
-                            />
-                            <Flex
-                              justifyContent="space-between"
-                              alignItems="center"
-                              padding="0 1rem"
-                              w={"100%"}
-                              h={"20%"}
-                            >
-                              <Text fontSize="md" isTruncated>
-                                <Link href={`anime/${anime.idAnime}`}>
-                                  {anime.nombre}
-                                </Link>
-                              </Text>
-                              <Badge
-                                fontSize="md"
-                                variant="subtle"
-                                colorScheme="blue"
-                              >
-                                <Flex alignItems="center" m="2px">
-                                  <StarIcon mr="5px" />
-                                  {anime.score}
-                                </Flex>
-                              </Badge>
-                            </Flex>
-                          </Card>
-                        </Box>
+                        <AnimeCategoryCard key={anime.idAnime} anime={anime} />
                       ))}
                     </Slider>
                   </Box>
