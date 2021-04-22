@@ -1,15 +1,15 @@
 export interface IAnime {
-  id?: number;
-  name?: string;
-  synopsis?: string;
-  numberEpisodes?: number;
+  idAnime?: number;
+  nombre?: string;
+  sinopsis?: string;
+  nroEpisodios?: number;
   estadoEmision?: string;
-  releaseDate?: string;
-  studio?: string;
-  minLength?: number;
+  fechaEstreno?: string;
+  estudio?: string;
+  duracionMinutos?: number;
   score?: number;
   ranking?: number;
-  popularity?: number;
-  numberFavorites?: number;
-  image?: string;
+  popularidad?: number;
+  nroFavoritos?: number;
+  imagen?: string;
 }

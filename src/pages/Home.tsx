@@ -1,15 +1,17 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Slider from "react-slick";
+import { getCategories } from "../api/categories";
 import Card from "../components/Card";
+import { categoriesContext } from "../providers/CategoriesContext";
 import { userContext } from "../providers/UserContext";
 import { useContext, useEffect } from "react";
 import "../styles/home.css";
 
 const Home = () => {
   const user = useContext(userContext);
-  if (user === undefined)
-    throw new Error("Please use within UserContextProvider");
-  console.log(user)
+  const categories = useContext(categoriesContext);
+  if (user === undefined || categories === undefined)
+    throw new Error("Please use within Provider");
   const popularCarouselSettings = {
     infinite: true,
     speed: 500,
@@ -47,6 +49,16 @@ const Home = () => {
     ],
   };
   const { isAuthenticated } = user.state;
+
+  useEffect(() => {
+    const fetchCategoriesAsync = async () => {
+      await getCategories(categories.dispatch);
+    };
+    fetchCategoriesAsync();
+  }, []);
+  useEffect(() => {
+    console.log(categories.state.categories);
+  });
   return (
     <Box h="100%">
       <Box className="home">

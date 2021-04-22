@@ -2,7 +2,8 @@ import { Status } from "../utils/types";
 import { IAnime } from "./Anime";
 
 export interface ICategory {
-  name?: string;
+  idCategoria?: number;
+  nombre?: string;
   animes?: IAnime[];
 }
 

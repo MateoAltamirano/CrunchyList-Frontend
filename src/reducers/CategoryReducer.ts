@@ -2,6 +2,7 @@ import { ICategories } from "../models/Category";
 
 export enum CategoriesActionType {
   SET_CATEGORIES = "SET_CATEGORIES",
+  SET_CATEGORY = "SET_CATEGORY",
 }
 
 export interface ICategoriesReducer {
@@ -15,7 +16,11 @@ export const categoriesReducer = (
 ) => {
   switch (action.type) {
     case CategoriesActionType.SET_CATEGORIES:
-      return { ...state, ...action.categories };
+      return {
+        ...state,
+        categories: action.categories.categories,
+        status: action.categories.status,
+      };
     default:
       return state;
   }
