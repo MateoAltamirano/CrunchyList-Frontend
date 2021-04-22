@@ -6,7 +6,7 @@ import {
 } from "../reducers/CategoryReducer";
 import { Status } from "../utils/types";
 
-export const getCategories = async (
+export const getAnimesByCategory = async (
   dispatch: React.Dispatch<ICategoriesReducer>
 ) => {
   let categories = [];

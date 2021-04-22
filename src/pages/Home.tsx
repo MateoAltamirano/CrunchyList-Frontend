@@ -1,11 +1,22 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
+import {
+  Badge,
+  Box,
+  CircularProgress,
+  Flex,
+  Heading,
+  Image,
+  Link,
+  Text,
+} from "@chakra-ui/react";
+import { useCallback, useContext, useEffect } from "react";
 import Slider from "react-slick";
-import { getCategories } from "../api/categories";
+import { getAnimesByCategory } from "../api/categories";
 import Card from "../components/Card";
 import { categoriesContext } from "../providers/CategoriesContext";
 import { userContext } from "../providers/UserContext";
-import { useContext, useEffect } from "react";
 import "../styles/home.css";
+import { Status } from "../utils/types";
 
 const Home = () => {
   const user = useContext(userContext);
@@ -50,15 +61,17 @@ const Home = () => {
   };
   const { isAuthenticated } = user.state;
 
-  useEffect(() => {
-    const fetchCategoriesAsync = async () => {
-      await getCategories(categories.dispatch);
+  const getCategories = useCallback(() => {
+    const getCategoriesAsync = async () => {
+      await getAnimesByCategory(categories.dispatch);
     };
-    fetchCategoriesAsync();
-  }, []);
+    getCategoriesAsync();
+  }, [categories.dispatch]);
+
   useEffect(() => {
-    console.log(categories.state.categories);
-  });
+    getCategories();
+  }, [getCategories]);
+
   return (
     <Box h="100%">
       <Box className="home">
@@ -125,78 +138,63 @@ const Home = () => {
               </Box>
             </Box>
           ) : undefined}
-          <Box w={"100%"} marginTop="1rem">
-            <Heading size="lg" alignSelf="self-start" color="gray.700">
-              Categoria X
-            </Heading>
-            <Box w={"100%"}>
-              <Slider {...recommendedCarouselSettings}>
-                <Box h={"15rem"} w={"15rem"} bgColor="red">
-                  1
+          {categories.state.status === Status.LOADING ? (
+            <CircularProgress
+              isIndeterminate
+              color="secondary.main"
+              marginTop="1rem"
+            />
+          ) : (
+            categories.state.categories?.map((category) =>
+              category.animes && category.animes.length >= 3 ? (
+                <Box w={"100%"} marginTop="1rem" key={category.idCategoria}>
+                  <Heading size="lg" alignSelf="self-start" color="gray.700">
+                    Categoría {category.nombre}
+                  </Heading>
+                  <Box w={"100%"}>
+                    <Slider {...recommendedCarouselSettings}>
+                      {category.animes.map((anime) => (
+                        <Box key={anime.idAnime} h={"20rem"} padding="0.5rem">
+                          <Card h={"100%"} padding="0" overflow="hidden">
+                            <Image
+                              h={"80%"}
+                              w={"100%"}
+                              objectFit="cover"
+                              src={anime.imagen}
+                              alt={anime.nombre}
+                            />
+                            <Flex
+                              justifyContent="space-between"
+                              alignItems="center"
+                              padding="0 1rem"
+                              w={"100%"}
+                              h={"20%"}
+                            >
+                              <Text fontSize="md" isTruncated>
+                                <Link href={`anime/${anime.idAnime}`}>
+                                  {anime.nombre}
+                                </Link>
+                              </Text>
+                              <Badge
+                                fontSize="md"
+                                variant="subtle"
+                                colorScheme="blue"
+                              >
+                                <Flex alignItems="center" m="2px">
+                                  <StarIcon mr="5px" />
+                                  {anime.score}
+                                </Flex>
+                              </Badge>
+                            </Flex>
+                          </Card>
+                        </Box>
+                      ))}
+                    </Slider>
+                  </Box>
                 </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="blue">
-                  2
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="green">
-                  3
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="yellow">
-                  4
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="pink">
-                  5
-                </Box>
-              </Slider>
-            </Box>
-          </Box>
-          <Box w={"100%"} marginTop="1rem">
-            <Heading size="lg" alignSelf="self-start" color="gray.700">
-              Categoria Y
-            </Heading>
-            <Box w={"100%"}>
-              <Slider {...recommendedCarouselSettings}>
-                <Box h={"15rem"} w={"15rem"} bgColor="red">
-                  1
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="blue">
-                  2
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="green">
-                  3
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="yellow">
-                  4
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="pink">
-                  5
-                </Box>
-              </Slider>
-            </Box>
-          </Box>
-          <Box w={"100%"} marginTop="1rem">
-            <Heading size="lg" alignSelf="self-start" color="gray.700">
-              Categoria Z
-            </Heading>
-            <Box w={"100%"}>
-              <Slider {...recommendedCarouselSettings}>
-                <Box h={"15rem"} w={"15rem"} bgColor="red">
-                  1
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="blue">
-                  2
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="green">
-                  3
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="yellow">
-                  4
-                </Box>
-                <Box h={"15rem"} w={"15rem"} bgColor="pink">
-                  5
-                </Box>
-              </Slider>
-            </Box>
-          </Box>
+              ) : undefined
+            )
+          )}
         </Card>
       </Flex>
     </Box>
