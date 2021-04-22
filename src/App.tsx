@@ -11,35 +11,38 @@ import UserContextProvider from "./providers/UserContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CategoriesContextProvider from "./providers/CategoriesContext";
+import AnimesContextProvider from "./providers/AnimesContext";
 
 const App = () => {
   return (
     <div className="App">
       <Router>
-        <CategoriesContextProvider>
-          <UserContextProvider>
-            <NavBar />
-            <Box paddingTop={"60px"} height={"100%"}>
-              <Switch>
-                <Route exact path="/">
-                  <Home />
-                </Route>
-                <Route path="/profile">
-                  <Profile />
-                </Route>
-                <Route path="/login">
-                  <LogIn />
-                </Route>
-                <Route path="/signup">
-                  <SignUp />
-                </Route>
-                <Route path="*">
-                  <NotFound />
-                </Route>
-              </Switch>
-            </Box>
-          </UserContextProvider>
-        </CategoriesContextProvider>
+        <AnimesContextProvider>
+          <CategoriesContextProvider>
+            <UserContextProvider>
+              <NavBar />
+              <Box paddingTop={"60px"} height={"100%"}>
+                <Switch>
+                  <Route exact path="/">
+                    <Home />
+                  </Route>
+                  <Route path="/profile">
+                    <Profile />
+                  </Route>
+                  <Route path="/login">
+                    <LogIn />
+                  </Route>
+                  <Route path="/signup">
+                    <SignUp />
+                  </Route>
+                  <Route path="*">
+                    <NotFound />
+                  </Route>
+                </Switch>
+              </Box>
+            </UserContextProvider>
+          </CategoriesContextProvider>
+        </AnimesContextProvider>
       </Router>
     </div>
   );

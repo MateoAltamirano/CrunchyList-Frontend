@@ -3,7 +3,7 @@ import { ICategories } from "../models/Category";
 import {
   categoriesReducer,
   ICategoriesReducer,
-} from "../reducers/CategoryReducer";
+} from "../reducers/CategoriesReducer";
 import { Status } from "../utils/types";
 
 const initialState: ICategories = {

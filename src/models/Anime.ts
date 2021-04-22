@@ -1,3 +1,5 @@
+import { Status } from "../utils/types";
+
 export interface IAnime {
   idAnime?: number;
   nombre?: string;
@@ -12,4 +14,9 @@ export interface IAnime {
   popularidad?: number;
   nroFavoritos?: number;
   imagen?: string;
+}
+
+export interface IAnimes {
+  animes?: IAnime[];
+  status?: Status;
 }

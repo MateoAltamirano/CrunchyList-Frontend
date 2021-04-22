@@ -2,17 +2,20 @@ import { Box, CircularProgress, Flex, Heading, Text } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect } from "react";
 import Slider from "react-slick";
 import { getAnimesByCategory } from "../api/categories";
+import { getAllAnimes } from "../api/animes";
 import AnimeCategoryCard from "../components/AnimeCategoryCard";
 import Card from "../components/Card";
 import { categoriesContext } from "../providers/CategoriesContext";
 import { userContext } from "../providers/UserContext";
 import "../styles/home.css";
 import { Status } from "../utils/types";
+import { animesContext } from "../providers/AnimesContext";
 
 const Home = () => {
   const user = useContext(userContext);
+  const animes = useContext(animesContext);
   const categories = useContext(categoriesContext);
-  if (user === undefined || categories === undefined)
+  if (user === undefined || animes === undefined || categories === undefined)
     throw new Error("Please use within Provider");
   const popularCarouselSettings = {
     infinite: true,
@@ -50,7 +53,14 @@ const Home = () => {
       },
     ],
   };
-  const { isAuthenticated } = user.state;
+  // const { isAuthenticated } = user.state;
+
+  const getAnimes = useCallback(() => {
+    const getAnimesAsync = async () => {
+      await getAllAnimes(animes.dispatch);
+    };
+    getAnimesAsync();
+  }, [animes.dispatch]);
 
   const getCategories = useCallback(() => {
     const getCategoriesAsync = async () => {
@@ -60,8 +70,9 @@ const Home = () => {
   }, [categories.dispatch]);
 
   useEffect(() => {
+    getAnimes();
     getCategories();
-  }, [getCategories]);
+  }, [getAnimes, getCategories]);
 
   return (
     <Box h="100%">
@@ -100,7 +111,8 @@ const Home = () => {
               </Box>
             </Slider>
           </Box>
-          {isAuthenticated ? (
+          {/* isAuthenticated ? */}
+          {false ? (
             <Box w={"100%"} marginTop="1rem">
               <Heading size="lg" alignSelf="self-start" color="gray.700">
                 Recomendados

@@ -1,8 +1,7 @@
 import { ICategories } from "../models/Category";
 
 export enum CategoriesActionType {
-  SET_CATEGORIES = "SET_CATEGORIES",
-  SET_CATEGORY = "SET_CATEGORY",
+  SET_CATEGORIES,
 }
 
 export interface ICategoriesReducer {

@@ -3,7 +3,7 @@ import { ICategory } from "../models/Category";
 import {
   ICategoriesReducer,
   CategoriesActionType,
-} from "../reducers/CategoryReducer";
+} from "../reducers/CategoriesReducer";
 import { Status } from "../utils/types";
 
 export const getAnimesByCategory = async (
