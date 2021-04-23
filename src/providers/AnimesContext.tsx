@@ -5,6 +5,8 @@ import { Status } from "../utils/types";
 
 const initialState: IAnimes = {
   animes: [],
+  populares: [],
+  top: [],
   status: Status.LOADING,
 };
 

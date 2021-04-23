@@ -18,5 +18,7 @@ export interface IAnime {
 
 export interface IAnimes {
   animes?: IAnime[];
+  populares?: IAnime[];
+  top?: IAnime[];
   status?: Status;
 }
