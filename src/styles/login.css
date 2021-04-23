@@ -23,11 +23,11 @@
   width: 150px;
   height: 100px;
 }
-p{
+.text{
   color:white
 }
 
-h1{
+.title{
   color: white;
   font-size: 25px !important;
   font-weight: 7px !important;

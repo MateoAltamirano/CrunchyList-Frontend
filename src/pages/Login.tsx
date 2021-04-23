@@ -2,41 +2,36 @@ import {
   Box,
   Input,
   Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
 } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
 import {
-  Link, Router,
+  Link,
 } from 'react-router-dom';
 import {logIn} from '../api/user'
-import { IUser, IUserLogIn } from "../models/";
-import axios, { AxiosResponse, AxiosError } from "axios";
+import { IUserLogIn } from "../models/";
+import { AxiosResponse, AxiosError } from "axios";
 import { useHistory } from "react-router-dom";
 import { userContext } from "../providers/UserContext";
-import { IUserReducer, UserActionType } from "../reducers/UserReducer";
+import { UserActionType } from "../reducers/UserReducer";
 import {Status} from "../utils/types"
+import { useToast } from "@chakra-ui/react"
 
 const LogIn = () => {
   const user = useContext(userContext);
   const history = useHistory();
+  const toast = useToast();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = (data: IUserLogIn) => {
-    console.log(data);
     let res = logIn
     res(data).then((response: AxiosResponse) => {
-      console.log("response login",response);
       if(response.status==201 && response.data!="No existe el usuario"){
         if(user){
           user.dispatch({
@@ -48,6 +43,9 @@ const LogIn = () => {
                 token:response.data[0].token.toString()
             },
           });
+          toast({ title: "Bienvenido!",
+          position: 'top',
+          isClosable: true})
           history.push("/");
         }
       }else{
@@ -63,7 +61,7 @@ const LogIn = () => {
     <Box className="bg">
       <Box backgroundColor={"primary.main"} className="loginCard">
         <img src={logo}></img>
-        <h1>Iniciar Sesión</h1>
+        <h1 className={"title"}>Iniciar Sesión</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={"input-box"}>
             <Input
@@ -90,7 +88,7 @@ const LogIn = () => {
             Ingresar
           </Button>
         </form>
-        <p>No tiene una cuenta?</p>
+        <p className={"text"}>No tiene una cuenta?</p>
         <Link style={{color: "white"}} to="/signup">Crear cuenta</Link>
       </Box>
     </Box>

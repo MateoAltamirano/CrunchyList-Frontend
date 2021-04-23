@@ -10,6 +10,7 @@ export interface IAnimesReducer {
 }
 
 export const animesReducer = (state: IAnimes, action: IAnimesReducer) => {
+  console.log("state2",state)
   switch (action.type) {
     case AnimesActionType.SET_ANIMES:
       const populares = getPopularAnimes(action.animes.animes?.slice());

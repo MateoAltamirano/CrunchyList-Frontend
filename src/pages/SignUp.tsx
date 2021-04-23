@@ -2,27 +2,21 @@ import {
   Box,
   Input,
   Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
 } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { userContext } from "../providers/UserContext";
-import { UserActionType } from "../reducers/UserReducer";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
 import {
-  Link, Router,
+  Link,
 } from 'react-router-dom';
-import { useCallback } from "react";
 import {createUser} from '../api/user'
 import { IUser } from "../models/";
-import axios, { AxiosResponse, AxiosError } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import { useHistory } from "react-router-dom";
+import { useToast } from "@chakra-ui/react"
 
 
 const SignUp = () => {
@@ -36,15 +30,17 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const toast = useToast();
   const onSubmit = (data: IUser) => {
-    console.log(data)
     //let createdUser = createUser;
     let res = createUser;
     res(data).then((response: AxiosResponse) => {
-      console.log(response);
       if(response.status==200){
-        alert("Usuario creado")
+        
+        toast({ title: "Cuenta creada con éxito",
+        position: 'top',
+        isClosable: true, 
+        status: "success"})
         history.push("/login");
       }
       // dispatch({
@@ -61,7 +57,7 @@ const SignUp = () => {
     <Box className="bg">
       <Box backgroundColor={"primary.main"} className="loginCard">
         <img src={logo}></img>
-        <h1>Crear Cuenta</h1>
+        <h1 className="title">Crear Cuenta</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={"input-box"}>
             <Input
@@ -118,7 +114,7 @@ const SignUp = () => {
             Ingresar
           </Button>
         </form>
-        <p>Ya tiene una cuenta?</p>
+        <p className={"text"}>Ya tiene una cuenta?</p>
         <Link style={{color: "white"}} to="/login">Iniciar Sesión</Link>
       </Box>
     </Box>

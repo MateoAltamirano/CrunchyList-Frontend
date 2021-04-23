@@ -5,13 +5,13 @@ import {IUser, IUserLogIn} from '../models'
 import {enviromentDev} from "./baseRoute"
 
 export const getUserById = (
+  
   id: string,
   dispatch: React.Dispatch<IUserReducer>
 ) => {
   axios
     .get(`http://localhost:8080/user/${id}`)
     .then((response: AxiosResponse) => {
-      console.log(response.data);
       dispatch({
         type: UserActionType.SET_USER,
         user: { ...response.data, status: Status.SUCCESS },

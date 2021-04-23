@@ -22,3 +22,7 @@ export interface IAnimes {
   top?: IAnime[];
   status?: Status;
 }
+export interface ISingleAnime{
+  anime?:IAnime[];
+  status?:Status;
+}
