@@ -27,7 +27,9 @@ const AnimeCategoryCard = ({ anime }: AnimeCategoryCardProps) => {
           h={"20%"}
         >
           <Text fontSize="md" isTruncated>
-            <Link href={`anime/${anime.idAnime}`}>{anime.nombre}</Link>
+            <Link href={`anime/${anime.idAnime}`} color="gray.700">
+              {anime.nombre}
+            </Link>
           </Text>
           <Badge fontSize="md" variant="subtle" colorScheme="blue">
             <Flex alignItems="center" m="2px">

@@ -48,38 +48,38 @@ const Button = {
 
 const Link = {
   baseStyle: {
-    color:"white",
+    color: "white",
     userSelect: "none",
     _focus: {
       boxShadow: "none",
     },
   },
 };
-const Input={
-    // The parts of the component
-    parts: ["field", "addon"],
-    // The base styles for each part
-    // The size styles for each part
-    sizes: {},
-    // The variant styles for each part
-    variants: {
-      primary:{
-        field:{
-          backgroundColor:"white",
-          marginTop:"10px",
-          marginBottom:"2px",
-          boxSizing: "border-box",
-          _placeholder:{
-            color:"black",
-          }
-        }
-      }
+const Input = {
+  // The parts of the component
+  parts: ["field", "addon"],
+  // The base styles for each part
+  // The size styles for each part
+  sizes: {},
+  // The variant styles for each part
+  variants: {
+    primary: {
+      field: {
+        backgroundColor: "white",
+        marginTop: "10px",
+        marginBottom: "2px",
+        boxSizing: "border-box",
+        _placeholder: {
+          color: "black",
+        },
+      },
     },
-    // The default `size` or `variant` values
-    defaultProps: {
-      variant: "primary"
-    },
-}
+  },
+  // The default `size` or `variant` values
+  defaultProps: {
+    variant: "primary",
+  },
+};
 
 const Card = {
   baseStyle: {
@@ -106,7 +106,6 @@ const Card = {
   },
 };
 
-
 export const theme = extendTheme({
   colors: {
     primary: {
@@ -119,7 +118,7 @@ export const theme = extendTheme({
       light: "#65eff1",
       dark: "#008b8e",
     },
-    white: "#FFFFFF"
+    white: "#FFFFFF",
   },
   components: {
     Button,

@@ -23,8 +23,10 @@ import {
 import { userContext } from "../providers/UserContext";
 import { useContext } from "react";
 import { Props } from "framer-motion/types/types";
+import { useHistory } from "react-router";
 
 const NavBar = () => {
+  let history = useHistory();
   const { isOpen, onToggle } = useDisclosure();
   const user = useContext(userContext);
   if (user === undefined)
@@ -81,8 +83,10 @@ const NavBar = () => {
             direction={"row"}
             spacing={6}
           >
-            <Button variant={"link"}>Ingresar</Button>
-            <Button>Registrarme</Button>
+            <Button variant={"link"} onClick={() => history.push("/login")}>
+              Ingresar
+            </Button>
+            <Button onClick={() => history.push("/signup")}>Registrarme</Button>
           </Stack>
         ) : undefined}
       </Flex>
@@ -163,13 +167,16 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       <Stack direction={"row"} align={"center"}>
         <Box>
           <Text
+            color="gray.600"
             transition={"all .3s ease"}
             _groupHover={{ color: "secondary.main" }}
             fontWeight={500}
           >
             {label}
           </Text>
-          <Text fontSize={"sm"}>{subLabel}</Text>
+          <Text color="gray" fontSize={"sm"}>
+            {subLabel}
+          </Text>
         </Box>
         <Flex
           transition={"all .3s ease"}
