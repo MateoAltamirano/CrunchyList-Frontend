@@ -2,7 +2,7 @@ import axios from "axios";
 import { IUserReducer, UserActionType } from "../reducers/UserReducer";
 import { Status } from "../utils/types";
 import { IUserLogIn } from "../models";
-import { IUser } from "../models/User";
+import { IUser, IUserSignUp } from "../models/User";
 import { enviromentDev } from "./baseRoute";
 
 export const getUserById = async (
@@ -29,18 +29,31 @@ export const login = async (
 ) => {
   if (prevToken) {
     dispatch({ type: UserActionType.LOGIN, user: { token: prevToken } });
-  }
-  let token;
-  try {
-    const response = await axios.post(`${enviromentDev.url}/`, body);
-    token = response.data[0].token;
-    dispatch({ type: UserActionType.LOGIN, user: { token } });
-    localStorage.setItem("token", token);
-  } catch (error) {
-    console.log(error.message);
+  } else {
+    let token;
+    try {
+      const response = await axios.post(`${enviromentDev.url}/`, body);
+      if (response.status === 201 && response.data !== "No existe el usuario") {
+        token = response.data[0].token;
+        dispatch({ type: UserActionType.LOGIN, user: { token } });
+        localStorage.setItem("token", token);
+        return Status.SUCCESS;
+      } else {
+        return Status.FAILED;
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 };
 
-export const createUser = (body: IUser) => {
-  return axios.post(`${enviromentDev.url}/getUsuario`, body);
+export const createUser = async (body: IUserSignUp) => {
+  try {
+    const response = await axios.post(`${enviromentDev.url}/getUsuario`, body);
+    if (response.status !== 200) {
+      alert("Algo salio mal");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 };

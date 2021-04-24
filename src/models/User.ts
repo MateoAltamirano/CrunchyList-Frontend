@@ -10,3 +10,11 @@ export interface IUser {
   status?: Status;
   token?: string;
 }
+
+export interface IUserSignUp {
+  nombre: string;
+  username: string;
+  correo: string;
+  password: string;
+  fechaNacimiento: string;
+}

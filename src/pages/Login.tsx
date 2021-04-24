@@ -9,6 +9,7 @@ import { getUserById, login } from "../api/user";
 import { IUserLogIn } from "../models/";
 import { useHistory } from "react-router-dom";
 import { userContext } from "../providers/UserContext";
+import { Status } from "../utils/types";
 
 const LogIn = () => {
   const user = useContext(userContext);
@@ -23,17 +24,21 @@ const LogIn = () => {
   const logInAndGetUser = useCallback(
     (body: IUserLogIn) => {
       const logInAndGetUserAsync = async () => {
-        await login(body, user.dispatch);
-        await getUserById(body.username!, user.dispatch);
+        const status = await login(body, user.dispatch);
+        if (status === Status.SUCCESS) {
+          history.push("/");
+          await getUserById(body.username!, user.dispatch);
+        } else {
+          alert("Algo salio mal");
+        }
       };
       logInAndGetUserAsync();
     },
-    [user.dispatch]
+    [user.dispatch, history]
   );
 
   const onSubmit = (data: IUserLogIn) => {
     logInAndGetUser(data);
-    history.push("/");
   };
 
   return (

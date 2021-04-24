@@ -1,47 +1,32 @@
 import { Box, Input, Button } from "@chakra-ui/react";
-import { useContext } from "react";
-import { userContext } from "../providers/UserContext";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
 import { Link } from "react-router-dom";
 import { createUser } from "../api/user";
-import { IUser } from "../models/User";
-import { AxiosResponse, AxiosError } from "axios";
+import { IUserSignUp } from "../models/User";
 import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const history = useHistory();
-  const user = useContext(userContext);
-  if (user === undefined)
-    throw new Error("Please use within UserContextProvider");
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: IUser) => {
-    console.log(data);
-    //let createdUser = createUser;
-    let res = createUser;
-    res(data)
-      .then((response: AxiosResponse) => {
-        console.log(response);
-        if (response.status === 200) {
-          alert("Usuario creado");
-          history.push("/login");
-        }
-        // dispatch({
-        //   type: UserActionType.SET_INFO,
-        //   user: { ...response.data, status: Status.SUCCESS },
-        // });
-      })
-      .catch((error: AxiosError) => {
-        console.log(error.message);
-      });
+  const logInAndGetUser = useCallback((body: IUserSignUp) => {
+    const signUpUserAsync = async () => {
+      await createUser(body);
+    };
+    signUpUserAsync();
+  }, []);
+
+  const onSubmit = (data: IUserSignUp) => {
+    logInAndGetUser(data);
+    history.push("/login");
   };
 
   return (

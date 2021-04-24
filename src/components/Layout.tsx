@@ -22,7 +22,6 @@ const Layout = () => {
         await login({}, user.dispatch, token);
         await getUserById(username, user.dispatch);
       };
-      console.log("hello");
       getUserAsync();
     },
     [user.dispatch]
