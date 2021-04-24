@@ -1,42 +1,46 @@
-import axios, { AxiosResponse, AxiosError } from "axios";
+import axios from "axios";
 import { IUserReducer, UserActionType } from "../reducers/UserReducer";
 import { Status } from "../utils/types";
-import {IUser, IUserLogIn} from '../models'
-import {enviromentDev} from "./baseRoute"
+import { IUserLogIn } from "../models";
+import { IUser } from "../models/User";
+import { enviromentDev } from "./baseRoute";
 
-export const getUserById = (
-  id: string,
+export const getUserById = async (
+  username: string,
   dispatch: React.Dispatch<IUserReducer>
 ) => {
-  axios
-    .get(`http://localhost:8080/user/${id}`)
-    .then((response: AxiosResponse) => {
-      console.log(response.data);
-      dispatch({
-        type: UserActionType.SET_USER,
-        user: { ...response.data, status: Status.SUCCESS },
-      });
-    })
-    .catch((error: AxiosError) => {
-      console.log(error.message);
-    });
-  //Esto es temporal solo es para simular que hace el request
-  // setTimeout(() => {
-  //   dispatch({
-  //     type: UserActionType.SET_USER,
-  //     user: { firstName: "Mateo", status: Status.SUCCESS },
-  //   });
-  // }, 3000);
-
-  
+  let user: IUser;
+  try {
+    const response = await axios.get(
+      `${enviromentDev.url}/getUsuario/${username}`
+    );
+    user = response.data[0];
+    user.status = Status.SUCCESS;
+    dispatch({ type: UserActionType.SET_USER, user });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-export const logIn = (body: IUserLogIn)=>{
-  return axios.post(`${enviromentDev.url}/`,body)
-
-}
+export const login = async (
+  body: IUserLogIn,
+  dispatch: React.Dispatch<IUserReducer>,
+  prevToken: string | undefined = undefined
+) => {
+  if (prevToken) {
+    dispatch({ type: UserActionType.LOGIN, user: { token: prevToken } });
+  }
+  let token;
+  try {
+    const response = await axios.post(`${enviromentDev.url}/`, body);
+    token = response.data[0].token;
+    dispatch({ type: UserActionType.LOGIN, user: { token } });
+    localStorage.setItem("token", token);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const createUser = (body: IUser) => {
-  return axios.post(`${enviromentDev.url}/getUsuario`,body)
-    
+  return axios.post(`${enviromentDev.url}/getUsuario`, body);
 };

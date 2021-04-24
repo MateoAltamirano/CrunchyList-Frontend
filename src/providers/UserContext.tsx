@@ -4,10 +4,12 @@ import { userReducer, IUserReducer } from "../reducers/UserReducer";
 import { Status } from "../utils/types";
 
 const initialState: IUser = {
+  idUsuario: undefined,
+  nombre: "",
+  username: undefined,
   isAuthenticated: false,
-  firstName: "",
   status: Status.LOADING,
-  token:""
+  token: "",
 };
 
 export type UserContext = {

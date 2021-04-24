@@ -117,7 +117,7 @@ const Profile = () => {
                       alt="Profile Picture"
                     />
                     <Text fontSize="lg" margin="1rem 0">
-                      {user.state.firstName}
+                      {user.state.nombre}
                     </Text>
                     <Button>Mis Listas</Button>
                   </Flex>

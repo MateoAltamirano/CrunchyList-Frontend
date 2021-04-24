@@ -1,8 +1,12 @@
 import { Status } from "../utils/types";
 
 export interface IUser {
+  idUsuario?: number;
+  nombre?: string;
+  username?: string;
+  correo?: string;
+  fechaNacimiento?: string;
   isAuthenticated?: boolean;
-  firstName?: string;
   status?: Status;
-  token:string
+  token?: string;
 }

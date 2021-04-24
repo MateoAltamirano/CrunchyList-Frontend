@@ -1,4 +1,4 @@
-export interface IUserLogIn{
-  username:string;
-  password:string;
+export interface IUserLogIn {
+  username?: string;
+  password?: string;
 }

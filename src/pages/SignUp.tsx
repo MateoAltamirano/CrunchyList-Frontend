@@ -7,7 +7,7 @@ import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
 import { Link } from "react-router-dom";
 import { createUser } from "../api/user";
-import { IUser } from "../models/";
+import { IUser } from "../models/User";
 import { AxiosResponse, AxiosError } from "axios";
 import { useHistory } from "react-router-dom";
 
