@@ -1,4 +1,5 @@
 import { IUser } from "../models/User";
+import { initialState } from "../providers/UserContext";
 
 export enum UserActionType {
   LOGIN,
@@ -19,7 +20,7 @@ export const userReducer = (state: IUser, action: IUserReducer) => {
     case UserActionType.LOGIN:
       return { ...state, token: action.user.token, isAuthenticated: true };
     case UserActionType.LOGOUT:
-      return { ...state, isAuthenticated: false };
+      return { ...initialState };
     default:
       return state;
   }

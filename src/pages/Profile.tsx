@@ -9,9 +9,7 @@ import {
   Divider,
   useRadioGroup,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
-import { useContext, useEffect } from "react";
-import { getUserById } from "../api/user";
+import { useContext } from "react";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/profile.css";
@@ -19,20 +17,12 @@ import { CheckIcon, StarIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import Slider from "react-slick";
 import RadioButton from "../components/RadioButton";
 import { Status } from "../utils/types";
+import { Redirect } from "react-router";
 
 const Profile = () => {
   const user = useContext(userContext);
   if (user === undefined)
     throw new Error("Please use within UserContextProvider");
-
-  const getUser = useCallback(() => {
-    getUserById("1", user.dispatch);
-  }, [user.dispatch]);
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
-
   const radioOptions = [
     {
       icon: <StarIcon boxSize="1.5rem" marginBottom="0.5rem" />,
@@ -88,11 +78,11 @@ const Profile = () => {
       },
     ],
   };
-
-  return (
+  const token = localStorage.getItem("token");
+  const { status, nombre } = user.state;
+  return token ? (
     <Flex h="100%" flexDirection="column">
-      {/* To read the state: */}
-      {user.state.status === Status.LOADING ? (
+      {status === Status.LOADING ? (
         <CircularProgress isIndeterminate color="secondary.main" />
       ) : (
         <Box h="100%">
@@ -116,8 +106,8 @@ const Profile = () => {
                       src="https://bit.ly/sage-adebayo"
                       alt="Profile Picture"
                     />
-                    <Text fontSize="lg" margin="1rem 0">
-                      {user.state.nombre}
+                    <Text fontSize="lg" margin="1rem 0" color="gray.800">
+                      {nombre}
                     </Text>
                     <Button>Mis Listas</Button>
                   </Flex>
@@ -235,6 +225,8 @@ const Profile = () => {
         </Box>
       )}
     </Flex>
+  ) : (
+    <Redirect to={{ pathname: "/" }} />
   );
 };
 

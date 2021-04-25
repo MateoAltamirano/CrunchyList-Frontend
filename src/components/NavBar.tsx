@@ -11,9 +11,11 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  useBreakpointValue,
   useDisclosure,
+  Avatar,
 } from "@chakra-ui/react";
+import { AiOutlineUser } from "react-icons/ai";
+
 import {
   HamburgerIcon,
   CloseIcon,
@@ -22,8 +24,9 @@ import {
 } from "@chakra-ui/icons";
 import { userContext } from "../providers/UserContext";
 import { useContext } from "react";
-import { Props } from "framer-motion/types/types";
 import { useHistory } from "react-router";
+import { UserActionType } from "../reducers/UserReducer";
+import { Props } from "framer-motion/types/types";
 
 const NavBar = () => {
   let history = useHistory();
@@ -32,6 +35,11 @@ const NavBar = () => {
   if (user === undefined)
     throw new Error("Please use within UserContextProvider");
   const { isAuthenticated } = user.state;
+
+  const logOut = () => {
+    user.dispatch({ type: UserActionType.LOGOUT, user: {} });
+    localStorage.clear();
+  };
   return (
     <Box minW={"100%"} position={"fixed"} zIndex={"1"}>
       <Flex
@@ -59,9 +67,9 @@ const NavBar = () => {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
+
+        <Flex flex={{ base: 1 }}>
           <Link
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
             fontWeight={500}
             color={"gray.600"}
             _hover={{
@@ -73,32 +81,65 @@ const NavBar = () => {
             LOGO
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav isAuthenticated={isAuthenticated} />
+            <DesktopNav />
           </Flex>
         </Flex>
-        {!isAuthenticated ? (
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-          >
-            <Button variant={"link"} onClick={() => history.push("/login")}>
+        {isAuthenticated ? (
+          <Flex display={{ base: "none", md: "flex" }} ml={10}>
+            <Box>
+              <Popover trigger={"hover"} placement={"bottom-start"}>
+                <PopoverTrigger>
+                  <Avatar
+                    bg="primary.main"
+                    color="white"
+                    icon={<AiOutlineUser fontSize="1.5rem" />}
+                  />
+                </PopoverTrigger>
+
+                <PopoverContent
+                  border={0}
+                  boxShadow={"xl"}
+                  bg={"white"}
+                  p={4}
+                  rounded={"xl"}
+                  minW={"sm"}
+                >
+                  <Stack>
+                    <DesktopSubNav {...SETTINGS_ITEMS[0]} />
+                    <Button bgColor="primary.light" onClick={() => logOut()}>
+                      Log out
+                    </Button>
+                  </Stack>
+                </PopoverContent>
+              </Popover>
+            </Box>
+          </Flex>
+        ) : (
+          <Flex display={{ base: "none", md: "flex" }} ml={10}>
+            <Button
+              variant={"link"}
+              onClick={() => history.push("/login")}
+              mr="1rem"
+            >
               Ingresar
             </Button>
             <Button onClick={() => history.push("/signup")}>Registrarme</Button>
-          </Stack>
-        ) : undefined}
+          </Flex>
+        )}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav
+          logout={logOut}
+          isAuthenticated={isAuthenticated}
+          history={history}
+        />
       </Collapse>
     </Box>
   );
 };
 
-const DesktopNav = (props: Props) => {
+const DesktopNav = () => {
   return (
     <Stack direction={"row"} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
@@ -137,19 +178,6 @@ const DesktopNav = (props: Props) => {
           </Popover>
         </Box>
       ))}
-      {props.isAuthenticated ? (
-        <Link
-          fontWeight={500}
-          color={"gray.600"}
-          _hover={{
-            textDecoration: "none",
-            color: "gray.800",
-          }}
-          href="/profile"
-        >
-          Perfil
-        </Link>
-      ) : undefined}
     </Stack>
   );
 };
@@ -194,12 +222,80 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ logout, isAuthenticated, history }: Props) => {
+  const { isOpen, onToggle } = useDisclosure();
   return (
     <Stack bg={"white"} p={4} display={{ md: "none" }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
+      {isAuthenticated ? (
+        <Stack spacing={4} onClick={SETTINGS_ITEMS && onToggle}>
+          <Flex
+            py={2}
+            as={Link}
+            justify={"space-between"}
+            align={"center"}
+            _hover={{
+              textDecoration: "none",
+            }}
+          >
+            <Avatar
+              bg="primary.main"
+              color="white"
+              icon={<AiOutlineUser fontSize="1.5rem" />}
+            />
+            {SETTINGS_ITEMS && (
+              <Icon
+                as={ChevronDownIcon}
+                transition={"all .25s ease-in-out"}
+                transform={isOpen ? "rotate(180deg)" : ""}
+                w={6}
+                h={6}
+                color="gray.800"
+              />
+            )}
+          </Flex>
+
+          <Collapse
+            in={isOpen}
+            animateOpacity
+            style={{ marginTop: "0!important" }}
+          >
+            <Stack
+              mt={2}
+              pl={4}
+              borderLeft={1}
+              borderStyle={"solid"}
+              borderColor={"gray.200"}
+              align={"start"}
+            >
+              <Link
+                key={SETTINGS_ITEMS[0].label}
+                py={2}
+                href={SETTINGS_ITEMS[0].href}
+                color="gray.800"
+              >
+                {SETTINGS_ITEMS[0].label}
+              </Link>
+              <Button bgColor="primary.light" onClick={() => logout()}>
+                Log out
+              </Button>
+            </Stack>
+          </Collapse>
+        </Stack>
+      ) : (
+        <Stack>
+          <Button
+            variant={"link"}
+            onClick={() => history.push("/login")}
+            mb="1rem"
+          >
+            Ingresar
+          </Button>
+          <Button onClick={() => history.push("/signup")}>Registrarme</Button>
+        </Stack>
+      )}
     </Stack>
   );
 };
@@ -229,6 +325,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
             transform={isOpen ? "rotate(180deg)" : ""}
             w={6}
             h={6}
+            color="gray.800"
           />
         )}
       </Flex>
@@ -244,7 +341,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Link key={child.label} py={2} href={child.href} color="gray.800">
                 {child.label}
               </Link>
             ))}
@@ -260,6 +357,11 @@ interface NavItem {
   children?: Array<NavItem>;
   href?: string;
 }
+
+const SETTINGS_ITEMS = [
+  { label: "Perfil", href: "/profile" },
+  { label: "Log out" },
+];
 
 const NAV_ITEMS: Array<NavItem> = [
   {
