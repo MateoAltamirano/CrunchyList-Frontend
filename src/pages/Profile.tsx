@@ -9,16 +9,19 @@ import {
   useRadioGroup,
   Avatar,
 } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/profile.css";
-import { CheckIcon, StarIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
+import { CheckIcon, SearchIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import Slider from "react-slick";
 import RadioButton from "../components/RadioButton";
 import { Status } from "../utils/types";
 import { Redirect } from "react-router";
 import { AiOutlineUser } from "react-icons/ai";
+import AnimeFavCard from "../components/AnimeFavCard";
+import { BsFillHeartFill } from "react-icons/bs";
+import AnimeListCard from "../components/AnimeListCard";
 
 const Profile = () => {
   const user = useContext(userContext);
@@ -26,7 +29,11 @@ const Profile = () => {
     throw new Error("Please use within UserContextProvider");
   const radioOptions = [
     {
-      icon: <StarIcon boxSize="1.5rem" marginBottom="0.5rem" />,
+      icon: (
+        <Box marginBottom="0.5rem">
+          <BsFillHeartFill fontSize="1.5rem" />
+        </Box>
+      ),
       value: "Favoritos",
     },
     {
@@ -38,27 +45,18 @@ const Profile = () => {
       value: "Planeo ver",
     },
   ];
-
-  const onRadioChange = (value: string) => {
-    console.log(value);
-  };
-  const { getRadioProps } = useRadioGroup({
-    name: "framework",
-    defaultValue: "Favoritos",
-    onChange: onRadioChange,
-  });
-
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    responsive: [
+  };
+  const responsiveCarousel = (length: number) => {
+    return [
       {
         breakpoint: 1024,
         settings: {
           infinite: true,
           speed: 500,
-          slidesToShow: 3,
+          slidesToShow: length > 2 ? 3 : 1,
         },
       },
       {
@@ -66,7 +64,7 @@ const Profile = () => {
         settings: {
           infinite: true,
           speed: 500,
-          slidesToShow: 2,
+          slidesToShow: length > 2 ? 3 : 1,
         },
       },
       {
@@ -77,10 +75,20 @@ const Profile = () => {
           slidesToShow: 1,
         },
       },
-    ],
+    ];
   };
   const token = localStorage.getItem("token");
   const { status, nombre, favs, seen, watching, toSee } = user.state;
+  const [carouselAnimes, setCarouselAnimes] = useState("Favoritos");
+  const onRadioChange = (value: string) => {
+    setCarouselAnimes(value);
+  };
+  const { getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "Favoritos",
+    onChange: onRadioChange,
+  });
+
   return token ? (
     <Flex h="100%" flexDirection="column">
       <Box h="100%">
@@ -141,11 +149,9 @@ const Profile = () => {
                         alignItems="center"
                       >
                         <Flex alignItems="center">
-                          <StarIcon
-                            boxSize="1.5rem"
-                            color="secondary.main"
-                            marginRight="1rem"
-                          />
+                          <Box marginRight="1rem" color="secondary.main">
+                            <BsFillHeartFill fontSize="1.5rem" />
+                          </Box>
                           <Text fontSize="lg" color="gray.800">
                             Favoritos
                           </Text>
@@ -210,28 +216,87 @@ const Profile = () => {
                       );
                     })}
                   </Flex>
-                  <Box w={"100%"} marginTop="1rem">
-                    <Slider {...settings}>
-                      <Box h={"25rem"} w={"25rem"} bgColor="red">
-                        1
+                  {carouselAnimes === "Favoritos" ? (
+                    favs && favs.length > 0 ? (
+                      <Box w={"100%"} marginTop="1rem">
+                        <Slider
+                          {...settings}
+                          slidesToShow={favs.length > 2 ? 3 : 1}
+                          responsive={responsiveCarousel(favs.length)}
+                        >
+                          {favs.map((anime) => (
+                            <AnimeFavCard key={anime.idAnime} anime={anime} />
+                          ))}
+                        </Slider>
                       </Box>
-                      <Box h={"25rem"} w={"25rem"} bgColor="blue">
-                        2
+                    ) : (
+                      <Flex
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="column"
+                        mt="3rem"
+                      >
+                        <SearchIcon color="secondary.main" boxSize="3rem" />
+                        <Text fontSize="md" color="gray.800">
+                          No tienes animes en esta lista aún
+                        </Text>
+                      </Flex>
+                    )
+                  ) : undefined}
+                  {carouselAnimes === "Estoy viendo" ? (
+                    watching && watching.length > 0 ? (
+                      <Box w={"100%"} marginTop="1rem">
+                        <Slider
+                          {...settings}
+                          slidesToShow={watching.length > 2 ? 3 : 1}
+                          responsive={responsiveCarousel(watching.length)}
+                        >
+                          {watching.map((anime) => (
+                            <AnimeListCard key={anime.idAnime} anime={anime} />
+                          ))}
+                        </Slider>
                       </Box>
-                      <Box h={"25rem"} w={"25rem"} bgColor="green">
-                        3
+                    ) : (
+                      <Flex
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="column"
+                        mt="3rem"
+                      >
+                        <SearchIcon color="secondary.main" boxSize="3rem" />
+                        <Text fontSize="md" color="gray.800">
+                          No tienes animes en esta lista aún
+                        </Text>
+                      </Flex>
+                    )
+                  ) : undefined}
+                  {carouselAnimes === "Planeo ver" ? (
+                    toSee && toSee.length > 0 ? (
+                      <Box w={"100%"} marginTop="1rem">
+                        <Slider
+                          {...settings}
+                          slidesToShow={toSee.length > 2 ? 3 : 1}
+                          responsive={responsiveCarousel(toSee.length)}
+                        >
+                          {toSee.map((anime) => (
+                            <AnimeListCard key={anime.idAnime} anime={anime} />
+                          ))}
+                        </Slider>
                       </Box>
-                      <Box h={"25rem"} w={"25rem"} bgColor="yellow">
-                        4
-                      </Box>
-                      <Box h={"25rem"} w={"25rem"} bgColor="pink">
-                        5
-                      </Box>
-                      <Box h={"25rem"} w={"25rem"} bgColor="gray">
-                        6
-                      </Box>
-                    </Slider>
-                  </Box>
+                    ) : (
+                      <Flex
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="column"
+                        mt="3rem"
+                      >
+                        <SearchIcon color="secondary.main" boxSize="3rem" />
+                        <Text fontSize="md" color="gray.800">
+                          No tienes animes en esta lista aún
+                        </Text>
+                      </Flex>
+                    )
+                  ) : undefined}
                 </Flex>
               </Flex>
             )}
