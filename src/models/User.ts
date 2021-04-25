@@ -6,6 +6,10 @@ export interface IUser {
   username?: string;
   correo?: string;
   fechaNacimiento?: string;
+  favs?: IUserAnimeFavs[];
+  seen?: IUserAnime[];
+  watching?: IUserAnime[];
+  toSee?: IUserAnime[];
   isAuthenticated?: boolean;
   status?: Status;
   token?: string;
@@ -17,4 +21,22 @@ export interface IUserSignUp {
   correo: string;
   password: string;
   fechaNacimiento: string;
+}
+
+export interface IUserAnimeFavs {
+  idAnime: number;
+  idUsuario: number;
+  imagen: string;
+  nombre: string;
+  sinopsis: string;
+}
+
+export interface IUserAnime {
+  idAnime: number;
+  idEstado: number;
+  idUsuario: number;
+  imagen: string;
+  nombre: string;
+  fechaInicioVer: string;
+  porcentajeVisto: number;
 }

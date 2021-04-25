@@ -4,12 +4,12 @@ import {
   Box,
   Heading,
   Button,
-  Image,
   Text,
   Divider,
   useRadioGroup,
+  Avatar,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/profile.css";
@@ -18,6 +18,7 @@ import Slider from "react-slick";
 import RadioButton from "../components/RadioButton";
 import { Status } from "../utils/types";
 import { Redirect } from "react-router";
+import { AiOutlineUser } from "react-icons/ai";
 
 const Profile = () => {
   const user = useContext(userContext);
@@ -29,12 +30,12 @@ const Profile = () => {
       value: "Favoritos",
     },
     {
-      icon: <TimeIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-      value: "Planeo ver",
-    },
-    {
       icon: <ViewIcon boxSize="1.5rem" marginBottom="0.5rem" />,
       value: "Estoy viendo",
+    },
+    {
+      icon: <TimeIcon boxSize="1.5rem" marginBottom="0.5rem" />,
+      value: "Planeo ver",
     },
   ];
 
@@ -79,32 +80,30 @@ const Profile = () => {
     ],
   };
   const token = localStorage.getItem("token");
-  const { status, nombre } = user.state;
+  const { status, nombre, favs, seen, watching, toSee } = user.state;
   return token ? (
     <Flex h="100%" flexDirection="column">
-      {status === Status.LOADING ? (
-        <CircularProgress isIndeterminate color="secondary.main" />
-      ) : (
-        <Box h="100%">
-          <Box className="profile"></Box>
-          <Flex
-            position="absolute"
-            top={"40%"}
-            w={"100%"}
-            padding="0 3rem"
-            flexDirection="column"
-          >
-            <Card w={"100%"} marginBottom="60px">
+      <Box h="100%">
+        <Box className="profile"></Box>
+        <Flex
+          position="absolute"
+          top={"40%"}
+          w={"100%"}
+          padding="0 3rem"
+          flexDirection="column"
+        >
+          <Card w={"100%"} marginBottom="60px">
+            {status === Status.LOADING ? (
+              <CircularProgress isIndeterminate color="secondary.main" />
+            ) : (
               <Flex flexDirection="column" w={"100%"}>
                 <Flex flexWrap="wrap" marginBottom="1rem" w={"100%"}>
                   <Flex flexGrow={1} alignItems="center" flexDirection="column">
-                    <Image
-                      borderRadius="1rem"
-                      boxSize="10rem"
-                      minW="10rem"
-                      minH="10rem"
-                      src="https://bit.ly/sage-adebayo"
-                      alt="Profile Picture"
+                    <Avatar
+                      bg="primary.main"
+                      color="white"
+                      size="2xl"
+                      icon={<AiOutlineUser fontSize="4.5rem" />}
                     />
                     <Text fontSize="lg" margin="1rem 0" color="gray.800">
                       {nombre}
@@ -128,9 +127,13 @@ const Profile = () => {
                             color="secondary.main"
                             marginRight="1rem"
                           />
-                          <Text fontSize="lg">Vistos</Text>
+                          <Text fontSize="lg" color="gray.800">
+                            Vistos
+                          </Text>
                         </Flex>
-                        <Text fontSize="lg">10</Text>
+                        <Text fontSize="lg" color="gray.800">
+                          {seen?.length}
+                        </Text>
                       </Flex>
                       <Flex
                         justifyContent="space-between"
@@ -143,24 +146,13 @@ const Profile = () => {
                             color="secondary.main"
                             marginRight="1rem"
                           />
-                          <Text fontSize="lg">Favoritos</Text>
+                          <Text fontSize="lg" color="gray.800">
+                            Favoritos
+                          </Text>
                         </Flex>
-                        <Text fontSize="lg">10</Text>
-                      </Flex>
-                      <Flex
-                        justifyContent="space-between"
-                        marginTop="1rem"
-                        alignItems="center"
-                      >
-                        <Flex alignItems="center">
-                          <TimeIcon
-                            boxSize="1.5rem"
-                            color="secondary.main"
-                            marginRight="1rem"
-                          />
-                          <Text fontSize="lg">Planeo ver</Text>
-                        </Flex>
-                        <Text fontSize="lg">10</Text>
+                        <Text fontSize="lg" color="gray.800">
+                          {favs?.length}
+                        </Text>
                       </Flex>
                       <Flex
                         justifyContent="space-between"
@@ -173,9 +165,32 @@ const Profile = () => {
                             color="secondary.main"
                             marginRight="1rem"
                           />
-                          <Text fontSize="lg">Estoy viendo</Text>
+                          <Text fontSize="lg" color="gray.800">
+                            Estoy viendo
+                          </Text>
                         </Flex>
-                        <Text fontSize="lg">10</Text>
+                        <Text fontSize="lg" color="gray.800">
+                          {watching?.length}
+                        </Text>
+                      </Flex>
+                      <Flex
+                        justifyContent="space-between"
+                        marginTop="1rem"
+                        alignItems="center"
+                      >
+                        <Flex alignItems="center">
+                          <TimeIcon
+                            boxSize="1.5rem"
+                            color="secondary.main"
+                            marginRight="1rem"
+                          />
+                          <Text fontSize="lg" color="gray.800">
+                            Planeo ver
+                          </Text>
+                        </Flex>
+                        <Text fontSize="lg" color="gray.800">
+                          {toSee?.length}
+                        </Text>
                       </Flex>
                     </Box>
                   </Flex>
@@ -183,7 +198,6 @@ const Profile = () => {
                 <Flex flexWrap="wrap" flexDirection="column" marginTop="1rem">
                   <Flex alignSelf="center" flexWrap="wrap">
                     {radioOptions.map((option) => {
-                      console.log(option.value);
                       const { value, icon } = option;
                       const radio = getRadioProps({ value });
                       return (
@@ -220,10 +234,10 @@ const Profile = () => {
                   </Box>
                 </Flex>
               </Flex>
-            </Card>
-          </Flex>
-        </Box>
-      )}
+            )}
+          </Card>
+        </Flex>
+      </Box>
     </Flex>
   ) : (
     <Redirect to={{ pathname: "/" }} />

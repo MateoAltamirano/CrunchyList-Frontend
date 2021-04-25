@@ -10,7 +10,7 @@ import jwt_decode from "jwt-decode";
 import { useCallback, useContext, useEffect } from "react";
 import React from "react";
 import { userContext } from "../providers/UserContext";
-import { getUserById, login } from "../api/user";
+import { getUserByUsername, login } from "../api/user";
 
 const Layout = () => {
   const user = useContext(userContext);
@@ -20,7 +20,7 @@ const Layout = () => {
     (username: string, token: string) => {
       const getUserAsync = async () => {
         await login({}, user.dispatch, token);
-        await getUserById(username, user.dispatch);
+        await getUserByUsername(token, username, user.dispatch);
       };
       getUserAsync();
     },

@@ -5,7 +5,7 @@ import "../styles/login.css";
 import "../styles/forms.css";
 import logo from "../assets/img/LogoWhiteMAL.png";
 import { Link } from "react-router-dom";
-import { getUserById, login } from "../api/user";
+import { getUserByUsername, login } from "../api/user";
 import { IUserLogIn } from "../models/";
 import { useHistory } from "react-router-dom";
 import { userContext } from "../providers/UserContext";
@@ -27,7 +27,7 @@ const LogIn = () => {
         const status = await login(body, user.dispatch);
         if (status === Status.SUCCESS) {
           history.push("/");
-          await getUserById(body.username!, user.dispatch);
+          await getUserByUsername("", body.username!, user.dispatch);
         } else {
           alert("Algo salio mal");
         }
