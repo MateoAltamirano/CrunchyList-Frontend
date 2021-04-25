@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IAnime } from "../models/Anime";
+import { IAnime, ICategory } from "../models/Anime";
 import { IAnimesReducer, AnimesActionType } from "../reducers/AnimesReducer";
 import { ISingleAnimesReducer, SingleAnimesActionType } from "../reducers/SingleAnimeReducer";
 import { Status } from "../utils/types";
@@ -26,10 +26,23 @@ export const getSingleAnime= async (id:number,dispatch: React.Dispatch<ISingleAn
   try {
     const response = await axios.get(`${enviromentDev.url}/getAnime/${id}`);
     anime = response.data;
-    console.log("anime",anime)
     dispatch({
       type: SingleAnimesActionType.SET_SINGLE_ANIME,
-      anime: anime,
+      anime: anime
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export const getSingleAnimeCategory= async (id:number,dispatch: React.Dispatch<ISingleAnimesReducer>) =>{
+  let categorias:Array<ICategory>;
+  try {
+    const response = await axios.get(`${enviromentDev.url}/getAnime/${id}/categorias`);
+    categorias = response.data;
+    dispatch({
+      type: SingleAnimesActionType.SET_SINGLE_ANIME,
+      categories:categorias
     });
   } catch (error) {
     console.log(error.message);

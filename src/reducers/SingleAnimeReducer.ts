@@ -1,4 +1,4 @@
-import { IAnime, IAnimes ,ISingleAnime} from "../models/Anime";
+import { IAnime, IAnimes ,ICategory,ISingleAnime} from "../models/Anime";
 import { Status } from "../utils/types";
 
 export enum SingleAnimesActionType {
@@ -6,18 +6,18 @@ export enum SingleAnimesActionType {
 }
 
 export interface ISingleAnimesReducer {
-  type: SingleAnimesActionType;
-  anime: Array<IAnime>;
+  type?: SingleAnimesActionType;
+  anime?: Array<IAnime>;
+  categories?:Array<ICategory>;
 }
 
 export const singleAnimesReducer = (state: ISingleAnime, action: ISingleAnimesReducer) => {
-  console.log("state",state)
   switch (action.type) {
     case SingleAnimesActionType.SET_SINGLE_ANIME:
-      console.log("action.typesadas",action.type)
       return {
         anime:action.anime,
         status: Status.SUCCESS,
+        categories:state.categories
       };
     default:
       console.log("acts",action.type)

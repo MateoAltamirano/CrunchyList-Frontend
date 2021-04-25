@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Flex, Heading, Text, Divider  } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect } from "react";
-import { getSingleAnime } from "../api/animes";
+import { getSingleAnime, getSingleAnimeCategory } from "../api/animes";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/description.css";
@@ -19,7 +19,16 @@ const Home = () => {
   if (user === undefined || singleAnime===undefined)
     throw new Error("Please use within Provider");
 
+  console.log(user)
+
   // const { isAuthenticated } = user.state;
+
+  const getCategories = useCallback((id:number)=>{
+    const getAnimeCategoriesAsync = async () =>{
+      await getSingleAnimeCategory(id,singleAnime.dispatch);
+    };
+    getAnimeCategoriesAsync();
+  },[singleAnime.dispatch])
 
   const getAnime = useCallback((id:number)=>{
     const getAnimeAsync = async () =>{
@@ -32,8 +41,8 @@ const Home = () => {
   let id:{id:string}=useParams();
   useEffect(() => {
     getAnime(Number(id.id));
-    console.log("aaa",typeof singleAnime)
-  }, [getAnime]);
+    getCategories(Number(id.id));
+  }, [getAnime,getCategories]);
   return (
     <Box h="100%">
       <Box className="description">
@@ -73,7 +82,10 @@ const Home = () => {
                     <Heading color="gray.600"  className={"label-content"}>Estado: <span>{anime.estadoEmision}</span></Heading>
                     <Heading color="gray.600"  className={"label-content"}>Emisión: <span>{anime.fechaEstreno?.split("T")[0]}</span></Heading>
                     <Heading color="gray.600"  className={"label-content"}>Estudio: <span>{anime.estudio}</span></Heading>
-                  </Box>
+                    {singleAnime.state.categories?.map((category) => (
+                      <Heading color="gray.600"  className={"label-content"}>Categorias: <span>{category.nombre}</span></Heading>
+                    ))} 
+                    </Box>
                   <Divider borderBottomWidth="3px" marginTop={"10px"} marginBottom={"10px"} marginLeft={"40px"} marginRight={"20px"}/>
                   <Box className="abstract" w={"100%"} alignSelf="start" marginLeft={"20px"}>
                     <Heading size="md">Información</Heading>

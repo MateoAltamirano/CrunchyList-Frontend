@@ -16,6 +16,11 @@ export interface IAnime {
   imagen?: string;
 }
 
+export interface ICategory{
+  id:number;
+  nombre:string;
+}
+
 export interface IAnimes {
   animes?: IAnime[];
   populares?: IAnime[];
@@ -24,5 +29,6 @@ export interface IAnimes {
 }
 export interface ISingleAnime{
   anime?:IAnime[];
+  categories?:ICategory[];
   status?:Status;
 }
