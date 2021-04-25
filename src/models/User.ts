@@ -9,6 +9,8 @@ export interface IUser {
   favs?: IUserAnimeFavs[];
   seen?: IUserAnime[];
   watching?: IUserAnime[];
+  waiting?: IUserAnime[];
+  discarted?: IUserAnime[];
   toSee?: IUserAnime[];
   isAuthenticated?: boolean;
   status?: Status;
