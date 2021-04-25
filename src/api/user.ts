@@ -56,7 +56,6 @@ export const getUserByUsername = async (
     } catch (error) {
       console.log(error.message);
     }
-    console.log(user);
     user.status = Status.SUCCESS;
     dispatch({ type: UserActionType.SET_USER, user });
   } catch (error) {
