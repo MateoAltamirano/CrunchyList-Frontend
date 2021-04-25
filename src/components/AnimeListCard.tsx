@@ -10,7 +10,7 @@ type AnimeListCardProps = {
 
 const AnimeListCard = ({ anime }: AnimeListCardProps) => {
   return (
-    <Box h={"20rem"} padding="0.5rem">
+    <Box h={"30rem"} padding="0.5rem">
       <Card h={"100%"} padding="0" overflow="hidden">
         <Image
           h={"80%"}
@@ -25,8 +25,8 @@ const AnimeListCard = ({ anime }: AnimeListCardProps) => {
           w={"100%"}
           h={"20%"}
         >
-          <Text fontSize="md" isTruncated margin="1rem 1rem">
-            <Link href={`anime/${anime.idAnime}`} color="gray.700">
+          <Text fontSize="md" isTruncated margin="2rem 1rem">
+            <Link href={`anime/${anime.idAnime}`} color="gray.800">
               {anime.nombre}
             </Link>
           </Text>

@@ -57,7 +57,7 @@ const Profile = () => {
         settings: {
           infinite: true,
           speed: 500,
-          slidesToShow: length > 2 ? 3 : 1,
+          slidesToShow: length > 2 ? 2 : length > 1 ? 2 : 1,
         },
       },
       {
@@ -65,7 +65,7 @@ const Profile = () => {
         settings: {
           infinite: true,
           speed: 500,
-          slidesToShow: length > 2 ? 3 : 1,
+          slidesToShow: length > 2 ? 2 : 1,
         },
       },
       {
@@ -224,12 +224,23 @@ const Profile = () => {
                       <Box w={"100%"} marginTop="1rem">
                         <Slider
                           {...settings}
-                          slidesToShow={favs.length > 2 ? 3 : 1}
+                          slidesToShow={
+                            favs.length > 2 ? 3 : favs.length > 1 ? 2 : 1
+                          }
                           responsive={responsiveCarousel(favs.length)}
                         >
-                          {favs.map((anime) => (
-                            <AnimeFavCard key={anime.idAnime} anime={anime} />
-                          ))}
+                          {favs.map((anime) =>
+                            favs.length === 1 ? (
+                              <Box key={anime.idAnime} padding="0 15%">
+                                <AnimeFavCard
+                                  key={anime.idAnime}
+                                  anime={anime}
+                                />
+                              </Box>
+                            ) : (
+                              <AnimeFavCard key={anime.idAnime} anime={anime} />
+                            )
+                          )}
                         </Slider>
                       </Box>
                     ) : (
@@ -251,12 +262,30 @@ const Profile = () => {
                       <Box w={"100%"} marginTop="1rem">
                         <Slider
                           {...settings}
-                          slidesToShow={watching.length > 2 ? 3 : 1}
+                          slidesToShow={
+                            watching.length > 2
+                              ? 3
+                              : watching.length > 1
+                              ? 2
+                              : 1
+                          }
                           responsive={responsiveCarousel(watching.length)}
                         >
-                          {watching.map((anime) => (
-                            <AnimeListCard key={anime.idAnime} anime={anime} />
-                          ))}
+                          {watching.map((anime) =>
+                            watching.length === 1 ? (
+                              <Box key={anime.idAnime} padding="0 15%">
+                                <AnimeListCard
+                                  key={anime.idAnime}
+                                  anime={anime}
+                                />
+                              </Box>
+                            ) : (
+                              <AnimeListCard
+                                key={anime.idAnime}
+                                anime={anime}
+                              />
+                            )
+                          )}
                         </Slider>
                       </Box>
                     ) : (
@@ -278,12 +307,26 @@ const Profile = () => {
                       <Box w={"100%"} marginTop="1rem">
                         <Slider
                           {...settings}
-                          slidesToShow={toSee.length > 2 ? 3 : 1}
+                          slidesToShow={
+                            toSee.length > 2 ? 3 : toSee.length > 1 ? 2 : 1
+                          }
                           responsive={responsiveCarousel(toSee.length)}
                         >
-                          {toSee.map((anime) => (
-                            <AnimeListCard key={anime.idAnime} anime={anime} />
-                          ))}
+                          {toSee.map((anime) =>
+                            toSee.length === 1 ? (
+                              <Box key={anime.idAnime} padding="0 15%">
+                                <AnimeListCard
+                                  key={anime.idAnime}
+                                  anime={anime}
+                                />
+                              </Box>
+                            ) : (
+                              <AnimeListCard
+                                key={anime.idAnime}
+                                anime={anime}
+                              />
+                            )
+                          )}
                         </Slider>
                       </Box>
                     ) : (

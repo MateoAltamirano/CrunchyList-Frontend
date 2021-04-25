@@ -9,7 +9,7 @@ type AnimeCategoryCardProps = {
 
 const AnimePopularCard = ({ anime }: AnimeCategoryCardProps) => {
   return (
-    <Box h={"25rem"}>
+    <Box h={"30rem"}>
       <Card h={"100%"} padding="0" overflow="hidden">
         <Image
           h={"100%"}
