@@ -117,7 +117,10 @@ const Profile = () => {
                     <Text fontSize="lg" margin="1rem 0" color="gray.800">
                       {nombre}
                     </Text>
-                    <Button onClick={() => history.push("/my-lists")}>
+                    <Button
+                      bgColor="secondary.main"
+                      onClick={() => history.push("/my-lists")}
+                    >
                       Mis Listas
                     </Button>
                   </Flex>
