@@ -6,7 +6,7 @@ import { IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
 import { enviromentDev } from "./baseRoute";
 
 export const getUserByUsername = async (
-  token: string,
+  token: string | undefined,
   username: string,
   dispatch: React.Dispatch<IUserReducer>
 ) => {
@@ -16,45 +16,47 @@ export const getUserByUsername = async (
       `${enviromentDev.url}/getUsuario/${username}`
     );
     user = response.data[0];
-    try {
-      const response = await axios.get(
-        `${enviromentDev.url}/usuario/${user.idUsuario}/favoritos`,
-        { headers: { "X-JWT-Token": token } }
-      );
-      const favs: IUserAnimeFavs[] = response.data;
-      user.favs = favs;
-    } catch (error) {
-      console.log(error.message);
-    }
-    try {
-      const response = await axios.get(
-        `${enviromentDev.url}/lista/${user.idUsuario}/estado/1`,
-        { headers: { "X-JWT-Token": token } }
-      );
-      const seen: IUserAnime[] = response.data;
-      user.seen = seen;
-    } catch (error) {
-      console.log(error.message);
-    }
-    try {
-      const response = await axios.get(
-        `${enviromentDev.url}/lista/${user.idUsuario}/estado/2`,
-        { headers: { "X-JWT-Token": token } }
-      );
-      const watching: IUserAnime[] = response.data;
-      user.watching = watching;
-    } catch (error) {
-      console.log(error.message);
-    }
-    try {
-      const response = await axios.get(
-        `${enviromentDev.url}/lista/${user.idUsuario}/estado/5`,
-        { headers: { "X-JWT-Token": token } }
-      );
-      const toSee: IUserAnime[] = response.data;
-      user.toSee = toSee;
-    } catch (error) {
-      console.log(error.message);
+    if (token) {
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/usuario/${user.idUsuario}/favoritos`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const favs: IUserAnimeFavs[] = response.data;
+        user.favs = favs;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/1`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const seen: IUserAnime[] = response.data;
+        user.seen = seen;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/2`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const watching: IUserAnime[] = response.data;
+        user.watching = watching;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/5`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const toSee: IUserAnime[] = response.data;
+        user.toSee = toSee;
+      } catch (error) {
+        console.log(error.message);
+      }
     }
     user.status = Status.SUCCESS;
     dispatch({ type: UserActionType.SET_USER, user });

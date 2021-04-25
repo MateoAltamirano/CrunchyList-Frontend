@@ -27,7 +27,7 @@ const LogIn = () => {
         const status = await login(body, user.dispatch);
         if (status === Status.SUCCESS) {
           history.push("/");
-          await getUserByUsername("", body.username!, user.dispatch);
+          await getUserByUsername(undefined, body.username!, user.dispatch);
         } else {
           alert("Algo salio mal");
         }

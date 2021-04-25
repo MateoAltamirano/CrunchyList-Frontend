@@ -17,13 +17,14 @@ import { CheckIcon, SearchIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import Slider from "react-slick";
 import RadioButton from "../components/RadioButton";
 import { Status } from "../utils/types";
-import { Redirect } from "react-router";
+import { Redirect, useHistory } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
 import AnimeFavCard from "../components/AnimeFavCard";
 import { BsFillHeartFill } from "react-icons/bs";
 import AnimeListCard from "../components/AnimeListCard";
 
 const Profile = () => {
+  const history = useHistory();
   const user = useContext(userContext);
   if (user === undefined)
     throw new Error("Please use within UserContextProvider");
@@ -116,7 +117,9 @@ const Profile = () => {
                     <Text fontSize="lg" margin="1rem 0" color="gray.800">
                       {nombre}
                     </Text>
-                    <Button>Mis Listas</Button>
+                    <Button onClick={() => history.push("/my-lists")}>
+                      Mis Listas
+                    </Button>
                   </Flex>
                   <Flex flexGrow={3} flexDirection="column">
                     <Heading size="lg" color="primary.dark">
