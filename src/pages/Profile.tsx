@@ -118,7 +118,7 @@ const Profile = () => {
                       {nombre}
                     </Text>
                     <Button
-                      bgColor="secondary.main"
+                      variant="secondary"
                       onClick={() => history.push("/my-lists")}
                     >
                       Mis Listas
