@@ -10,7 +10,7 @@ type AnimeFavCardProps = {
 
 const AnimeFavCard = ({ anime }: AnimeFavCardProps) => {
   return (
-    <Box h={"20rem"} padding="0.5rem">
+    <Box h={"30rem"} padding="0.5rem">
       <Card h={"100%"} padding="0" overflow="hidden">
         <Image
           h={"80%"}

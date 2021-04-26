@@ -12,6 +12,7 @@ import { useCallback, useContext, useEffect } from "react";
 import React from "react";
 import { userContext } from "../providers/UserContext";
 import { getUserByUsername, login } from "../api/user";
+import MyLists from "../pages/MyLists";
 
 const Layout = () => {
   const user = useContext(userContext);
@@ -55,6 +56,9 @@ const Layout = () => {
           </Route>
           <Route path="/anime/:id">
             <AnimeDescription/>
+          </Route>
+          <Route path="/my-lists">
+            <MyLists />
           </Route>
           <Route path="*">
             <NotFound />

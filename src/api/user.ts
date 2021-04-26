@@ -50,6 +50,26 @@ export const getUserByUsername = async (
       }
       try {
         const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/3`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const waiting: IUserAnime[] = response.data;
+        user.waiting = waiting;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/4`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const discarted: IUserAnime[] = response.data;
+        user.discarted = discarted;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
           `${enviromentDev.url}/lista/${user.idUsuario}/estado/5`,
           { headers: { "X-JWT-Token": token } }
         );
