@@ -234,7 +234,7 @@ const Profile = () => {
                         >
                           {favs.map((anime) =>
                             favs.length === 1 ? (
-                              <Box key={anime.idAnime} padding="0 15%">
+                              <Box key={anime.idAnime} padding="0 30%">
                                 <AnimeFavCard
                                   key={anime.idAnime}
                                   anime={anime}
@@ -276,7 +276,7 @@ const Profile = () => {
                         >
                           {watching.map((anime) =>
                             watching.length === 1 ? (
-                              <Box key={anime.idAnime} padding="0 15%">
+                              <Box key={anime.idAnime} padding="0 30%">
                                 <AnimeListCard
                                   key={anime.idAnime}
                                   anime={anime}
@@ -317,7 +317,7 @@ const Profile = () => {
                         >
                           {toSee.map((anime) =>
                             toSee.length === 1 ? (
-                              <Box key={anime.idAnime} padding="0 15%">
+                              <Box key={anime.idAnime} padding="0 30%">
                                 <AnimeListCard
                                   key={anime.idAnime}
                                   anime={anime}
