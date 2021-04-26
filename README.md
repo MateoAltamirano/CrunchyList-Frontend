@@ -17,7 +17,7 @@
   <li>Una vez instalado corre el siguiente comando: npm run start</li> 
   <li>Si se instaló correctamente la aplicación debería estar corriendo en el puerto 3000
     <ul>
-      <li> http://localhost:3000 </li>
+      <li>Se puede ingresar a la aplicación por medio del siguiente link: http://localhost:3000 </li>
     </ul>
   </li>
 </ul>
