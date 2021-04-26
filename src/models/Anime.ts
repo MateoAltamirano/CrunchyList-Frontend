@@ -16,9 +16,19 @@ export interface IAnime {
   imagen?: string;
 }
 
+export interface ICategory{
+  idCategoria:number;
+  nombre:string;
+}
+
 export interface IAnimes {
   animes?: IAnime[];
   populares?: IAnime[];
   top?: IAnime[];
   status?: Status;
+}
+export interface ISingleAnime{
+  anime:IAnime[];
+  categories:ICategory[];
+  status:Status;
 }

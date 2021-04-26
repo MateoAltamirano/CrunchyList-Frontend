@@ -54,7 +54,6 @@ const Home = () => {
       },
     ],
   };
-  // const { isAuthenticated } = user.state;
 
   const getAnimes = useCallback(() => {
     const getAnimesAsync = async () => {
