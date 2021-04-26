@@ -17,7 +17,7 @@ export interface IAnime {
 }
 
 export interface ICategory{
-  id:number;
+  idCategoria:number;
   nombre:string;
 }
 
@@ -28,7 +28,7 @@ export interface IAnimes {
   status?: Status;
 }
 export interface ISingleAnime{
-  anime?:IAnime[];
-  categories?:ICategory[];
-  status?:Status;
+  anime:IAnime[];
+  categories:ICategory[];
+  status:Status;
 }

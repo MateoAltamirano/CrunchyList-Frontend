@@ -6,21 +6,21 @@ export enum SingleAnimesActionType {
 }
 
 export interface ISingleAnimesReducer {
-  type?: SingleAnimesActionType;
-  anime?: Array<IAnime>;
-  categories?:Array<ICategory>;
+  type: SingleAnimesActionType;
+  anime: ISingleAnime
 }
 
 export const singleAnimesReducer = (state: ISingleAnime, action: ISingleAnimesReducer) => {
+  console.log("state",state)
   switch (action.type) {
     case SingleAnimesActionType.SET_SINGLE_ANIME:
       return {
-        anime:action.anime,
-        status: Status.SUCCESS,
-        categories:state.categories
+        ...state,
+        anime: action.anime.anime,
+        categories:action.anime.categories,
+        status: action.anime.status,
       };
     default:
-      console.log("acts",action.type)
       return state;
   }
 };

@@ -30,8 +30,23 @@ const LogIn = () => {
         if (status === Status.SUCCESS) {
           history.push("/");
           await getUserByUsername(undefined, body.username!, user.dispatch);
+          toast({
+            title: "Bienvenido",
+            description: body.username,
+            position: "top-right",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          })
         } else {
-          alert("Algo salio mal");
+          toast({
+            title: "Error.",
+            description: "Algo Salió mal.",
+            position: "top-right",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          })
         }
       };
       logInAndGetUserAsync();

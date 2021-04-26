@@ -6,6 +6,7 @@ import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import SignUp from "../pages/SignUp";
 import NavBar from "./NavBar";
+import AnimeDescription from '../pages/AnimeDescription'
 import jwt_decode from "jwt-decode";
 import { useCallback, useContext, useEffect } from "react";
 import React from "react";
@@ -52,9 +53,13 @@ const Layout = () => {
           <Route path="/signup">
             <SignUp />
           </Route>
+          <Route path="/anime/:id">
+            <AnimeDescription/>
+          </Route>
           <Route path="*">
             <NotFound />
           </Route>
+          
         </Switch>
       </Box>
     </React.Fragment>

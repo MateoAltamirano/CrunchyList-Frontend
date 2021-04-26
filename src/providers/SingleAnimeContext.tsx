@@ -6,6 +6,7 @@ import { Status } from "../utils/types";
 
 const initialState: ISingleAnime = {
   anime:[],
+  categories:[],
   status: Status.LOADING,
 };
 

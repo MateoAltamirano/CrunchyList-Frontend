@@ -9,8 +9,10 @@ import { createUser } from "../api/user";
 import { IUserSignUp } from "../models/User";
 import { useHistory } from "react-router-dom";
 import { useToast } from "@chakra-ui/react"
+import { Status } from "../utils/types";
 
 const SignUp = () => {
+  const toast = useToast();
   const history = useHistory();
   const {
     register,
@@ -20,7 +22,19 @@ const SignUp = () => {
 
   const logInAndGetUser = useCallback((body: IUserSignUp) => {
     const signUpUserAsync = async () => {
-      await createUser(body);
+      const status = await createUser(body);
+      if(status===Status.SUCCESS){
+        toast({
+          title: "Creado",
+          description: "Usuario creado exitosamente",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        })
+      }else{
+
+      }
     };
     signUpUserAsync();
   }, []);
