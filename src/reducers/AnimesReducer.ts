@@ -2,6 +2,7 @@ import { IAnime, IAnimes } from "../models/Anime";
 
 export enum AnimesActionType {
   SET_ANIMES,
+  TOP_ANIMES,
 }
 
 export interface IAnimesReducer {
@@ -13,14 +14,14 @@ export const animesReducer = (state: IAnimes, action: IAnimesReducer) => {
   switch (action.type) {
     case AnimesActionType.SET_ANIMES:
       const populares = getPopularAnimes(action.animes.animes?.slice());
-      const top = getTopAnimes(action.animes.animes?.slice());
       return {
         ...state,
         animes: action.animes.animes,
         populares,
-        top,
         status: action.animes.status,
       };
+    case AnimesActionType.TOP_ANIMES:
+      return { ...state, top: action.animes.top, status: action.animes.status };
     default:
       return state;
   }
@@ -33,13 +34,6 @@ const getPopularAnimes = (animes: IAnime[] = []) => {
   }
   threePopular.reverse();
   return threePopular;
-};
-
-const getTopAnimes = (animes: IAnime[] = []) => {
-  let topAnime = animes.sort(
-    (a, b) => (a.ranking ? a.ranking : 0) - (b.ranking ? b.ranking : 0)
-  );
-  return topAnime;
 };
 
 const checkIfShouldUpdatePopulares = (anime: IAnime, array: IAnime[]) => {

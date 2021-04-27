@@ -6,13 +6,14 @@ import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import SignUp from "../pages/SignUp";
 import NavBar from "./NavBar";
-import AnimeDescription from '../pages/AnimeDescription'
+import AnimeDescription from "../pages/AnimeDescription";
 import jwt_decode from "jwt-decode";
 import { useCallback, useContext, useEffect } from "react";
 import React from "react";
 import { userContext } from "../providers/UserContext";
 import { getUserByUsername, login } from "../api/user";
 import MyLists from "../pages/MyLists";
+import TopAnime from "../pages/TopAnime";
 
 const Layout = () => {
   const user = useContext(userContext);
@@ -55,15 +56,17 @@ const Layout = () => {
             <SignUp />
           </Route>
           <Route path="/anime/:id">
-            <AnimeDescription/>
+            <AnimeDescription />
           </Route>
           <Route path="/my-lists">
             <MyLists />
           </Route>
+          <Route path="/top">
+            <TopAnime />
+          </Route>
           <Route path="*">
             <NotFound />
           </Route>
-          
         </Switch>
       </Box>
     </React.Fragment>
