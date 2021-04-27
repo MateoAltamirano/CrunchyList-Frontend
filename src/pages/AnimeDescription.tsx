@@ -12,13 +12,11 @@ import {
 } from "react-router-dom";
 import {IUsuarioAnime} from "../models"
 import { useToast } from "@chakra-ui/react"
-
-async function addToList(){
-  console.log("holaaaa")
-}
+import { useHistory } from "react-router-dom";
 
 
 const Home = () => {
+  const history = useHistory();
   const toast = useToast();
   const user = useContext(userContext);
   //const animes = useContext(animesContext);
@@ -45,9 +43,9 @@ const Home = () => {
   // const addToList=useCallback(()=>{
   //   addToListAsync();
   // },[])
-  const addToListAsync=async()=>{
+  const addToListAsync=async ()=>{
+      console.log("entra")
       if(isAuthenticated){
-        console.log("entra")
         let d = new Date(Date.now()),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -60,7 +58,7 @@ const Home = () => {
         let body:IUsuarioAnime={
           idUsuario:user.state.idUsuario,
           idAnime:Number(id.id),
-          idEstado:1,
+          idEstado:5,
           porcentajeVisto:0.0,
           fechaInicioVer:[year, month, day].join('-')
         }
@@ -68,15 +66,23 @@ const Home = () => {
         const status = await addTofavorites(user.state.idUsuario,body,user.state.token)
         if(status===Status.SUCCESS){
           toast({
-            title: "Creado",
-            description: "Usuario creado exitosamente",
+            title: "Éxito",
+            description: "Añadido a lista",
             position: "top-right",
             status: "success",
             duration: 2000,
             isClosable: true,
           })
+          history.push("/my-lists");
         }else{
-  
+          toast({
+            title: "Error",
+            description: "Algo malo pasó",
+            position: "top-right",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          })
         }
       }else{
         console.log("entra no")
@@ -116,7 +122,7 @@ const Home = () => {
               <Flex alignItems="center" justifyContent="center">
                 <Flex direction="column" justifyContent="center">
                     <img  className={"imgen"} height="100%" width="100%" src={anime.imagen}/> 
-                    <Button onclick={addToListAsync}>Añadir a mi lista</Button>
+                    <Button onClick={addToListAsync}>Añadir a mi lista</Button>
                 </Flex>
                 <Flex direction="column" width="50%" alignItems="center">
                   <Box minWidth={"500px"} w={"100%"} margin={"20px"} marginBottom={"30px"}>
