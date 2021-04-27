@@ -36,12 +36,10 @@ const getPopularAnimes = (animes: IAnime[] = []) => {
 };
 
 const getTopAnimes = (animes: IAnime[] = []) => {
-  let topTen = Array(10).fill({ ranking: 0 });
-  for (const anime of animes) {
-    checkIfShouldUpdateTop(anime, topTen);
-  }
-  topTen.reverse();
-  return topTen;
+  let topAnime = animes.sort(
+    (a, b) => (a.ranking ? a.ranking : 0) - (b.ranking ? b.ranking : 0)
+  );
+  return topAnime;
 };
 
 const checkIfShouldUpdatePopulares = (anime: IAnime, array: IAnime[]) => {
