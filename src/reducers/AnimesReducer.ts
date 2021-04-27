@@ -48,18 +48,6 @@ const checkIfShouldUpdatePopulares = (anime: IAnime, array: IAnime[]) => {
   }
 };
 
-const checkIfShouldUpdateTop = (anime: IAnime, array: IAnime[]) => {
-  if (anime.ranking) {
-    if (anime.ranking > array[2].ranking!) {
-      updateAndShift(anime, array, 2);
-    } else if (anime.ranking > array[2].ranking!) {
-      updateAndShift(anime, array, 1);
-    } else if (anime.ranking > array[2].ranking!) {
-      updateAndShift(anime, array, 0);
-    }
-  }
-};
-
 const updateAndShift = (anime: IAnime, array: IAnime[], index: number) => {
   for (let i = 0; i <= index; i++) {
     if (i === index) {

@@ -4,7 +4,6 @@ import { Status } from "../utils/types";
 import { IUserLogIn } from "../models";
 import { IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
 import { enviromentDev } from "./baseRoute";
-import { useToast } from "@chakra-ui/react"
 
 export const getUserByUsername = async (
   token: string | undefined,
