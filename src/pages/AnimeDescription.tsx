@@ -137,7 +137,16 @@ const Home = () => {
     }
     //
   }
-  let selectValid=false
+  const showWarningSesion=()=>{
+    toast({
+      title: "Aviso",
+      description: "Debe iniciar sesión",
+      position: "top-right",
+      status: "warning",
+      duration: 2000,
+      isClosable: true,
+    });
+  }
 
   return (
       
@@ -234,7 +243,12 @@ const Home = () => {
                         src={anime.imagen}
                         alt="anime-img"
                       />
-                      {(!isAuthenticated || singleAnime.state.lista.length==0) &&
+                      {(!isAuthenticated)&&
+                        <Button onClick={showWarningSesion}>
+                          Añadir a mi lista
+                        </Button>
+                      }
+                      {(isAuthenticated && singleAnime.state.lista.length==0) &&
                       <Button onClick={onOpen}>
                         Añadir a mi lista
                       </Button>
