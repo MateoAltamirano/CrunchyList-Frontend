@@ -24,7 +24,7 @@ import "../styles/description.css";
 import { Status } from "../utils/types";
 import { singleAnimesContext } from "../providers/SingleAnimeContext";
 import { useParams } from "react-router-dom";
-import { ILista, IUsuarioAnime } from "../models";
+import { ILista } from "../models";
 import { useToast,useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
@@ -96,7 +96,6 @@ const Home = () => {
       if (day.length < 2) day = "0" + day;
       return  [year, month, day].join("-")
   }
-  console.log("user",user)
 
   const goToProfile=()=>{
     history.push("/my-lists");
@@ -121,7 +120,7 @@ const Home = () => {
     data['idUsuario']=user.state.idUsuario
     data['idEstado']=Number(data['idEstado'])
     data['porcentajeVisto']=Number(data['porcentajeVisto'])
-    if(data.idEstado==0){
+    if(data.idEstado===0){
       toast({
         title: "Aviso",
         description: "Debe seleccionar un estado",
@@ -131,9 +130,9 @@ const Home = () => {
         isClosable: true,
       });
     }else{
-      if(data.idEstado==1)
+      if(data.idEstado===1)
       data.porcentajeVisto=100
-      if(data.fechaInicioVer=='')
+      if(data.fechaInicioVer==='')
       data.fechaInicioVer=generateDate()
       addToListAsync(data)
     }
@@ -162,7 +161,6 @@ const Home = () => {
           <ModalBody>
             
               <Box className={"input-box"}>
-                {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
                 <label>Estado</label>
                 <Select
                   placeholder={''}
@@ -203,7 +201,7 @@ const Home = () => {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Cerrar
             </Button>
-            {singleAnime.state.lista.length==0 &&
+            {singleAnime.state.lista.length===0 &&
               <Button type={"submit"} variant="ghost">Añadir</Button>
             }
             {singleAnime.state.lista.length>0 &&
@@ -249,7 +247,7 @@ const Home = () => {
                           Añadir a mi lista
                         </Button>
                       }
-                      {(isAuthenticated && singleAnime.state.lista.length==0) &&
+                      {(isAuthenticated && singleAnime.state.lista.length===0) &&
                       <Button onClick={onOpen}>
                         Añadir a mi lista
                       </Button>

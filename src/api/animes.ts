@@ -53,7 +53,6 @@ export const getSingleAnime = async (
     categories = responseCategorias.data;
     lista = responseLista.data;
     estados = responseEstados.data;
-    console.log("estados",estados)
     dispatch({
       type: SingleAnimesActionType.SET_SINGLE_ANIME,
       anime: { anime, categories, lista,estados, status: Status.SUCCESS },

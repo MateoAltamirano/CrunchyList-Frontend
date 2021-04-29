@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
+import { Flex, Heading, Text } from "@chakra-ui/layout";
 import { BiMessageSquareError } from "react-icons/bi";
 
 const NotFound = () => {
