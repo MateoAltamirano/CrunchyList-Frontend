@@ -9,6 +9,8 @@ import { Status } from "../utils/types";
 const initialState: ISingleAnime = {
   anime: [],
   categories: [],
+  lista:[],
+  estados:[],
   status: Status.LOADING,
 };
 

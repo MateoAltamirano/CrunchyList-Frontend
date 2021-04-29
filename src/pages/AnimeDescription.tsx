@@ -5,8 +5,18 @@ import {
   Heading,
   Divider,
   Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Input,
+  Select ,
 } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { getSingleAnime, addTofavorites } from "../api/animes";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
@@ -14,11 +24,12 @@ import "../styles/description.css";
 import { Status } from "../utils/types";
 import { singleAnimesContext } from "../providers/SingleAnimeContext";
 import { useParams } from "react-router-dom";
-import { IUsuarioAnime } from "../models";
-import { useToast } from "@chakra-ui/react";
+import { ILista, IUsuarioAnime } from "../models";
+import { useToast,useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
 const Home = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const history = useHistory();
   const toast = useToast();
   const user = useContext(userContext);
@@ -27,78 +38,170 @@ const Home = () => {
     throw new Error("Please use within Provider");
 
   const { isAuthenticated } = user.state;
-  console.log(user.state);
 
+
+
+  
+  
+  let id: { id: string } = useParams();
   const getAnime = useCallback(
-    (id: number) => {
+    (id: number,idUser?:number,token?:string) => {
       const getAnimeAsync = async () => {
-        await getSingleAnime(id, singleAnime.dispatch);
+        await getSingleAnime(id, singleAnime.dispatch,idUser,token);
       };
       getAnimeAsync();
     },
     [singleAnime.dispatch]
   );
-
-  let id: { id: string } = useParams();
   useEffect(() => {
-    getAnime(Number(id.id));
-  }, [getAnime, id.id]);
+    getAnime(Number(id.id),user.state.idUsuario,user.state.token);
+  }, [getAnime, id.id,user.state]);
 
-  const addToListAsync = async () => {
-    if (isAuthenticated) {
-      let d = new Date(Date.now()),
+  const addToListAsync=async (data:ILista)=>{
+    const status = await addTofavorites(
+      user.state.idUsuario,
+      data,
+      user.state.token
+    );
+    if (status === Status.SUCCESS) {
+      toast({
+        title: "Éxito",
+        description: "Añadido a lista",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      history.push("/my-lists");
+    } else {
+      toast({
+        title: "Error",
+        description: "Algo malo pasó",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
+
+
+  const generateDate=():string=>{
+    let d = new Date(Date.now()),
         month = "" + (d.getMonth() + 1),
         day = "" + d.getDate(),
         year = d.getFullYear();
-
       if (month.length < 2) month = "0" + month;
       if (day.length < 2) day = "0" + day;
-      let body: IUsuarioAnime = {
-        idUsuario: user.state.idUsuario,
-        idAnime: Number(id.id),
-        idEstado: 5,
-        porcentajeVisto: 0.0,
-        fechaInicioVer: [year, month, day].join("-"),
-      };
-      const status = await addTofavorites(
-        user.state.idUsuario,
-        body,
-        user.state.token
-      );
-      if (status === Status.SUCCESS) {
-        toast({
-          title: "Éxito",
-          description: "Añadido a lista",
-          position: "top-right",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
-        history.push("/my-lists");
-      } else {
-        toast({
-          title: "Error",
-          description: "Algo malo pasó",
-          position: "top-right",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
-      }
-    } else {
+      return  [year, month, day].join("-")
+  }
+
+  const goToProfile=()=>{
+    history.push("/my-lists");
+  }
+
+  const preloadForm={
+    idAnime: Number(id.id),
+    idEstado: singleAnime.state.lista.length>0?singleAnime.state.lista[0].idEstado:0,
+    porcentajeVisto: singleAnime.state.lista.length>0?singleAnime.state.lista[0].porcentajeVisto:0.0,
+    fechaInicioVer: singleAnime.state.lista.length>0?singleAnime.state.lista[0].fechaInicioVer.split('T')[0]:"",
+  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: preloadForm
+  });
+
+  const onSubmit=(data:ILista)=>{
+    if(user.state.idUsuario)
+    data['idUsuario']=user.state.idUsuario
+    data['idEstado']=Number(data['idEstado'])
+    data['porcentajeVisto']=Number(data['porcentajeVisto'])
+    if(data.idEstado==0){
       toast({
         title: "Aviso",
-        description: "Debe iniciar sesión o crear una cuenta",
+        description: "Debe seleccionar un estado",
         position: "top-right",
         status: "warning",
         duration: 2000,
         isClosable: true,
       });
+    }else{
+      if(data.idEstado==1)
+      data.porcentajeVisto=100
+      if(data.fechaInicioVer=='')
+      data.fechaInicioVer=generateDate()
+      addToListAsync(data)
     }
-  };
+    //
+  }
+  let selectValid=false
 
   return (
+      
     <Box h="100%">
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>{singleAnime.state.anime[0]&&singleAnime.state.anime[0].nombre}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            
+              <Box className={"input-box"}>
+                {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
+                <label>Estado</label>
+                <Select
+                  placeholder={''}
+                  {...register("idEstado", { required: "El estado es requerido" })}
+                >
+                  {singleAnime.state.estados.map(estado=>
+                    <option value={estado.idEstado}>{estado.nombre}</option>
+                  )}
+                </Select>
+                {errors.idEstado && <span>{errors.idEstado.message}</span>}
+              </Box>
+              <Box className={"input-box"}>
+                {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
+                <label>Porcentaje Visto</label>
+                <Input
+                  type={"number"}
+                  step={"0.01"}
+                  min={"0"}
+                  max={"100"}
+                  placeholder={"Porcentaje visto ej 50.5"}
+                  {...register("porcentajeVisto", { required: "Debe ingresar solo un decimal" ,pattern:/^[+-]?\d+(\.\d+)?$/})}
+                />
+                {errors.porcentajeVisto && <span>{errors.porcentajeVisto.message}</span>}
+              </Box>
+              <Box className={"input-box"}>
+                {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
+                <label>Fecha inicio</label>
+                <Input
+                  type={"date"}
+                  placeholder={"Fecha inicio"}
+                  {...register("fechaInicioVer")}
+                />
+              </Box>
+            
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Cerrar
+            </Button>
+            {singleAnime.state.lista.length==0 &&
+              <Button type={"submit"} variant="ghost">Añadir</Button>
+            }
+            {singleAnime.state.lista.length>0 &&
+              <Button type={"submit"} variant="ghost">Aceptar</Button>
+            }
+          </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
       <Box className="description"></Box>
       <Flex position="absolute" top={"75%"} w={"100%"} padding="0 3rem">
         <Card w={"100%"} marginBottom="60px">
@@ -131,9 +234,16 @@ const Home = () => {
                         src={anime.imagen}
                         alt="anime-img"
                       />
-                      <Button onClick={addToListAsync}>
+                      {(!isAuthenticated || singleAnime.state.lista.length==0) &&
+                      <Button onClick={onOpen}>
                         Añadir a mi lista
                       </Button>
+                      }
+                      {isAuthenticated && singleAnime.state.lista.length>0 &&
+                      <Button onClick={goToProfile}>
+                        Estado: {singleAnime.state.estados.find(estado=>{return estado.idEstado===singleAnime.state.lista[0].idEstado})?.nombre}
+                      </Button>
+                      }
                     </Flex>
                     <Flex direction="column" width="50%" alignItems="center">
                       <Box

@@ -1,4 +1,6 @@
 import { Status } from "../utils/types";
+import { IEstado } from "./Estado";
+import { ILista } from "./Lista";
 
 export interface IAnime {
   idAnime?: number;
@@ -30,5 +32,7 @@ export interface IAnimes {
 export interface ISingleAnime{
   anime:IAnime[];
   categories:ICategory[];
+  lista:ILista[];
+  estados:IEstado[]
   status:Status;
 }

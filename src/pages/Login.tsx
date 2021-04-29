@@ -22,7 +22,7 @@ const LogIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  
   const logInAndGetUser = useCallback(
     (body: IUserLogIn) => {
       const logInAndGetUserAsync = async () => {

@@ -1,6 +1,7 @@
 import axios from "axios";
-import { IUsuarioAnime } from "../models";
+import { ILista, IUsuarioAnime } from "../models";
 import { IAnime, ICategory } from "../models/Anime";
+import { IEstado } from "../models/Estado";
 import { IAnimesReducer, AnimesActionType } from "../reducers/AnimesReducer";
 import {
   ISingleAnimesReducer,
@@ -27,20 +28,29 @@ export const getAllAnimes = async (
 
 export const getSingleAnime = async (
   id: number,
-  dispatch: React.Dispatch<ISingleAnimesReducer>
+  dispatch: React.Dispatch<ISingleAnimesReducer>,
+  idUser?: number,
+  token?:string
 ) => {
   let anime: Array<IAnime>;
   let categories: Array<ICategory>;
+  let lista:Array<ILista>;
+  let estados:Array<IEstado>;
   try {
-    const response = await axios.get(`${enviromentDev.url}/getAnime/${id}`);
-    const response2 = await axios.get(
+    const responseAnime = await axios.get(`${enviromentDev.url}/getAnime/${id}`);
+    const responseCategorias = await axios.get(
       `${enviromentDev.url}/getAnime/${id}/categorias`
     );
-    anime = response.data;
-    categories = response2.data;
+    const responseLista = await axios.get(`${enviromentDev.url}/lista/exists/${idUser}/${id}`,{ headers: { "X-JWT-Token": token } })
+    const responseEstados = await axios.get(`${enviromentDev.url}/estado`)
+    anime = responseAnime.data;
+    categories = responseCategorias.data;
+    lista = responseLista.data;
+    estados = responseEstados.data;
+    console.log("estados",estados)
     dispatch({
       type: SingleAnimesActionType.SET_SINGLE_ANIME,
-      anime: { anime, categories, status: Status.SUCCESS },
+      anime: { anime, categories, lista,estados, status: Status.SUCCESS },
     });
   } catch (error) {
     console.log(error.message);
