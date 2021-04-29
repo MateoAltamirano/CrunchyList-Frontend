@@ -11,7 +11,12 @@ type AnimeListProps = {
 const AnimeList = ({ list }: AnimeListProps) => {
   return list && list.length > 0 ? (
     <Flex w={"100%"} marginTop="1rem" flexDirection="column" overflow="scroll">
-      <Flex borderTopRadius="8px" padding="1rem 0.5rem" bgColor="primary.main">
+      <Flex
+        color="white"
+        borderTopRadius="8px"
+        padding="1rem 0.5rem"
+        bgColor="primary.main"
+      >
         <Flex justifyContent="center" flexBasis={"25%"}>
           <Text>Imagen</Text>
         </Flex>

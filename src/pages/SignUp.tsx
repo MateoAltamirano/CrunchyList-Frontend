@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { createUser } from "../api/user";
 import { IUserSignUp } from "../models/User";
 import { useHistory } from "react-router-dom";
-import { useToast } from "@chakra-ui/react"
+import { useToast } from "@chakra-ui/react";
 import { Status } from "../utils/types";
 
 const SignUp = () => {
@@ -20,24 +20,26 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  const logInAndGetUser = useCallback((body: IUserSignUp) => {
-    const signUpUserAsync = async () => {
-      const status = await createUser(body);
-      if(status===Status.SUCCESS){
-        toast({
-          title: "Creado",
-          description: "Usuario creado exitosamente",
-          position: "top-right",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        })
-      }else{
-
-      }
-    };
-    signUpUserAsync();
-  }, []);
+  const logInAndGetUser = useCallback(
+    (body: IUserSignUp) => {
+      const signUpUserAsync = async () => {
+        const status = await createUser(body);
+        if (status === Status.SUCCESS) {
+          toast({
+            title: "Creado",
+            description: "Usuario creado exitosamente",
+            position: "top-right",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+        }
+      };
+      signUpUserAsync();
+    },
+    [toast]
+  );
 
   const onSubmit = (data: IUserSignUp) => {
     logInAndGetUser(data);

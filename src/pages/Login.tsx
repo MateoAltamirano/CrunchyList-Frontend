@@ -10,7 +10,7 @@ import { IUserLogIn } from "../models/";
 import { useHistory } from "react-router-dom";
 import { userContext } from "../providers/UserContext";
 import { Status } from "../utils/types";
-import { useToast } from "@chakra-ui/react"
+import { useToast } from "@chakra-ui/react";
 
 const LogIn = () => {
   const user = useContext(userContext);
@@ -22,7 +22,7 @@ const LogIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  
   const logInAndGetUser = useCallback(
     (body: IUserLogIn) => {
       const logInAndGetUserAsync = async () => {
@@ -37,7 +37,7 @@ const LogIn = () => {
             status: "success",
             duration: 2000,
             isClosable: true,
-          })
+          });
         } else {
           toast({
             title: "Error.",
@@ -46,12 +46,12 @@ const LogIn = () => {
             status: "error",
             duration: 2000,
             isClosable: true,
-          })
+          });
         }
       };
       logInAndGetUserAsync();
     },
-    [user.dispatch, history]
+    [user.dispatch, history, toast]
   );
 
   const onSubmit = (data: IUserLogIn) => {
