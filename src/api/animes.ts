@@ -41,7 +41,13 @@ export const getSingleAnime = async (
     const responseCategorias = await axios.get(
       `${enviromentDev.url}/getAnime/${id}/categorias`
     );
-    const responseLista = await axios.get(`${enviromentDev.url}/lista/exists/${idUser}/${id}`,{ headers: { "X-JWT-Token": token } })
+    let responseLista;
+    if(token){
+      responseLista = await axios.get(`${enviromentDev.url}/lista/exists/${idUser}/${id}`,{ headers: { "X-JWT-Token": token } })
+    }else{
+      responseLista={data:[]};
+    }
+    
     const responseEstados = await axios.get(`${enviromentDev.url}/estado`)
     anime = responseAnime.data;
     categories = responseCategorias.data;

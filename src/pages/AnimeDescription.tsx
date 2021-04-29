@@ -72,7 +72,8 @@ const Home = () => {
         duration: 2000,
         isClosable: true,
       });
-      history.push("/my-lists");
+      //history.push("/my-lists");
+      window.location.reload(false);
     } else {
       toast({
         title: "Error",
@@ -95,6 +96,7 @@ const Home = () => {
       if (day.length < 2) day = "0" + day;
       return  [year, month, day].join("-")
   }
+  console.log("user",user)
 
   const goToProfile=()=>{
     history.push("/my-lists");
@@ -214,8 +216,7 @@ const Home = () => {
       <Box className="description"></Box>
       <Flex position="absolute" top={"75%"} w={"100%"} padding="0 3rem">
         <Card w={"100%"} marginBottom="60px">
-          {singleAnime.state.status === Status.LOADING ||
-          singleAnime.state.categories.length === 0 ? (
+          {singleAnime.state.status === Status.LOADING ? (
             <CircularProgress
               isIndeterminate
               color="secondary.main"
