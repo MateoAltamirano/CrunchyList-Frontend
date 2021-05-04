@@ -11,12 +11,13 @@ export const getUserByUsername = async (
   dispatch: React.Dispatch<IUserReducer>
 ) => {
   try {
-    let user: IUser;
-    const response = await axios.get(
-      `${enviromentDev.url}/getUsuario/${username}`
-    );
-    user = response.data[0];
     if (token) {
+      let user: IUser;
+      const response = await axios.get(
+        `${enviromentDev.url}/usuario/${username}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      user = response.data[0];
       try {
         const response = await axios.get(
           `${enviromentDev.url}/usuario/${user.idUsuario}/favoritos`,
@@ -77,9 +78,9 @@ export const getUserByUsername = async (
       } catch (error) {
         console.log(error.message);
       }
+      user.status = Status.SUCCESS;
+      dispatch({ type: UserActionType.SET_USER, user });
     }
-    user.status = Status.SUCCESS;
-    dispatch({ type: UserActionType.SET_USER, user });
   } catch (error) {
     console.log(error.message);
   }
