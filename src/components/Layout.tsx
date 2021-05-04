@@ -14,6 +14,7 @@ import { userContext } from "../providers/UserContext";
 import { getUserByUsername, login } from "../api/user";
 import MyLists from "../pages/MyLists";
 import TopAnime from "../pages/TopAnime";
+import Searchuser from "../pages/SearchUser";
 
 const Layout = () => {
   const user = useContext(userContext);
@@ -63,6 +64,9 @@ const Layout = () => {
           </Route>
           <Route path="/top">
             <TopAnime />
+          </Route>
+          <Route path="/search-user/:userName">
+            <Searchuser/>
           </Route>
           <Route path="*">
             <NotFound />

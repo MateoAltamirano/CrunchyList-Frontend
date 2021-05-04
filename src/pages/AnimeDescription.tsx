@@ -39,11 +39,9 @@ const Home = () => {
 
   const { isAuthenticated } = user.state;
 
-
-
-  
-  
   let id: { id: string } = useParams();
+
+
   const getAnime = useCallback(
     (id: number,idUser?:number,token?:string) => {
       const getAnimeAsync = async () => {
@@ -53,8 +51,11 @@ const Home = () => {
     },
     [singleAnime.dispatch]
   );
+  
   useEffect(() => {
+
     getAnime(Number(id.id),user.state.idUsuario,user.state.token);
+    
   }, [getAnime, id.id,user.state]);
 
   const addToListAsync=async (data:ILista)=>{
