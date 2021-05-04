@@ -50,6 +50,9 @@ const Layout = () => {
           <Route path="/profile">
             <Profile />
           </Route>
+          <Route path="/profile/:username">
+            {/* <Profilefriend /> */}
+          </Route>
           <Route path="/login">
             <LogIn />
           </Route>

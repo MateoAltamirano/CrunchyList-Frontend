@@ -2,7 +2,7 @@ import axios from "axios";
 import { IUserReducer, UserActionType } from "../reducers/UserReducer";
 import { Status } from "../utils/types";
 import { IUserLogIn } from "../models";
-import { IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
+import { ISearchUser, IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
 import { enviromentDev } from "./baseRoute";
 
 export const getUserByUsername = async (
@@ -121,5 +121,25 @@ export const createUser = async (body: IUserSignUp) => {
   } catch (error) {
     console.log(error.message);
     return Status.FAILED;
+  }
+};
+
+export const searchUsers = async (
+  username: string,
+  token: string | undefined
+) => {
+  console.log(token);
+  if(token){
+    try {
+      const response = await axios.get(
+        `${enviromentDev.url}/getUsuario/${username}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      const users: ISearchUser[] = response.data;
+      console.log(users);
+      return users;
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 };

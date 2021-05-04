@@ -42,3 +42,9 @@ export interface IUserAnime {
   fechaInicioVer: string;
   porcentajeVisto: number;
 }
+
+export interface ISearchUser {
+  idUsuario?:number;
+  nombre:string;
+  username:string;
+}
