@@ -42,7 +42,7 @@ const Home = () => {
   let id: { id: string } = useParams();
 
 
-  const getAnime = useCallback(
+  const getAnime= useCallback(
     (id: number,idUser?:number,token?:string) => {
       const getAnimeAsync = async () => {
         await getSingleAnime(id, singleAnime.dispatch,idUser,token);
