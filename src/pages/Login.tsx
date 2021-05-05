@@ -41,7 +41,7 @@ const LogIn = () => {
         } else {
           toast({
             title: "Error.",
-            description: "Algo Salió mal.",
+            description: "Credenciales incorrectas.",
             position: "top-right",
             status: "error",
             duration: 2000,

@@ -18,6 +18,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch 
   } = useForm();
 
   const logInAndGetUser = useCallback(
@@ -42,6 +43,7 @@ const SignUp = () => {
   );
 
   const onSubmit = (data: IUserSignUp) => {
+    delete data['password2']
     logInAndGetUser(data);
     history.push("/login");
   };
@@ -56,7 +58,17 @@ const SignUp = () => {
             <Input
               type={"text"}
               placeholder={"Nombre"}
-              {...register("nombre", { required: "El nombre es requerido" })}
+              {...register("nombre", {
+                required: "El nombre es requerido", 
+                maxLength:{
+                  value:15,
+                  message:'Usar máximo 15 caracteres'
+                },
+                pattern:{
+                  value:/^\S*$/,
+                  message:'No se permiten espacios en blanco'
+                }
+              })}
             />
             {errors.nombre && <span>{errors.nombre.message}</span>}
           </Box>
@@ -65,7 +77,17 @@ const SignUp = () => {
             <Input
               type={"text"}
               placeholder={"Usuario"}
-              {...register("username", { required: "El usuario es requerido" })}
+              {...register("username", { 
+                required: "El usuario es requerido",
+                maxLength:{
+                  value:15,
+                  message:'Usar máximo 15 caracteres'
+                },
+                pattern:{
+                  value:/^\S*$/,
+                  message:'No se permiten espacios en blanco'
+                }
+              })}
             />
             {errors.username && <span>{errors.username.message}</span>}
           </Box>
@@ -90,7 +112,15 @@ const SignUp = () => {
               type={"password"}
               placeholder={"Contraseña"}
               {...register("password", {
-                required: "Debe incresar una contraseña",
+                required: "Debe ingresar una contraseña",
+                minLength: {
+                  value:8,
+                  message:"Debe contener minimo 8 caracteres"
+                },
+                pattern:{
+                  value:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+                  message:'Usar minusculas, mayúsculas y números '
+                }
               })}
             />
             {errors.password && <span>{errors.password.message}</span>}
@@ -98,7 +128,19 @@ const SignUp = () => {
 
           <Box className={"input-box"}>
             <Input
+              type={"password"}
+              placeholder={"Repetir Contraseña"}
+              {...register("password2", {
+                validate: (value) => value === watch('password') || "La contraseña no coincide."
+              })}
+            />
+            {errors.password2 && <span>{errors.password2.message}</span>}
+          </Box>
+
+          <Box className={"input-box"}>
+            <Input
               type={"date"}
+              max={ new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0] }
               placeholder={"Fecha de nacimiento"}
               {...register("fechaNacimiento", {
                 required: "Debe ingresar la fecha de nacimiento",

@@ -22,6 +22,7 @@ export interface IUserSignUp {
   username: string;
   correo: string;
   password: string;
+  password2?:string;
   fechaNacimiento: string;
 }
 
