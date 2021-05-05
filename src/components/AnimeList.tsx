@@ -1,6 +1,6 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/image";
-import { Flex, Text } from "@chakra-ui/layout";
+import {Flex, Link, Text} from "@chakra-ui/layout";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { IUserAnime } from "../models/User";
 
@@ -46,7 +46,11 @@ const AnimeList = ({ list }: AnimeListProps) => {
             />
           </Flex>
           <Flex justifyContent="center" alignItems="center" flexBasis={"25%"}>
-            <Text color="gray.800">{anime.nombre}</Text>
+            <Text color="gray.800">
+              <Link href={`anime/${anime.idAnime}`} color="gray.700">
+                {anime.nombre}
+              </Link>
+            </Text>
           </Flex>
           <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>
             <Text color="gray.800">

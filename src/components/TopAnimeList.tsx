@@ -1,6 +1,6 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/image";
-import { Flex, Text } from "@chakra-ui/layout";
+import {Flex, Link, Text} from "@chakra-ui/layout";
 import { IAnime } from "../models/Anime";
 
 type TopAnimeListProps = {
@@ -51,7 +51,11 @@ const TopAnimeList = ({ list }: TopAnimeListProps) => {
             />
           </Flex>
           <Flex justifyContent="center" alignItems="center" flexBasis={"20%"}>
-            <Text color="gray.800">{anime.nombre}</Text>
+            <Text color="gray.800">
+              <Link href={`anime/${anime.idAnime}`} color="gray.700">
+                {anime.nombre}
+              </Link>
+            </Text>
           </Flex>
           <Flex alignItems="center" justifyContent="center" flexBasis={"20%"}>
             <Text color="gray.800">{anime.nroEpisodios}</Text>
