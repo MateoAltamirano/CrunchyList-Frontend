@@ -143,3 +143,88 @@ export const searchUsers = async (
     }
   }
 };
+
+
+
+
+export const getFriendByUsername = async (
+  token: string | undefined,
+  username: string
+) => {
+  try {
+    if (token) {
+      let user: IUser;
+      const response = await axios.get(
+        `${enviromentDev.url}/usuario/${username}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      user = response.data[0];
+      
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/usuario/${user.idUsuario}/favoritos`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const favs: IUserAnimeFavs[] = response.data;
+        user.favs = favs;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/1`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const seen: IUserAnime[] = response.data;
+        user.seen = seen;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/2`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const watching: IUserAnime[] = response.data;
+        user.watching = watching;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/3`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const waiting: IUserAnime[] = response.data;
+        user.waiting = waiting;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/4`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const discarted: IUserAnime[] = response.data;
+        user.discarted = discarted;
+      } catch (error) {
+        console.log(error.message);
+      }
+      try {
+        const response = await axios.get(
+          `${enviromentDev.url}/lista/${user.idUsuario}/estado/5`,
+          { headers: { "X-JWT-Token": token } }
+        );
+        const toSee: IUserAnime[] = response.data;
+        user.toSee = toSee;
+      } catch (error) {
+        console.log(error.message);
+      }
+     
+      return user;
+    }
+    
+  } catch (error) {
+    console.log(error.message);
+  }
+};
