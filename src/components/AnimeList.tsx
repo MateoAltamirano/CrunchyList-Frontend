@@ -54,7 +54,7 @@ const AnimeList = ({ list }: AnimeListProps) => {
           </Flex>
           <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>
             <Text color="gray.800">
-              {new Date(Date.parse(anime.fechaInicioVer)).toLocaleDateString()}
+              {new Date(Date.parse(anime.fechaInicioVer)).toLocaleDateString()!="Invalid Date"? new Date(Date.parse(anime.fechaInicioVer)).toLocaleDateString():"--"}
             </Text>
           </Flex>
           <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>
