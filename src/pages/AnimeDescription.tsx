@@ -106,7 +106,7 @@ const Home = () => {
     idAnime: Number(id.id),
     idEstado: singleAnime.state.lista.length>0?singleAnime.state.lista[0].idEstado:0,
     porcentajeVisto: singleAnime.state.lista.length>0?singleAnime.state.lista[0].porcentajeVisto:0.0,
-    fechaInicioVer: singleAnime.state.lista.length>0?singleAnime.state.lista[0].fechaInicioVer.split('T')[0]:"",
+    fechaInicioVer: singleAnime.state.lista.length>0&&singleAnime.state.lista[0].fechaInicioVer?singleAnime.state.lista[0].fechaInicioVer.split('T')[0]:"",
   }
   const {
     register,
