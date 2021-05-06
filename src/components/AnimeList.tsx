@@ -1,4 +1,5 @@
-import { SearchIcon } from "@chakra-ui/icons";
+import { IconButton } from "@chakra-ui/button";
+import { EditIcon, SearchIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/image";
 import { Flex, Link, Text } from "@chakra-ui/layout";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
@@ -17,17 +18,20 @@ const AnimeList = ({ list }: AnimeListProps) => {
         padding="1rem 0.5rem"
         bgColor="primary.main"
       >
-        <Flex justifyContent="center" flexBasis={"25%"}>
+        <Flex justifyContent="center" flexBasis={"20%"}>
           <Text>Imagen</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={"25%"}>
+        <Flex justifyContent="center" flexBasis={"20%"}>
           <Text>Nombre</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={"25%"}>
+        <Flex justifyContent="center" flexBasis={"20%"}>
           <Text>Fecha de inicio</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={"25%"}>
+        <Flex justifyContent="center" flexBasis={"20%"}>
           <Text>Completado</Text>
+        </Flex>
+        <Flex justifyContent="center" flexBasis={"20%"}>
+          <Text>Opciones</Text>
         </Flex>
       </Flex>
       {list.map((anime) => (
@@ -36,7 +40,7 @@ const AnimeList = ({ list }: AnimeListProps) => {
           key={anime.idAnime}
           padding="1rem 0.5rem"
         >
-          <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>
+          <Flex alignItems="center" justifyContent="center" flexBasis={"20%"}>
             <Image
               h={"10rem"}
               w={"10rem"}
@@ -45,14 +49,14 @@ const AnimeList = ({ list }: AnimeListProps) => {
               alt={anime.nombre}
             />
           </Flex>
-          <Flex justifyContent="center" alignItems="center" flexBasis={"25%"}>
+          <Flex justifyContent="center" alignItems="center" flexBasis={"20%"}>
             <Text color="gray.800">
               <Link href={`anime/${anime.idAnime}`} color="gray.700">
                 {anime.nombre}
               </Link>
             </Text>
           </Flex>
-          <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>
+          <Flex alignItems="center" justifyContent="center" flexBasis={"20%"}>
             <Text color="gray.800">
               {new Date(
                 Date.parse(anime.fechaInicioVer)
@@ -63,7 +67,7 @@ const AnimeList = ({ list }: AnimeListProps) => {
                 : "--"}
             </Text>
           </Flex>
-          <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>
+          <Flex alignItems="center" justifyContent="center" flexBasis={"20%"}>
             <CircularProgress
               value={anime.porcentajeVisto}
               color="secondary.main"
@@ -72,6 +76,23 @@ const AnimeList = ({ list }: AnimeListProps) => {
                 {anime.porcentajeVisto}%
               </CircularProgressLabel>
             </CircularProgress>
+          </Flex>
+          <Flex
+            justifyContent="space-evenly"
+            alignItems="center"
+            flexBasis={"20%"}
+          >
+            <IconButton
+              variant="secondary"
+              aria-label="Edit"
+              icon={<EditIcon />}
+            />
+            <IconButton
+              variant="solid"
+              colorScheme="red"
+              aria-label="Edit"
+              icon={<DeleteIcon />}
+            />
           </Flex>
         </Flex>
       ))}
