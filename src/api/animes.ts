@@ -62,7 +62,7 @@ export const getSingleAnime = async (
   }
 };
 
-export const addTofavorites = async (
+export const addToList = async (
   idUsuario: number | undefined,
   body: IUsuarioAnime,
   token: string | undefined

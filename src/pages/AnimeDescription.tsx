@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { getSingleAnime, addTofavorites } from "../api/animes";
+import { getSingleAnime, addToList } from "../api/animes";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/description.css";
@@ -27,13 +27,17 @@ import { useParams } from "react-router-dom";
 import { ILista } from "../models";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [idEstado, setIdEstado] = useState(0);
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const history = useHistory();
   const toast = useToast();
   const user = useContext(userContext);
   const singleAnime = useContext(singleAnimesContext);
+  const [estado, setEstado] = useState('');
+  // singleAnime && singleAnime.state.lista.length>0 ? singleAnime.state.estados.find(e=> e.idEstado===singleAnime.state.lista[0].idEstado)?.nombre :
   if (user === undefined || singleAnime === undefined)
     throw new Error("Please use within Provider");
 
@@ -55,13 +59,14 @@ const Home = () => {
     getAnime(Number(id.id), user.state.idUsuario, user.state.token);
   }, [getAnime, id.id, user.state]);
 
-  const addToListAsync = async (data: ILista) => {
-    const status = await addTofavorites(
+  const addToListAsync=async (data:ILista)=>{
+    const status = await addToList(
       user.state.idUsuario,
       data,
       user.state.token
     );
     if (status === Status.SUCCESS) {
+      setEstado(singleAnime.state.estados.find(e => e.idEstado == data.idEstado)?.nombre || '');
       toast({
         title: "Éxito",
         description: "Añadido a lista",
@@ -70,8 +75,9 @@ const Home = () => {
         duration: 2000,
         isClosable: true,
       });
+      onClose();
       //history.push("/my-lists");
-      window.location.reload(false);
+      //window.location.reload(false);
     } else {
       toast({
         title: "Error",
@@ -100,20 +106,10 @@ const Home = () => {
 
   const preloadForm = {
     idAnime: Number(id.id),
-    idEstado:
-      singleAnime.state.lista.length > 0
-        ? singleAnime.state.lista[0].idEstado
-        : 0,
-    porcentajeVisto:
-      singleAnime.state.lista.length > 0
-        ? singleAnime.state.lista[0].porcentajeVisto
-        : 0.0,
-    fechaInicioVer:
-      singleAnime.state.lista.length > 0 &&
-      singleAnime.state.lista[0].fechaInicioVer
-        ? singleAnime.state.lista[0].fechaInicioVer.split("T")[0]
-        : "",
-  };
+    idEstado: singleAnime.state.lista.length>0?singleAnime.state.lista[0].idEstado:0,
+    porcentajeVisto: singleAnime.state.lista.length>0?singleAnime.state.lista[0].porcentajeVisto:0.0,
+    fechaInicioVer: singleAnime.state.lista[0]?.fechaInicioVer?.split('T')[0] || "",
+  }
   const {
     register,
     handleSubmit,
@@ -124,7 +120,7 @@ const Home = () => {
 
   const onSubmit = (data: ILista) => {
     if (user.state.idUsuario) data["idUsuario"] = user.state.idUsuario;
-    data["idEstado"] = Number(data["idEstado"]);
+    data["idEstado"] = idEstado;
     data["porcentajeVisto"] = Number(data["porcentajeVisto"]);
     if (data.idEstado === 0) {
       toast({
@@ -135,10 +131,11 @@ const Home = () => {
         duration: 2000,
         isClosable: true,
       });
-    } else {
-      if (data.idEstado === 1) data.porcentajeVisto = 100;
-      if (data.fechaInicioVer === "") data.fechaInicioVer = generateDate();
-      addToListAsync(data);
+    }else{
+      if(data.idEstado===1) data.porcentajeVisto=100
+      else if (data.idEstado==5) data.porcentajeVisto=0
+      if(data.fechaInicioVer==='') data.fechaInicioVer=undefined;
+      addToListAsync(data)
     }
     //
   };
@@ -152,6 +149,12 @@ const Home = () => {
       isClosable: true,
     });
   };
+
+  const estadoInput = register("idEstado", { required: "El estado es requerido" });
+
+  const handleEstadoChange = (event: any) => {
+    setIdEstado(Number(event.target.value));
+  }
 
   return (
     <Box h="100%">
@@ -167,10 +170,12 @@ const Home = () => {
               <Box className={"input-box"}>
                 <label>Estado</label>
                 <Select
-                  placeholder={""}
-                  {...register("idEstado", {
-                    required: "El estado es requerido",
-                  })}
+                  onChange={(e) => {
+                    estadoInput.onChange(e); // method from hook form register
+                    handleEstadoChange(e); // your method
+                  }}
+                  placeholder={''}
+                  ref={estadoInput.ref}
                 >
                   {singleAnime.state.estados.map((estado, index) => (
                     <option key={index} value={estado.idEstado}>
@@ -180,34 +185,34 @@ const Home = () => {
                 </Select>
                 {errors.idEstado && <span>{errors.idEstado.message}</span>}
               </Box>
+              {idEstado !== 0 && idEstado !== 1 && idEstado !== 5 &&
               <Box className={"input-box"}>
-                {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
-                <label>Porcentaje Visto</label>
-                <Input
-                  type={"number"}
-                  step={"0.01"}
-                  min={"0"}
-                  max={"100"}
-                  placeholder={"Porcentaje visto ej 50.5"}
-                  {...register("porcentajeVisto", {
-                    required: "Debe ingresar solo un decimal",
-                    pattern: /^[+-]?\d+(\.\d+)?$/,
-                  })}
-                />
-                {errors.porcentajeVisto && (
-                  <span>{errors.porcentajeVisto.message}</span>
-                )}
-              </Box>
-              <Box className={"input-box"}>
-                {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
-                <label>Fecha inicio</label>
-                <Input
-                  type={"date"}
-                  placeholder={"Fecha inicio"}
-                  {...register("fechaInicioVer")}
-                />
-              </Box>
-            </ModalBody>
+                  {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
+                  <label>Porcentaje Visto</label>
+                  <Input
+                    type={"number"}
+                    step={"0.01"}
+                    min={"0"}
+                    max={"100"}
+                    placeholder={"Porcentaje visto ej 50.5"}
+                    {...register("porcentajeVisto", { required: "Debe ingresar solo un decimal" , pattern:/^\d+(\.\d{0,2})?$/})}
+                  />
+                  {errors.porcentajeVisto && <span>{errors.porcentajeVisto.message}</span>}
+                </Box>
+              }
+              { idEstado !== 0 && idEstado !== 5 &&
+                <Box className={"input-box"}>
+                  {/* singleAnime.state.estados.find(state=>{return state.idEstado===preloadForm.idEstado})?.nombre */}
+                  <label>Fecha inicio</label>
+                  <Input
+                    type={"date"}
+                    placeholder={"Fecha inicio"}
+                    {...register("fechaInicioVer")}
+                  />
+                </Box>
+              }
+            
+          </ModalBody>
 
             <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -258,28 +263,21 @@ const Home = () => {
                         src={anime.imagen}
                         alt="anime-img"
                       />
-                      {!isAuthenticated && (
+                      {!isAuthenticated &&
                         <Button onClick={showWarningSesion}>
                           Añadir a mi lista
                         </Button>
-                      )}
-                      {isAuthenticated &&
-                        singleAnime.state.lista.length === 0 && (
-                          <Button onClick={onOpen}>Añadir a mi lista</Button>
-                        )}
-                      {isAuthenticated && singleAnime.state.lista.length > 0 && (
-                        <Button onClick={goToProfile}>
-                          Estado:{" "}
-                          {
-                            singleAnime.state.estados.find((estado) => {
-                              return (
-                                estado.idEstado ===
-                                singleAnime.state.lista[0].idEstado
-                              );
-                            })?.nombre
-                          }
-                        </Button>
-                      )}
+                      }
+                      {(isAuthenticated && singleAnime.state.lista.length==0 && estado === '') &&
+                      <Button onClick={onOpen}>
+                        Añadir a mi lista
+                      </Button>
+                      }
+                      {isAuthenticated && (singleAnime.state.lista.length>0 || estado !== '') &&
+                      <Button onClick={goToProfile}>
+                        Estado: {estado || singleAnime.state.estados.find(e=> e.idEstado===singleAnime.state.lista[0].idEstado)?.nombre}
+                      </Button>
+                      }
                     </Flex>
                     <Flex direction="column" width="50%" alignItems="center">
                       <Box
