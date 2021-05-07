@@ -17,6 +17,7 @@ import TopAnime from "../pages/TopAnime";
 import Searchuser from "../pages/SearchUser";
 import FollowLists from "../pages/FollowerLists";
 import FriendProfile from "../pages/FriendProfile";
+import SearchAnime from "../pages/SearchAnime";
 
 const Layout = () => {
   const user = useContext(userContext);
@@ -75,6 +76,9 @@ const Layout = () => {
           </Route>
           <Route path="/search-user/:userName">
             <Searchuser/>
+          </Route>
+          <Route path="/search-anime/">
+            <SearchAnime/>
           </Route>
           <Route path="*">
             <NotFound />

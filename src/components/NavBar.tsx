@@ -376,7 +376,7 @@ const NAV_ITEMS: Array<NavItem> = [
         label: "Buscar",
         subLabel:
           "Encuentra el anime de tu preferencia con nuestros filtros avanzados",
-        href: "/buscar",
+        href: "/search-anime",
       },
     ],
   },
