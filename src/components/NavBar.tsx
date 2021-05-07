@@ -13,6 +13,7 @@ import {
   PopoverContent,
   useDisclosure,
   Avatar,
+  Input
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 
@@ -27,6 +28,8 @@ import { useContext } from "react";
 import { useHistory } from "react-router";
 import { UserActionType } from "../reducers/UserReducer";
 import { Props } from "framer-motion/types/types";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 const NavBar = () => {
   let history = useHistory();
@@ -86,6 +89,7 @@ const NavBar = () => {
         </Flex>
         {isAuthenticated ? (
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
+            <UserSearchBar/>
             <Box>
               <Popover trigger={"hover"} placement={"bottom-start"}>
                 <PopoverTrigger>
@@ -398,3 +402,47 @@ const NAV_ITEMS: Array<NavItem> = [
 ];
 
 export default NavBar;
+
+const UserSearchBar = () => {
+  const history = useHistory();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    history.push("/search-user/"+data.username);
+  };
+ 
+  return (
+    <Flex display={{ base: "none", md: "flex" }} ml={10} marginRight={"5"}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+      <Flex mar>
+        <Box className={"input-box"}>
+            <Input
+              type={"text"}
+              placeholder={"Usuario"}
+              {...register("username", {
+                required: "Debe ingresar un criterio de búsqueda",
+                maxLength: {
+                  value: 15,
+                  message: "No se permiten más caracteres"
+                }
+              })}    
+            />
+            {errors.username && <span>{errors.username.message}</span>}
+        </Box>
+        <Button
+          marginTop={"10px"}
+          backgroundColor={"primary.dark"}
+          type={"submit"}
+        >
+          Buscar Usuarios
+        </Button>
+      </Flex>
+          
+      </form>
+    </Flex>
+  )
+};

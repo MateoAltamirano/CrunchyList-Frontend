@@ -51,7 +51,7 @@ import { IUser } from "../models/User";
       },
       {
         icon: <ViewIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Estoy viendo",
+        value: "Esta viendo",
       },
       {
         icon: <RepeatClockIcon boxSize="1.5rem" marginBottom="0.5rem" />,
@@ -63,7 +63,7 @@ import { IUser } from "../models/User";
       },
       {
         icon: <TimeIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Planeo ver",
+        value: "Planea ver",
       },
     ];
   

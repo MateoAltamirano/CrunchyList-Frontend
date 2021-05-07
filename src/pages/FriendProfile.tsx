@@ -57,11 +57,11 @@ import { IUser } from "../models/User";
       },
       {
         icon: <ViewIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Estoy viendo",
+        value: "Esta viendo",
       },
       {
         icon: <TimeIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Planeo ver",
+        value: "Planea ver",
       },
     ];
     const settings = {
@@ -277,7 +277,7 @@ import { IUser } from "../models/User";
                         </Flex>
                       )
                     ) : undefined}
-                    {carouselAnimes === "Estoy viendo" ? (
+                    {carouselAnimes === "Esta viendo" ? (
                       data.watching && data.watching.length > 0 ? (
                         <Box w={"100%"} marginTop="1rem">
                           <Slider
@@ -322,7 +322,7 @@ import { IUser } from "../models/User";
                         </Flex>
                       )
                     ) : undefined}
-                    {carouselAnimes === "Planeo ver" ? (
+                    {carouselAnimes === "Planea ver" ? (
                       data.toSee && data.toSee.length > 0 ? (
                         <Box w={"100%"} marginTop="1rem">
                           <Slider
