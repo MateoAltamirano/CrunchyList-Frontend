@@ -13,19 +13,19 @@ import {
   ModalBody,
   ModalCloseButton,
   Input,
-  Select ,
+  Select,
 } from "@chakra-ui/react";
-import {useCallback, useContext, useEffect, useState} from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getSingleAnime, addToList } from "../api/animes";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/description.css";
 import { Status } from "../utils/types";
-import {singleAnimesContext} from "../providers/SingleAnimeContext";
+import { singleAnimesContext } from "../providers/SingleAnimeContext";
 import { useParams } from "react-router-dom";
 import { ILista } from "../models";
-import { useToast,useDisclosure } from "@chakra-ui/react";
+import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
 const Home = () => {
@@ -44,22 +44,19 @@ const Home = () => {
 
   let id: { id: string } = useParams();
 
-
-  const getAnime= useCallback(
-    (id: number,idUser?:number,token?:string) => {
+  const getAnime = useCallback(
+    (id: number, idUser?: number, token?: string) => {
       const getAnimeAsync = async () => {
-        await getSingleAnime(id, singleAnime.dispatch,idUser,token);
+        await getSingleAnime(id, singleAnime.dispatch, idUser, token);
       };
       getAnimeAsync();
     },
     [singleAnime.dispatch]
   );
-  
-  useEffect(() => {
 
-    getAnime(Number(id.id),user.state.idUsuario,user.state.token);
-    
-  }, [getAnime, id.id,user.state]);
+  useEffect(() => {
+    getAnime(Number(id.id), user.state.idUsuario, user.state.token);
+  }, [getAnime, id.id, user.state]);
 
   const addToListAsync=async (data:ILista)=>{
     const status = await addToList(
@@ -90,24 +87,23 @@ const Home = () => {
         isClosable: true,
       });
     }
-  }
+  };
 
-
-  const generateDate=():string=>{
+  const generateDate = (): string => {
     let d = new Date(Date.now()),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
-      return  [year, month, day].join("-")
-  }
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+    return [year, month, day].join("-");
+  };
 
-  const goToProfile=()=>{
+  const goToProfile = () => {
     history.push("/my-lists");
-  }
+  };
 
-  const preloadForm={
+  const preloadForm = {
     idAnime: Number(id.id),
     idEstado: singleAnime.state.lista.length>0?singleAnime.state.lista[0].idEstado:0,
     porcentajeVisto: singleAnime.state.lista.length>0?singleAnime.state.lista[0].porcentajeVisto:0.0,
@@ -118,14 +114,14 @@ const Home = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: preloadForm
+    defaultValues: preloadForm,
   });
 
-  const onSubmit=(data:ILista)=>{
-    if(user.state.idUsuario) data['idUsuario']=user.state.idUsuario
-    data['idEstado']=idEstado
-    data['porcentajeVisto']=Number(data['porcentajeVisto'])
-    if(data.idEstado===0){
+  const onSubmit = (data: ILista) => {
+    if (user.state.idUsuario) data["idUsuario"] = user.state.idUsuario;
+    data["idEstado"] = Number(data["idEstado"]);
+    data["porcentajeVisto"] = Number(data["porcentajeVisto"]);
+    if (data.idEstado === 0) {
       toast({
         title: "Aviso",
         description: "Debe seleccionar un estado",
@@ -141,8 +137,8 @@ const Home = () => {
       addToListAsync(data)
     }
     //
-  }
-  const showWarningSesion=()=>{
+  };
+  const showWarningSesion = () => {
     toast({
       title: "Aviso",
       description: "Debe iniciar sesión",
@@ -151,7 +147,7 @@ const Home = () => {
       duration: 2000,
       isClosable: true,
     });
-  }
+  };
 
   const estadoInput = register("idEstado", { required: "El estado es requerido" });
 
@@ -160,16 +156,16 @@ const Home = () => {
   }
 
   return (
-      
     <Box h="100%">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>{singleAnime.state.anime[0]&&singleAnime.state.anime[0].nombre}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            
+            <ModalHeader>
+              {singleAnime.state.anime[0] && singleAnime.state.anime[0].nombre}
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
               <Box className={"input-box"}>
                 <label>Estado</label>
                 <Select
@@ -180,9 +176,11 @@ const Home = () => {
                   placeholder={''}
                   ref={estadoInput.ref}
                 >
-                  {singleAnime.state.estados.map(estado=>
-                    <option value={estado.idEstado}>{estado.nombre}</option>
-                  )}
+                  {singleAnime.state.estados.map((estado, index) => (
+                    <option key={index} value={estado.idEstado}>
+                      {estado.nombre}
+                    </option>
+                  ))}
                 </Select>
                 {errors.idEstado && <span>{errors.idEstado.message}</span>}
               </Box>
@@ -215,17 +213,21 @@ const Home = () => {
             
           </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Cerrar
-            </Button>
-            {singleAnime.state.lista.length===0 &&
-              <Button type={"submit"} variant="ghost">Añadir</Button>
-            }
-            {singleAnime.state.lista.length>0 &&
-              <Button type={"submit"} variant="ghost">Aceptar</Button>
-            }
-          </ModalFooter>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Cerrar
+              </Button>
+              {singleAnime.state.lista.length === 0 && (
+                <Button type={"submit"} variant="ghost">
+                  Añadir
+                </Button>
+              )}
+              {singleAnime.state.lista.length > 0 && (
+                <Button type={"submit"} variant="ghost">
+                  Aceptar
+                </Button>
+              )}
+            </ModalFooter>
           </form>
         </ModalContent>
       </Modal>
@@ -241,7 +243,7 @@ const Home = () => {
           ) : (
             <Box w={"100%"}>
               {singleAnime.state.anime?.map((anime) => (
-                <Box>
+                <Box key={anime.idAnime}>
                   <Heading
                     paddingBottom="10px"
                     size="xl"
@@ -260,7 +262,7 @@ const Home = () => {
                         src={anime.imagen}
                         alt="anime-img"
                       />
-                      {(!isAuthenticated)&&
+                      {!isAuthenticated && (
                         <Button onClick={showWarningSesion}>
                           Añadir a mi lista
                         </Button>
@@ -332,7 +334,9 @@ const Home = () => {
                         <Heading color="gray.600" className={"label-content"}>
                           Categorias:
                           {singleAnime.state.categories?.map((category) => (
-                            <span> {category.nombre} </span>
+                            <span key={category.idCategoria}>
+                              {category.nombre}
+                            </span>
                           ))}
                         </Heading>
                       </Box>

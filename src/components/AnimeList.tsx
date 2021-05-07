@@ -1,6 +1,6 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/image";
-import {Flex, Link, Text} from "@chakra-ui/layout";
+import { Flex, Link, Text } from "@chakra-ui/layout";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/progress";
 import { IUserAnime } from "../models/User";
 
@@ -54,7 +54,13 @@ const AnimeList = ({ list }: AnimeListProps) => {
           </Flex>
           <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>
             <Text color="gray.800">
-              {new Date(Date.parse(anime.fechaInicioVer)).toLocaleDateString()}
+              {new Date(
+                Date.parse(anime.fechaInicioVer)
+              ).toLocaleDateString() !== "Invalid Date"
+                ? new Date(
+                    Date.parse(anime.fechaInicioVer)
+                  ).toLocaleDateString()
+                : "--"}
             </Text>
           </Flex>
           <Flex alignItems="center" justifyContent="center" flexBasis={"25%"}>

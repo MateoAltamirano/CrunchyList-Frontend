@@ -11,6 +11,7 @@ import { Redirect, useParams } from "react-router-dom";
 
 const Searchuser = () => {
   let userName: { userName: string } = useParams();
+  
   const user = useContext(userContext);
   const [data, setData] = useState<ISearchUser[]>();
   if (user === undefined)

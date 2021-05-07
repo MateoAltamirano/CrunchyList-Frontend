@@ -21,7 +21,33 @@ const Home = () => {
   const popularCarouselSettings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 2,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
   const recommendedCarouselSettings = {
     infinite: true,
