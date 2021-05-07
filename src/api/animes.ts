@@ -26,6 +26,23 @@ export const getAllAnimes = async (
   }
 };
 
+export const getAnimesSearch = async (
+  texto: string,
+  dispatch: React.Dispatch<IAnimesReducer>
+) => {
+  let animes = [];
+  try {
+    const response = await axios.get(`${enviromentDev.url}/getAnime/find/${texto}`);
+    animes = response.data;
+    dispatch({
+      type: AnimesActionType.SET_ANIMES,
+      animes: { animes, status: Status.SUCCESS },
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const getSingleAnime = async (
   id: number,
   dispatch: React.Dispatch<ISingleAnimesReducer>,
