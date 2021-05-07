@@ -1,5 +1,5 @@
 export interface ILista{
-  fechaInicioVer:string,
+  fechaInicioVer?:string,
   idAnime: number;
   idEstado: number;
   idUsuario: number;
