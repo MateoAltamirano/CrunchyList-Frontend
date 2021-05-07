@@ -27,6 +27,7 @@ import { useParams } from "react-router-dom";
 import { ILista } from "../models";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
   const [idEstado, setIdEstado] = useState(0);
@@ -119,7 +120,7 @@ const Home = () => {
 
   const onSubmit = (data: ILista) => {
     if (user.state.idUsuario) data["idUsuario"] = user.state.idUsuario;
-    data["idEstado"] = Number(data["idEstado"]);
+    data["idEstado"] = idEstado;
     data["porcentajeVisto"] = Number(data["porcentajeVisto"]);
     if (data.idEstado === 0) {
       toast({
@@ -262,7 +263,7 @@ const Home = () => {
                         src={anime.imagen}
                         alt="anime-img"
                       />
-                      {!isAuthenticated && (
+                      {!isAuthenticated &&
                         <Button onClick={showWarningSesion}>
                           Añadir a mi lista
                         </Button>
