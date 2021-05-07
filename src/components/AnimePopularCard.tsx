@@ -9,7 +9,7 @@ type AnimeCategoryCardProps = {
 
 const AnimePopularCard = ({ anime }: AnimeCategoryCardProps) => {
   return (
-    <Box h={"30rem"}>
+    <Box h={"40rem"} padding="0.5rem">
       <Card h={"100%"} padding="0" overflow="hidden">
         <Image
           h={"100%"}
@@ -24,7 +24,7 @@ const AnimePopularCard = ({ anime }: AnimeCategoryCardProps) => {
           w="10%"
           alignItems="flex-end"
           justifyContent="center"
-          paddingBottom="1rem"
+          paddingBottom="2rem"
         >
           <Heading
             size="3xl"

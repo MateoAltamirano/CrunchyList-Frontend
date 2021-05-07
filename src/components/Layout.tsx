@@ -14,6 +14,10 @@ import { userContext } from "../providers/UserContext";
 import { getUserByUsername, login } from "../api/user";
 import MyLists from "../pages/MyLists";
 import TopAnime from "../pages/TopAnime";
+import Searchuser from "../pages/SearchUser";
+import FollowLists from "../pages/FollowerLists";
+import FriendProfile from "../pages/FriendProfile";
+import SearchAnime from "../pages/SearchAnime";
 
 const Layout = () => {
   const user = useContext(userContext);
@@ -49,6 +53,9 @@ const Layout = () => {
           <Route path="/profile">
             <Profile />
           </Route>
+          <Route path="/friend-profile/:userName">
+            <FriendProfile />
+          </Route>
           <Route path="/login">
             <LogIn />
           </Route>
@@ -61,8 +68,17 @@ const Layout = () => {
           <Route path="/my-lists">
             <MyLists />
           </Route>
+          <Route path="/follow-lists/:userName">
+            <FollowLists />
+          </Route>
           <Route path="/top">
             <TopAnime />
+          </Route>
+          <Route path="/search-user/:userName">
+            <Searchuser/>
+          </Route>
+          <Route path="/search-anime/">
+            <SearchAnime/>
           </Route>
           <Route path="*">
             <NotFound />

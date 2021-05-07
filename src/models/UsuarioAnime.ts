@@ -3,5 +3,5 @@ export interface IUsuarioAnime{
     idAnime:number;
     idEstado:number;//5
     porcentajeVisto:number;//0
-    fechaInicioVer:string;//now()
+    fechaInicioVer?:string;//now()
 }

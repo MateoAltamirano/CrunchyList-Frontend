@@ -22,6 +22,7 @@ export interface IUserSignUp {
   username: string;
   correo: string;
   password: string;
+  password2?:string;
   fechaNacimiento: string;
 }
 
@@ -41,4 +42,10 @@ export interface IUserAnime {
   nombre: string;
   fechaInicioVer: string;
   porcentajeVisto: number;
+}
+
+export interface ISearchUser {
+  idUsuario?:number;
+  nombre:string;
+  username:string;
 }
