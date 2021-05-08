@@ -13,7 +13,8 @@ import {
   PopoverContent,
   useDisclosure,
   Avatar,
-  Input
+  Input,
+  useToast
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 
@@ -405,6 +406,7 @@ export default NavBar;
 
 const UserSearchBar = () => {
   const history = useHistory();
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -412,7 +414,18 @@ const UserSearchBar = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    history.push("/search-user/"+data.username);
+    if(data.username.trim()!=''){
+      history.push("/search-user/"+data.username.trim());
+    }else{
+      toast({
+        title: "Advertencia",
+        description: "Ingresa al menos un caracter para buscar usuarios",
+        position: "top",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
  
   return (
