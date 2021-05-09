@@ -1,5 +1,5 @@
-import { IUser } from "../models/User";
-import { initialState } from "../providers/UserContext";
+import { IUser } from '../models/User';
+import { initialState } from '../providers/UserContext';
 
 export enum UserActionType {
   LOGIN,
