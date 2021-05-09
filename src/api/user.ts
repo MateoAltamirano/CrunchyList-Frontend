@@ -377,6 +377,7 @@ const updateList = (
           nombre: oldAnime.nombre,
           imagen: oldAnime.imagen,
           idUsuario: anime.idUsuario!,
+          fechaInicioVer: anime.fechaInicioVer!,
         };
         break;
       }
@@ -458,6 +459,7 @@ const updateList = (
           nombre: oldAnime!.nombre,
           imagen: oldAnime!.imagen,
           idUsuario: anime.idUsuario!,
+          fechaInicioVer: anime.fechaInicioVer!,
         });
         break;
       case 2:
@@ -466,6 +468,7 @@ const updateList = (
           nombre: oldAnime!.nombre,
           imagen: oldAnime!.imagen,
           idUsuario: anime.idUsuario!,
+          fechaInicioVer: anime.fechaInicioVer!,
         });
         break;
       case 3:
@@ -474,6 +477,7 @@ const updateList = (
           nombre: oldAnime!.nombre,
           imagen: oldAnime!.imagen,
           idUsuario: anime.idUsuario!,
+          fechaInicioVer: anime.fechaInicioVer!,
         });
         break;
       case 4:
@@ -482,6 +486,7 @@ const updateList = (
           nombre: oldAnime!.nombre,
           imagen: oldAnime!.imagen,
           idUsuario: anime.idUsuario!,
+          fechaInicioVer: anime.fechaInicioVer!,
         });
         break;
       case 5:
@@ -490,6 +495,7 @@ const updateList = (
           nombre: oldAnime!.nombre,
           imagen: oldAnime!.imagen,
           idUsuario: anime.idUsuario!,
+          fechaInicioVer: anime.fechaInicioVer!,
         });
         break;
       default:
