@@ -228,3 +228,46 @@ export const getFriendByUsername = async (
     console.log(error.message);
   }
 };
+
+
+export const getFriends = async (
+  userid: number | undefined,
+  token: string | undefined
+) => {
+  console.log(userid);
+  console.log(token);
+  if(token){
+    try {
+      const response = await axios.get(
+        `${enviromentDev.url}/usuario/${userid}/seguidos`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      const users: ISearchUser[] = response.data;
+      console.log(users);
+      return users;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+};
+
+export const unfollow = async (
+  idUsuario: number | undefined,
+  idSeguidor: number,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.post(
+        `${enviromentDev.url}/usuario/${idUsuario}/${idSeguidor}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
