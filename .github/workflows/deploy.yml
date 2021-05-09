@@ -26,9 +26,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Build dependencies
-        run: nom run build
+        run: npm run build
       - name: Archive product archtifacts
         uses: actions/upload-artifact@main
         with:
