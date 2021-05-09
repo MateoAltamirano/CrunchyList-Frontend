@@ -99,19 +99,31 @@ const MyLists = () => {
                     })}
                   </Flex>
                   {listAnimes === 'Vistos' ? (
-                    <AnimeList list={seen} listName="seen" />
+                    <AnimeList isOwner={true} list={seen} listName="seen" />
                   ) : undefined}
                   {listAnimes === 'Estoy viendo' ? (
-                    <AnimeList list={watching} listName="watching" />
+                    <AnimeList
+                      isOwner={true}
+                      list={watching}
+                      listName="watching"
+                    />
                   ) : undefined}
                   {listAnimes === 'En espera' ? (
-                    <AnimeList list={waiting} listName="waiting" />
+                    <AnimeList
+                      isOwner={true}
+                      list={waiting}
+                      listName="waiting"
+                    />
                   ) : undefined}
                   {listAnimes === 'Descartados' ? (
-                    <AnimeList list={discarted} listName="discarted" />
+                    <AnimeList
+                      isOwner={true}
+                      list={discarted}
+                      listName="discarted"
+                    />
                   ) : undefined}
                   {listAnimes === 'Planeo ver' ? (
-                    <AnimeList list={toSee} listName="toSee" />
+                    <AnimeList isOwner={true} list={toSee} listName="toSee" />
                   ) : undefined}
                 </Flex>
               </Flex>

@@ -27,9 +27,10 @@ import { ILista, IUsuarioAnime } from '../models';
 type AnimeListProps = {
   list: IUserAnime[] | undefined;
   listName: string;
+  isOwner: boolean;
 };
 
-const AnimeList = ({ list, listName }: AnimeListProps) => {
+const AnimeList = ({ list, listName, isOwner }: AnimeListProps) => {
   const user = useContext(userContext);
   if (user === undefined) throw new Error('Please use within Provider');
   const toast = useToast();
@@ -100,12 +101,6 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
       });
     }
   };
-  const preloadForm = {
-    idAnime: anime?.idAnime,
-    idEstado: 0,
-    porcentajeVisto: anime?.porcentajeVisto,
-    fechaInicioVer: anime?.fechaInicioVer.split('T')[0],
-  };
   const generateDate = (): string => {
     let d = new Date(Date.now()),
       month = '' + (d.getMonth() + 1),
@@ -114,6 +109,14 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
+  };
+  const preloadForm = {
+    idAnime: anime?.idAnime,
+    idEstado: 0,
+    porcentajeVisto: anime?.porcentajeVisto,
+    fechaInicioVer: anime?.fechaInicioVer
+      ? anime.fechaInicioVer
+      : generateDate(),
   };
   const {
     register,
@@ -147,7 +150,10 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
     setAnime(anime);
     setValue('idAnime', anime.idAnime);
     setValue('idEstado', anime.idEstado);
-    setValue('fechaInicioVer', anime.fechaInicioVer.split('T')[0]);
+    setValue(
+      'fechaInicioVer',
+      anime.fechaInicioVer ? anime.fechaInicioVer.split('T')[0] : generateDate()
+    );
     setValue('idAnime', anime.idAnime);
     setValue('porcentajeVisto', anime.porcentajeVisto);
     onOpen();
@@ -160,21 +166,23 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
         padding="1rem 0.5rem"
         bgColor="primary.main"
       >
-        <Flex justifyContent="center" flexBasis={'20%'}>
+        <Flex justifyContent="center" flexBasis={isOwner ? '20%' : '25%'}>
           <Text>Imagen</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={'20%'}>
+        <Flex justifyContent="center" flexBasis={isOwner ? '20%' : '25%'}>
           <Text>Nombre</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={'20%'}>
+        <Flex justifyContent="center" flexBasis={isOwner ? '20%' : '25%'}>
           <Text>Fecha de inicio</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={'20%'}>
+        <Flex justifyContent="center" flexBasis={isOwner ? '20%' : '25%'}>
           <Text>Completado</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={'20%'}>
-          <Text>Opciones</Text>
-        </Flex>
+        {isOwner ? (
+          <Flex justifyContent="center" flexBasis={'20%'}>
+            <Text>Opciones</Text>
+          </Flex>
+        ) : undefined}
       </Flex>
       {list.map((anime) => (
         <Flex
@@ -182,7 +190,11 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
           key={anime.idAnime}
           padding="1rem 0.5rem"
         >
-          <Flex alignItems="center" justifyContent="center" flexBasis={'20%'}>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            flexBasis={isOwner ? '20%' : '25%'}
+          >
             <Image
               h={'10rem'}
               w={'10rem'}
@@ -191,14 +203,22 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
               alt={anime.nombre}
             />
           </Flex>
-          <Flex justifyContent="center" alignItems="center" flexBasis={'20%'}>
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            flexBasis={isOwner ? '20%' : '25%'}
+          >
             <Text color="gray.800">
               <Link href={`anime/${anime.idAnime}`} color="gray.700">
                 {anime.nombre}
               </Link>
             </Text>
           </Flex>
-          <Flex alignItems="center" justifyContent="center" flexBasis={'20%'}>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            flexBasis={isOwner ? '20%' : '25%'}
+          >
             <Text color="gray.800">
               {new Date(
                 Date.parse(anime.fechaInicioVer)
@@ -209,7 +229,11 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
                 : '--'}
             </Text>
           </Flex>
-          <Flex alignItems="center" justifyContent="center" flexBasis={'20%'}>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            flexBasis={isOwner ? '20%' : '25%'}
+          >
             <CircularProgress
               value={anime.porcentajeVisto}
               color="secondary.main"
@@ -219,25 +243,27 @@ const AnimeList = ({ list, listName }: AnimeListProps) => {
               </CircularProgressLabel>
             </CircularProgress>
           </Flex>
-          <Flex
-            justifyContent="space-evenly"
-            alignItems="center"
-            flexBasis={'20%'}
-          >
-            <IconButton
-              variant="secondary"
-              aria-label="Edit"
-              icon={<EditIcon />}
-              onClick={() => onEditOpen(anime)}
-            />
-            <IconButton
-              variant="solid"
-              colorScheme="red"
-              aria-label="Edit"
-              icon={<DeleteIcon />}
-              onClick={() => onDeleteOpen(anime)}
-            />
-          </Flex>
+          {isOwner ? (
+            <Flex
+              justifyContent="space-evenly"
+              alignItems="center"
+              flexBasis={'20%'}
+            >
+              <IconButton
+                variant="secondary"
+                aria-label="Edit"
+                icon={<EditIcon />}
+                onClick={() => onEditOpen(anime)}
+              />
+              <IconButton
+                variant="solid"
+                colorScheme="red"
+                aria-label="Edit"
+                icon={<DeleteIcon />}
+                onClick={() => onDeleteOpen(anime)}
+              />
+            </Flex>
+          ) : undefined}
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>

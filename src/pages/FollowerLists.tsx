@@ -115,19 +115,39 @@ const FollowLists = () => {
                     })}
                   </Flex>
                   {listAnimes === 'Vistos' ? (
-                    <AnimeList listName="seen" list={data.seen} />
+                    <AnimeList
+                      isOwner={false}
+                      listName="seen"
+                      list={data.seen}
+                    />
                   ) : undefined}
                   {listAnimes === 'Esta viendo' ? (
-                    <AnimeList listName="watching" list={data.watching} />
+                    <AnimeList
+                      isOwner={false}
+                      listName="watching"
+                      list={data.watching}
+                    />
                   ) : undefined}
                   {listAnimes === 'En espera' ? (
-                    <AnimeList listName="waiting" list={data.waiting} />
+                    <AnimeList
+                      isOwner={false}
+                      listName="waiting"
+                      list={data.waiting}
+                    />
                   ) : undefined}
                   {listAnimes === 'Descartados' ? (
-                    <AnimeList listName="discarted" list={data.discarted} />
+                    <AnimeList
+                      isOwner={false}
+                      listName="discarted"
+                      list={data.discarted}
+                    />
                   ) : undefined}
                   {listAnimes === 'Planea ver' ? (
-                    <AnimeList listName="toSee" list={data.toSee} />
+                    <AnimeList
+                      isOwner={false}
+                      listName="toSee"
+                      list={data.toSee}
+                    />
                   ) : undefined}
                 </Flex>
               </Flex>
