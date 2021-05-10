@@ -6,7 +6,7 @@ import { ILista } from "../models";
 import { useHistory } from "react-router-dom";
 import { ISearchUser } from "../models/User";
 import { userContext } from "../providers/UserContext";
-import { unfollow } from "../api/user";
+import { follow } from "../api/user";
 import { Status } from "../utils/types";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 type SearchList = {
@@ -22,13 +22,7 @@ const FollowUsers = ({ list }: SearchList) => {
   if (user === undefined)
     throw new Error("Please use within Provider");
  
-  const addToListAsync=async (data:number)=>{
-    const status = await unfollow(
-      user.state.idUsuario,
-      data,
-      user.state.token
-    );
-}
+
   return list && list.length > 0 ? (
     <Flex w={"100%"} marginTop="1rem" flexDirection="column" overflow="hide">
       <Flex

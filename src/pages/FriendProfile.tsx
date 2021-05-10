@@ -8,6 +8,9 @@ import {
     Divider,
     useRadioGroup,
     Avatar,
+    toast,
+    useToast,
+    useDisclosure,
   } from "@chakra-ui/react";
   import { useContext, useEffect, useState } from "react";
   import Card from "../components/Card";
@@ -22,17 +25,23 @@ import {
   import AnimeFavCard from "../components/AnimeFavCard";
   import { BsFillHeartFill } from "react-icons/bs";
   import AnimeListCard from "../components/AnimeListCard";
-import { getFriendByUsername} from "../api/user";
+import { getFriendByUsername, follow} from "../api/user";
 import { IUser } from "../models/User";
   
   const FriendProfile = () => {
     const history = useHistory();
+    const user = useContext(userContext);
+    if (user === undefined)
+      throw new Error("Please use within Provider");
     let userName: { userName: string } = useParams();
+    const toast = useToast();
+    const { isOpen, onOpen, onClose } = useDisclosure()
     console.log(userName.userName);
   
     const [data, setData] = useState<IUser>();
     
     const token = localStorage.getItem("token");
+    const { isAuthenticated } = user.state;
     const getFriend = async () => {
       if(token){
         const res = await getFriendByUsername(token,userName.userName);
@@ -106,6 +115,50 @@ import { IUser } from "../models/User";
       defaultValue: "Favoritos",
       onChange: onRadioChange,
     });
+
+    const addFriend = async () => {
+      let id2;
+      if (data === undefined) throw new Error("Please use within Provider");
+      id2 =data.idUsuario;
+      console.log(id2);
+      console.log(user.state.idUsuario);
+      var today = new Date(),
+      date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+      let body = {
+        "idSeguidor":user.state.idUsuario,
+        "idSeguido":id2,
+        "fecha":date
+      }
+      const status = await follow(
+        user.state.idUsuario,
+        id2,
+        body,
+        user.state.token
+      ); 
+      if (status === Status.SUCCESS) {
+        toast({
+          title: "Éxito",
+          description: "Añadido a Amigos",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        onClose();
+        //history.push("/my-lists");
+        //window.location.reload(false);
+      } else {
+        toast({
+          title: "Error",
+          description: "Algo malo pasó",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    }
   
     return token ? (
       <Flex h="100%" flexDirection="column">
@@ -131,6 +184,8 @@ import { IUser } from "../models/User";
                         size="2xl"
                         icon={<AiOutlineUser fontSize="4.5rem" />}
                       />
+                    
+                          
                       <Text fontSize="lg" margin="1rem 0" color="gray.800">
                         {data.nombre}
                       </Text>
@@ -140,6 +195,11 @@ import { IUser } from "../models/User";
                       >
                         Sus Listas
                       </Button>
+                      {isAuthenticated &&
+                        <Button onClick={addFriend}>
+                          Seguir
+                        </Button>
+                        }
                     </Flex>
                     <Flex flexGrow={3} flexDirection="column">
                       <Heading size="lg" color="primary.dark">

@@ -18,7 +18,7 @@ import {
 import { useCallback, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getSingleAnime, addToList } from "../api/animes";
-import { addFav } from "../api/user";
+import { addFav, eliminarFav } from "../api/user";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/description.css";
@@ -151,6 +151,60 @@ const Home = () => {
       data,
       user.state.token
     );
+    if (status === Status.SUCCESS) {
+      toast({
+        title: "Éxito",
+        description: "Añadido a Favoritos",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      onClose();
+      //history.push("/my-lists");
+      //window.location.reload(false);
+    } else {
+      toast({
+        title: "Error",
+        description: "Algo malo pasó",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
+
+  const eliminarFavorito = async () => {
+    let id2 = parseInt(id.id);
+ 
+    const status = await eliminarFav(
+      user.state.idUsuario,
+      id2,
+      user.state.token
+    );
+    if (status === Status.SUCCESS) {
+      toast({
+        title: "Éxito",
+        description: "Se elimino de Favoritos",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      onClose();
+      //history.push("/my-lists");
+      //window.location.reload(false);
+    } else {
+      toast({
+        title: "Error",
+        description: "Algo malo pasó",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   }
   const showWarningSesion = () => {
     toast({
@@ -303,6 +357,11 @@ const Home = () => {
                         {isAuthenticated &&
                         <Button onClick={addFavorito}>
                           Añadir Favorito
+                        </Button>
+                        }
+                        {isAuthenticated &&
+                        <Button onClick={eliminarFavorito}>
+                          Eliminar Favorito
                         </Button>
                         }
                           

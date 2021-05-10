@@ -4,6 +4,7 @@ import { Status } from "../utils/types";
 import { IUserLogIn, IFavorito } from "../models";
 import { ISearchUser, IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
 import { enviromentDev } from "./baseRoute";
+import { IFollow } from "../models/Follow";
 
 export const getUserByUsername = async (
   token: string | undefined,
@@ -251,15 +252,17 @@ export const getFriends = async (
   }
 };
 
-export const unfollow = async (
+export const follow = async (
   idUsuario: number | undefined,
-  idSeguidor: number,
+  idSeguidor: number | undefined,
+  body: IFollow,
   token: string | undefined
 ) => {
   try {
     if (token) {
       const response = await axios.post(
         `${enviromentDev.url}/usuario/${idUsuario}/${idSeguidor}`,
+        body,
         { headers: { "X-JWT-Token": token } }
       );
       if (response.status >= 200) return Status.SUCCESS;
@@ -293,4 +296,27 @@ export const addFav= async (
     return Status.FAILED;
   }
 };
+export const eliminarFav= async (
+  idUsuario: number | undefined,
+  idAnime: number,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.delete(
+        `${enviromentDev.url}/usuario/${idUsuario}/favoritos/${idAnime}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
+
+
+
 
