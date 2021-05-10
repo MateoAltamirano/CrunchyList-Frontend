@@ -11,6 +11,7 @@ export const getAnimesByCategory = async (
   dispatch: React.Dispatch<ICategoriesReducer>
 ) => {
   let categories = [];
+  let categoriesWithAnime: ICategory[] = [];
   try {
     const response = await axios.get(`${enviromentDev.url}/categoria`);
     categories = response.data;
@@ -18,7 +19,7 @@ export const getAnimesByCategory = async (
       type: CategoriesActionType.SET_CATEGORIES,
       categories: { categories, status: Status.LOADING },
     });
-    let categoriesWithAnime: ICategory[] = [];
+    
     for (let category of categories) {
       await getCategory(categoriesWithAnime, category);
     }
@@ -28,6 +29,10 @@ export const getAnimesByCategory = async (
     });
   } catch (error) {
     console.log(error.message);
+    dispatch({
+      type: CategoriesActionType.SET_CATEGORIES,
+      categories: { categories: categoriesWithAnime, status: Status.FAILED },
+    });
   }
 };
 

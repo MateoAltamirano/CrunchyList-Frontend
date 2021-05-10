@@ -25,7 +25,7 @@ import "../styles/description.css";
 import { Status } from "../utils/types";
 import { singleAnimesContext } from "../providers/SingleAnimeContext";
 import { useParams } from "react-router-dom";
-import { IFavorito, ILista } from "../models";
+import { ILista } from "../models";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -137,7 +137,6 @@ const Home = () => {
       "idAnime": id2
     }
     const status = await addFav(
-      user.state.idUsuario,
       data,
       user.state.token
     );

@@ -11,6 +11,7 @@ import "../styles/home.css";
 import { Status } from "../utils/types";
 import { animesContext } from "../providers/AnimesContext";
 import AnimePopularCard from "../components/AnimePopularCard";
+import { BiMessageSquareError } from "react-icons/bi";
 
 const Home = () => {
   const user = useContext(userContext);
@@ -118,7 +119,22 @@ const Home = () => {
               color="secondary.main"
               marginTop="1rem"
             />
-          ) : (
+          ) : animes.state.status === Status.FAILED? (
+            <Flex
+            h="100%"
+            w="100%"
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="column"
+          >
+            <BiMessageSquareError fontSize="10rem" />
+            <Heading size="3xl">Oops!</Heading>
+      
+            <Text m="1rem 5rem" fontSize="2xl">
+              Se perdio la conexion con el Servidor
+            </Text>
+          </Flex>
+          ):(
             <Box w={"100%"}>
               <Heading size="lg" alignSelf="self-start" color="gray.700">
                 Populares
@@ -171,7 +187,9 @@ const Home = () => {
               color="secondary.main"
               marginTop="1rem"
             />
-          ) : (
+          ): categories.state.status === Status.FAILED? (
+              <Flex></Flex>
+            ) : (
             categories.state.categories?.map((category) =>
               category.animes && category.animes.length >= 3 ? (
                 <Box w={"100%"} marginTop="1rem" key={category.idCategoria}>

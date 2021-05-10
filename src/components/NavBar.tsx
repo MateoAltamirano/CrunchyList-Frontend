@@ -29,7 +29,6 @@ import { useContext } from "react";
 import { useHistory } from "react-router";
 import { UserActionType } from "../reducers/UserReducer";
 import { Props } from "framer-motion/types/types";
-import React from "react";
 import { useForm } from "react-hook-form";
 
 const NavBar = () => {

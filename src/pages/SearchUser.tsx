@@ -1,6 +1,6 @@
 import { Box, Flex, Heading } from "@chakra-ui/layout";
 import { CircularProgress } from "@chakra-ui/progress";
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { searchUsers } from "../api/user";
 import { userContext } from "../providers/UserContext";
 import { ISearchUser } from "../models/User";

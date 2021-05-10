@@ -23,6 +23,11 @@ export const getAllAnimes = async (
     });
   } catch (error) {
     console.log(error.message);
+    
+    dispatch({
+      type: AnimesActionType.SET_ANIMES,
+      animes: { animes, status: Status.FAILED },
+    });
   }
 };
 

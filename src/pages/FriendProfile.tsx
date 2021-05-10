@@ -8,7 +8,6 @@ import {
     Divider,
     useRadioGroup,
     Avatar,
-    toast,
     useToast,
     useDisclosure,
   } from "@chakra-ui/react";
@@ -23,7 +22,7 @@ import {
   import AnimeFavCard from "../components/AnimeFavCard";
   import { BsFillHeartFill } from "react-icons/bs";
   import AnimeListCard from "../components/AnimeListCard";
-import { getFriendByUsername, follow, unfollow} from "../api/user";
+import { getFriendByUsername, follow, unfollow, getFriends} from "../api/user";
 import { IUser } from "../models/User";
 import { userContext } from "../providers/UserContext";
 import { Status } from "../utils/types";
@@ -31,14 +30,15 @@ import { Status } from "../utils/types";
   const FriendProfile = () => {
     const history = useHistory();
     const user = useContext(userContext);
+    let isFollowed = false;
     if (user === undefined)
       throw new Error("Please use within Provider");
     let userName: { userName: string } = useParams();
     const toast = useToast();
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    console.log(userName.userName);
+    const { onClose } = useDisclosure();
   
     const [data, setData] = useState<IUser>();
+    const [data2, setData2] = useState<Boolean>();
     
     const token = localStorage.getItem("token");
 
@@ -59,10 +59,31 @@ import { Status } from "../utils/types";
         }
       };
       getFriendAsync()
-    },[token,userName.userName])
+    },[token,userName.userName]);
 
+    const isFollow = useCallback(() => {
+      const isFollowAsync= async ()=>{
+        if(token){
+          const res = await getFriends(user.state.idUsuario,token);
+          let cont = res?.filter(usuario => usuario.username === userName.userName);
+         console.log(cont);
+          if (cont !== undefined && cont.length > 0){
+            isFollowed = true;
+            setData2(true);
+          }else{
+            setData2(false);
+          }
+          console.log(isFollowed);
+        }
+      };
+      isFollowAsync()
+    },[token,user.state.idUsuario]);
 
-    
+    useEffect(() => {
+      isFollow();
+    }, [isFollow,token,user.state.idUsuario,isFollowed]);
+   
+
     useEffect(() => {
       getFriend();
     }, [getFriend,token, userName.userName]);
@@ -219,7 +240,7 @@ import { Status } from "../utils/types";
             flexDirection="column"
           >
             <Card w={"100%"} marginBottom="60px">
-              {data === undefined ? (
+              {data === undefined || data2 === undefined ? (
                 <CircularProgress isIndeterminate color="secondary.main" />
               ) : (
                 <Flex flexDirection="column" w={"100%"}>
@@ -242,12 +263,12 @@ import { Status } from "../utils/types";
                       >
                         Sus Listas
                       </Button>
-                      {isAuthenticated &&
+                      {(isAuthenticated && !data2 ) &&
                         <Button onClick={addFriend}>
                           Seguir
                         </Button>
                         }
-                          {isAuthenticated &&
+                          {(isAuthenticated && data2)  &&
                         <Button onClick={removeFriend}>
                           Dejar de Seguir
                         </Button>

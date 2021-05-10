@@ -11,9 +11,10 @@ export const getUserByUsername = async (
   username: string,
   dispatch: React.Dispatch<IUserReducer>
 ) => {
+  let user: IUser;
   try {
     if (token) {
-      let user: IUser;
+      
       const response = await axios.get(
         `${enviromentDev.url}/usuario/${username}`,
         { headers: { "X-JWT-Token": token } }
@@ -84,6 +85,8 @@ export const getUserByUsername = async (
     }
   } catch (error) {
     console.log(error.message);
+    user = {status:Status.FAILED}
+    dispatch({ type: UserActionType.SET_USER, user });
   }
 };
 
@@ -129,7 +132,6 @@ export const searchUsers = async (
   username: string,
   token: string | undefined
 ) => {
-  console.log(token);
   if(token){
     try {
       const response = await axios.get(
@@ -137,7 +139,6 @@ export const searchUsers = async (
         { headers: { "X-JWT-Token": token } }
       );
       const users: ISearchUser[] = response.data;
-      console.log(users);
       return users;
     } catch (error) {
       console.log(error.message);
@@ -235,8 +236,6 @@ export const getFriends = async (
   userid: number | undefined,
   token: string | undefined
 ) => {
-  console.log(userid);
-  console.log(token);
   if(token){
     try {
       const response = await axios.get(
@@ -244,6 +243,7 @@ export const getFriends = async (
         { headers: { "X-JWT-Token": token } }
       );
       const users: ISearchUser[] = response.data;
+      console.log("Api");
       console.log(users);
       return users;
     } catch (error) {
@@ -298,7 +298,6 @@ export const unfollow = async (
 
 
 export const addFav= async (
-  idUsuario: number | undefined,
   body: IFavorito,
   token: string | undefined
 ) => {
@@ -338,7 +337,5 @@ export const eliminarFav= async (
     return Status.FAILED;
   }
 };
-
-
 
 
