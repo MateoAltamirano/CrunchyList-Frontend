@@ -26,7 +26,7 @@ const AnimeListCard = ({ anime }: AnimeListCardProps) => {
           h={"20%"}
         >
           <Text fontSize="md" isTruncated margin="2rem 1rem">
-            <Link href={`anime/${anime.idAnime}`} color="gray.800">
+            <Link href={`../anime/${anime.idAnime}`} color="gray.800">
               {anime.nombre}
             </Link>
           </Text>

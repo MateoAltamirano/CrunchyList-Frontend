@@ -27,7 +27,7 @@ const AnimeFavCard = ({ anime }: AnimeFavCardProps) => {
           h={"20%"}
         >
           <Text fontSize="md" isTruncated>
-            <Link href={`anime/${anime.idAnime}`} color="gray.700">
+            <Link href={`../anime/${anime.idAnime}`} color="gray.700">
               {anime.nombre}
             </Link>
           </Text>
