@@ -31,12 +31,11 @@ const FriendList = () => {
         }else{
           setData(res);
         }
-        console.log(data);
         
       }
     };
     getUsersAsync()
-  },[idUsuario])
+  },[idUsuario,token])
 
   
   useEffect(() => {

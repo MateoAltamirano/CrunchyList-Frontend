@@ -74,7 +74,7 @@ import { Status } from "../utils/types";
         }
       };
       isFollowAsync()
-    },[token,user.state.idUsuario]);
+    },[token,user.state.idUsuario,userName.userName]);
 
     useEffect(() => {
       isFollow();
