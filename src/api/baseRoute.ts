@@ -1,5 +1,5 @@
 export const enviromentDev = {
-  url: "http://localhost:8443"
+  url: "https://us-central1-crunchylist-b9cf2.cloudfunctions.net/crunchylist"
 }
 export const enviromentProd={
   url: ""

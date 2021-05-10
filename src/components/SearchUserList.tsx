@@ -24,9 +24,7 @@ const SearchUserList = ({ list }: SearchList) => {
         <Flex justifyContent="center" flexBasis={"33%"}>
           <Text>Username</Text>
         </Flex>
-        <Flex justifyContent="center" flexBasis={"33%"}>
-          <Text>Seguir</Text>
-        </Flex>
+
       </Flex>
       {list.map((user) => (
         <Flex
@@ -40,9 +38,7 @@ const SearchUserList = ({ list }: SearchList) => {
           <Flex justifyContent="center" alignItems="center" flexBasis={"33%"}>
             <Text color="gray.800">{user.username}</Text>
           </Flex>
-          <Flex justifyContent="center" alignItems="center" flexBasis={"33%"}>
-            <Button color="gray.800">Seguir</Button>
-          </Flex>
+         
         </Flex>
       ))}
     </Flex>

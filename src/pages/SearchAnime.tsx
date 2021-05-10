@@ -1,7 +1,7 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import {animesContext} from "../providers/AnimesContext";
 import {getAnimesSearch} from "../api/animes";
-import {Box, Button, CircularProgress, Flex, Heading, Input, Text} from "@chakra-ui/react";
+import {Box, Button, CircularProgress, Flex, Heading, Input, Text, useToast} from "@chakra-ui/react";
 import Card from "../components/Card";
 import {Status} from "../utils/types";
 import {useForm} from "react-hook-form";
@@ -14,35 +14,45 @@ type SearchText = {
 
 const SearchAnime = () => {
   let query = new URLSearchParams(useLocation().search);
+  let queryValue = query.get("q")
   const [value, setValue] = useState(query.get("q")? query.get("q") : '');
   const handleChange = (event: any) => setValue(event.target.value)
   const history = useHistory();
+  const toast = useToast();
   const animes = useContext(animesContext);
   if (animes === undefined)
     throw new Error("Please use within Provider");
 
   const getAnimes = useCallback(() => {
     const getAnimesAsync = async () => {
-      let texto = query.get("q");
-      if (texto) await getAnimesSearch(texto|| '', animes.dispatch);
+      if (queryValue) await getAnimesSearch(queryValue|| '', animes.dispatch);
     };
     getAnimesAsync();
-  }, [animes.dispatch]);
+  }, [animes.dispatch,queryValue]);
 
   useEffect(() => {
     getAnimes();
   }, [getAnimes]);
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const searchAnime = (data: SearchText) => {
-    if (value == '') return;
-    history.push(`/search-anime?q=${value}`)
-    window.location.reload(false);
+    if (value && value.trim() !== '')  {
+      history.push(`/search-anime?q=${value.trim()}`)
+      window.location.reload(false);
+    } else {
+      toast({
+        title: "Adventencia",
+        description: "Ingrese al menos un caracter para buscar anime",
+        position: "top",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   }
 
   return (

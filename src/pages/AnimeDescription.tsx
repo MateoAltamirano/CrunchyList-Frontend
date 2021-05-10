@@ -67,7 +67,7 @@ const Home = () => {
       user.state.token
     );
     if (status === Status.SUCCESS) {
-      setEstado(singleAnime.state.estados.find(e => e.idEstado == data.idEstado)?.nombre || '');
+      setEstado(singleAnime.state.estados.find(e => e.idEstado === data.idEstado)?.nombre || '');
       toast({
         title: "Éxito",
         description: "Añadido a lista",
@@ -89,16 +89,6 @@ const Home = () => {
         isClosable: true,
       });
     }
-  };
-
-  const generateDate = (): string => {
-    let d = new Date(Date.now()),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [year, month, day].join("-");
   };
 
   const goToProfile = () => {
@@ -134,7 +124,7 @@ const Home = () => {
       });
     }else{
       if(data.idEstado===1) data.porcentajeVisto=100
-      else if (data.idEstado==5) data.porcentajeVisto=0
+      else if (data.idEstado===5) data.porcentajeVisto=0
       if(data.fechaInicioVer==='') data.fechaInicioVer=undefined;
       addToListAsync(data)
     }
@@ -335,7 +325,7 @@ const Home = () => {
                           Añadir a mi lista
                         </Button>
                       }
-                      {(isAuthenticated && singleAnime.state.lista.length==0 && estado === '') &&
+                      {(isAuthenticated && singleAnime.state.lista.length===0 && estado === '') &&
                       <Button onClick={onOpen}>
                         Añadir a mi lista
                       </Button>

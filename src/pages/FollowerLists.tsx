@@ -6,7 +6,7 @@ import {
     Text,
     useRadioGroup,
   } from "@chakra-ui/react";
-  import { useContext, useEffect, useState } from "react";
+  import { useContext, useEffect, useState, useCallback } from "react";
   import Card from "../components/Card";
   import { userContext } from "../providers/UserContext";
   import "../styles/myLists.css";
@@ -30,16 +30,26 @@ import { IUser } from "../models/User";
     const [data, setData] = useState<IUser>();
   
     const token = localStorage.getItem("token");
-    const getUsers = async () => {
-      if(token){
+    // const getUsers = async () => {
+    //   if(token){
+    //     const res = await getFriendByUsername(token,userName.userName);
+    //     setData(res);  
+    //   }
+    // };
+
+    const getUsers = useCallback(()=>{
+      const getUsersAsync = async () =>{
+        if(token){
         const res = await getFriendByUsername(token,userName.userName);
-        setData(res);  
-      }
-    };
+          setData(res);  
+        }
+      };
+      getUsersAsync();
+    },[token,userName.userName]) 
     
     useEffect(() => {
       getUsers();
-    }, [token,userName.userName]);
+    }, [getUsers,token,userName.userName]);
 
     const user = useContext(userContext);
     if (user === undefined)
@@ -51,7 +61,7 @@ import { IUser } from "../models/User";
       },
       {
         icon: <ViewIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Estoy viendo",
+        value: "Esta viendo",
       },
       {
         icon: <RepeatClockIcon boxSize="1.5rem" marginBottom="0.5rem" />,
@@ -63,7 +73,7 @@ import { IUser } from "../models/User";
       },
       {
         icon: <TimeIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Planeo ver",
+        value: "Planea ver",
       },
     ];
   

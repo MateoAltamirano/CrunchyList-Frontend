@@ -12,14 +12,12 @@ import {
     useToast,
     useDisclosure,
   } from "@chakra-ui/react";
-  import { useContext, useEffect, useState } from "react";
+  import {useEffect, useState,useCallback, useContext } from "react";
   import Card from "../components/Card";
-  import { userContext } from "../providers/UserContext";
   import "../styles/profile.css";
   import { CheckIcon, SearchIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
   import Slider from "react-slick";
   import RadioButton from "../components/RadioButton";
-  import { Status } from "../utils/types";
   import { Redirect, useHistory, useParams } from "react-router-dom";
   import { AiOutlineUser } from "react-icons/ai";
   import AnimeFavCard from "../components/AnimeFavCard";
@@ -27,6 +25,8 @@ import {
   import AnimeListCard from "../components/AnimeListCard";
 import { getFriendByUsername, follow, unfollow} from "../api/user";
 import { IUser } from "../models/User";
+import { userContext } from "../providers/UserContext";
+import { Status } from "../utils/types";
   
   const FriendProfile = () => {
     const history = useHistory();
@@ -41,6 +41,7 @@ import { IUser } from "../models/User";
     const [data, setData] = useState<IUser>();
     
     const token = localStorage.getItem("token");
+
     const { isAuthenticated } = user.state;
     const getFriend = async () => {
       if(token){
@@ -48,10 +49,19 @@ import { IUser } from "../models/User";
         setData(res);
       }
     };
+
+    // const getFriend = async () => {
+    //   if(token){
+    //     const res = await getFriendByUsername(token,userName.userName);
+    //     setData(res);
+    //   }
+    // };
+
+
     
     useEffect(() => {
       getFriend();
-    }, [token, userName.userName]);
+    }, [getFriend,token, userName.userName]);
 
     
    
@@ -66,11 +76,11 @@ import { IUser } from "../models/User";
       },
       {
         icon: <ViewIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Estoy viendo",
+        value: "Esta viendo",
       },
       {
         icon: <TimeIcon boxSize="1.5rem" marginBottom="0.5rem" />,
-        value: "Planeo ver",
+        value: "Planea ver",
       },
     ];
     const settings = {
@@ -375,7 +385,7 @@ import { IUser } from "../models/User";
                         </Flex>
                       )
                     ) : undefined}
-                    {carouselAnimes === "Estoy viendo" ? (
+                    {carouselAnimes === "Esta viendo" ? (
                       data.watching && data.watching.length > 0 ? (
                         <Box w={"100%"} marginTop="1rem">
                           <Slider
@@ -420,7 +430,7 @@ import { IUser } from "../models/User";
                         </Flex>
                       )
                     ) : undefined}
-                    {carouselAnimes === "Planeo ver" ? (
+                    {carouselAnimes === "Planea ver" ? (
                       data.toSee && data.toSee.length > 0 ? (
                         <Box w={"100%"} marginTop="1rem">
                           <Slider

@@ -5,13 +5,14 @@ import {
   CategoriesActionType,
 } from "../reducers/CategoriesReducer";
 import { Status } from "../utils/types";
+import { enviromentDev } from "./baseRoute";
 
 export const getAnimesByCategory = async (
   dispatch: React.Dispatch<ICategoriesReducer>
 ) => {
   let categories = [];
   try {
-    const response = await axios.get("http://localhost:8443/categoria");
+    const response = await axios.get(`${enviromentDev.url}/categoria`);
     categories = response.data;
     dispatch({
       type: CategoriesActionType.SET_CATEGORIES,
@@ -33,7 +34,7 @@ export const getAnimesByCategory = async (
 const getCategory = async (categories: ICategory[], category: ICategory) => {
   try {
     const response = await axios.get(
-      `http://localhost:8443/categoria/${category.idCategoria}/animes`
+      `${enviromentDev.url}/categoria/${category.idCategoria}/animes`
     );
     category = { ...category, animes: response.data };
     categories.push(category);
