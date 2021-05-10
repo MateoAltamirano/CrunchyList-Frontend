@@ -9,14 +9,12 @@ import {
     useRadioGroup,
     Avatar,
   } from "@chakra-ui/react";
-  import { useContext, useEffect, useState } from "react";
+  import {useEffect, useState } from "react";
   import Card from "../components/Card";
-  import { userContext } from "../providers/UserContext";
   import "../styles/profile.css";
   import { CheckIcon, SearchIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
   import Slider from "react-slick";
   import RadioButton from "../components/RadioButton";
-  import { Status } from "../utils/types";
   import { Redirect, useHistory, useParams } from "react-router-dom";
   import { AiOutlineUser } from "react-icons/ai";
   import AnimeFavCard from "../components/AnimeFavCard";
@@ -42,7 +40,7 @@ import { IUser } from "../models/User";
     
     useEffect(() => {
       getFriend();
-    }, [token, userName.userName]);
+    }, [getFriend,token, userName.userName]);
 
     
    

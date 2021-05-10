@@ -27,7 +27,7 @@ const Searchuser = () => {
   
   useEffect(() => {
     getUsers();
-  }, [token,userName.userName]);
+  }, [getUsers,token,userName.userName]);
     
   return token ? (
       <Flex h="100%" flexDirection="column">

@@ -39,7 +39,7 @@ import { IUser } from "../models/User";
     
     useEffect(() => {
       getUsers();
-    }, [token,userName.userName]);
+    }, [getUsers,token,userName.userName]);
 
     const user = useContext(userContext);
     if (user === undefined)

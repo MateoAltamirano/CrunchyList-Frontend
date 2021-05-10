@@ -414,7 +414,7 @@ const UserSearchBar = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    if(data.username.trim()!=''){
+    if(data.username.trim()!==''){
       history.push("/search-user/"+data.username.trim());
     }else{
       toast({
