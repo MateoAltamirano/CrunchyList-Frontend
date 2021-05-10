@@ -1,7 +1,7 @@
 import axios from "axios";
 import { IUserReducer, UserActionType } from "../reducers/UserReducer";
 import { Status } from "../utils/types";
-import { IUserLogIn } from "../models";
+import { IUserLogIn, IFavorito } from "../models";
 import { ISearchUser, IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
 import { enviromentDev } from "./baseRoute";
 
@@ -271,3 +271,26 @@ export const unfollow = async (
     return Status.FAILED;
   }
 };
+
+export const addFav= async (
+  idUsuario: number | undefined,
+  body: IFavorito,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.post(
+        `${enviromentDev.url}/usuario/favoritos`,
+        body,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
+

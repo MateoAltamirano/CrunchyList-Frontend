@@ -18,13 +18,14 @@ import {
 import { useCallback, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getSingleAnime, addToList } from "../api/animes";
+import { addFav } from "../api/user";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/description.css";
 import { Status } from "../utils/types";
 import { singleAnimesContext } from "../providers/SingleAnimeContext";
 import { useParams } from "react-router-dom";
-import { ILista } from "../models";
+import { IFavorito, ILista } from "../models";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -139,6 +140,18 @@ const Home = () => {
     }
     //
   };
+  const addFavorito = async () => {
+    let id2 = parseInt(id.id);
+    let data = {
+      "idUsuario": user.state.idUsuario,
+      "idAnime": id2
+    }
+    const status = await addFav(
+      user.state.idUsuario,
+      data,
+      user.state.token
+    );
+  }
   const showWarningSesion = () => {
     toast({
       title: "Aviso",
@@ -287,6 +300,12 @@ const Home = () => {
                         marginBottom={"30px"}
                       >
                         <Flex justifyContent="center">
+                        {isAuthenticated &&
+                        <Button onClick={addFavorito}>
+                          Añadir Favorito
+                        </Button>
+                        }
+                          
                           <Heading
                             color="gray.600"
                             size="md"
