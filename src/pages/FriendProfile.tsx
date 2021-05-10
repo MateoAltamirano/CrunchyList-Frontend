@@ -8,41 +8,64 @@ import {
     Divider,
     useRadioGroup,
     Avatar,
+    toast,
+    useToast,
+    useDisclosure,
   } from "@chakra-ui/react";
-  import { useContext, useEffect, useState } from "react";
+  import {useEffect, useState,useCallback, useContext } from "react";
   import Card from "../components/Card";
-  import { userContext } from "../providers/UserContext";
   import "../styles/profile.css";
   import { CheckIcon, SearchIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
   import Slider from "react-slick";
   import RadioButton from "../components/RadioButton";
-  import { Status } from "../utils/types";
   import { Redirect, useHistory, useParams } from "react-router-dom";
   import { AiOutlineUser } from "react-icons/ai";
   import AnimeFavCard from "../components/AnimeFavCard";
   import { BsFillHeartFill } from "react-icons/bs";
   import AnimeListCard from "../components/AnimeListCard";
-import { getFriendByUsername} from "../api/user";
+import { getFriendByUsername, follow, unfollow} from "../api/user";
 import { IUser } from "../models/User";
+import { userContext } from "../providers/UserContext";
+import { Status } from "../utils/types";
   
   const FriendProfile = () => {
     const history = useHistory();
+    const user = useContext(userContext);
+    if (user === undefined)
+      throw new Error("Please use within Provider");
     let userName: { userName: string } = useParams();
+    const toast = useToast();
+    const { isOpen, onOpen, onClose } = useDisclosure()
     console.log(userName.userName);
   
     const [data, setData] = useState<IUser>();
     
     const token = localStorage.getItem("token");
-    const getFriend = async () => {
-      if(token){
-        const res = await getFriendByUsername(token,userName.userName);
-        setData(res);
-      }
-    };
+
+    const { isAuthenticated } = user.state;
+
+    // const getFriend = async () => {
+    //   if(token){
+    //     const res = await getFriendByUsername(token,userName.userName);
+    //     setData(res);
+    //   }
+    // };
+
+    const getFriend = useCallback(() => {
+      const getFriendAsync=async()=>{
+        if(token){
+          const res = await getFriendByUsername(token,userName.userName);
+          setData(res);
+        }
+      };
+      getFriendAsync()
+    },[token,userName.userName])
+
+
     
     useEffect(() => {
       getFriend();
-    }, [token, userName.userName]);
+    }, [getFriend,token, userName.userName]);
 
     
    
@@ -106,6 +129,83 @@ import { IUser } from "../models/User";
       defaultValue: "Favoritos",
       onChange: onRadioChange,
     });
+
+    const addFriend = async () => {
+      let id2;
+      if (data === undefined) throw new Error("Please use within Provider");
+      id2 =data.idUsuario;
+      var today = new Date(),
+      date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+      let body = {
+        "idSeguidor":user.state.idUsuario,
+        "idSeguido":id2,
+        "fecha":date
+      }
+      const status = await follow(
+        user.state.idUsuario,
+        id2,
+        body,
+        user.state.token
+      ); 
+      if (status === Status.SUCCESS) {
+        toast({
+          title: "Éxito",
+          description: "Añadido a Amigos",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        onClose();
+        //history.push("/my-lists");
+        //window.location.reload(false);
+      } else {
+        toast({
+          title: "Error",
+          description: "Algo malo pasó",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    }
+
+    const removeFriend = async () => {
+      let id2;
+      if (data === undefined) throw new Error("Please use within Provider");
+      id2 =data.idUsuario;
+ 
+      const status = await unfollow(
+        user.state.idUsuario,
+        id2,
+        user.state.token
+      ); 
+      if (status === Status.SUCCESS) {
+        toast({
+          title: "Éxito",
+          description: "Se eliminó de Amigos",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        onClose();
+        //history.push("/my-lists");
+        //window.location.reload(false);
+      } else {
+        toast({
+          title: "Error",
+          description: "Algo malo pasó",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    }
+  
   
     return token ? (
       <Flex h="100%" flexDirection="column">
@@ -131,6 +231,8 @@ import { IUser } from "../models/User";
                         size="2xl"
                         icon={<AiOutlineUser fontSize="4.5rem" />}
                       />
+                    
+                          
                       <Text fontSize="lg" margin="1rem 0" color="gray.800">
                         {data.nombre}
                       </Text>
@@ -140,6 +242,16 @@ import { IUser } from "../models/User";
                       >
                         Sus Listas
                       </Button>
+                      {isAuthenticated &&
+                        <Button onClick={addFriend}>
+                          Seguir
+                        </Button>
+                        }
+                          {isAuthenticated &&
+                        <Button onClick={removeFriend}>
+                          Dejar de Seguir
+                        </Button>
+                        }
                     </Flex>
                     <Flex flexGrow={3} flexDirection="column">
                       <Heading size="lg" color="primary.dark">

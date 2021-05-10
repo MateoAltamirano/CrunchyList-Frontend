@@ -18,13 +18,14 @@ import {
 import { useCallback, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getSingleAnime, addToList } from "../api/animes";
+import { addFav, eliminarFav } from "../api/user";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/description.css";
 import { Status } from "../utils/types";
 import { singleAnimesContext } from "../providers/SingleAnimeContext";
 import { useParams } from "react-router-dom";
-import { ILista } from "../models";
+import { IFavorito, ILista } from "../models";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -66,7 +67,7 @@ const Home = () => {
       user.state.token
     );
     if (status === Status.SUCCESS) {
-      setEstado(singleAnime.state.estados.find(e => e.idEstado == data.idEstado)?.nombre || '');
+      setEstado(singleAnime.state.estados.find(e => e.idEstado === data.idEstado)?.nombre || '');
       toast({
         title: "Éxito",
         description: "Añadido a lista",
@@ -88,16 +89,6 @@ const Home = () => {
         isClosable: true,
       });
     }
-  };
-
-  const generateDate = (): string => {
-    let d = new Date(Date.now()),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-    return [year, month, day].join("-");
   };
 
   const goToProfile = () => {
@@ -133,12 +124,78 @@ const Home = () => {
       });
     }else{
       if(data.idEstado===1) data.porcentajeVisto=100
-      else if (data.idEstado==5) data.porcentajeVisto=0
+      else if (data.idEstado===5) data.porcentajeVisto=0
       if(data.fechaInicioVer==='') data.fechaInicioVer=undefined;
       addToListAsync(data)
     }
     //
   };
+  const addFavorito = async () => {
+    let id2 = parseInt(id.id);
+    let data = {
+      "idUsuario": user.state.idUsuario,
+      "idAnime": id2
+    }
+    const status = await addFav(
+      user.state.idUsuario,
+      data,
+      user.state.token
+    );
+    if (status === Status.SUCCESS) {
+      toast({
+        title: "Éxito",
+        description: "Añadido a Favoritos",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      onClose();
+      //history.push("/my-lists");
+      //window.location.reload(false);
+    } else {
+      toast({
+        title: "Error",
+        description: "Algo malo pasó",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
+
+  const eliminarFavorito = async () => {
+    let id2 = parseInt(id.id);
+ 
+    const status = await eliminarFav(
+      user.state.idUsuario,
+      id2,
+      user.state.token
+    );
+    if (status === Status.SUCCESS) {
+      toast({
+        title: "Éxito",
+        description: "Se eliminó de Favoritos",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      onClose();
+      //history.push("/my-lists");
+      //window.location.reload(false);
+    } else {
+      toast({
+        title: "Error",
+        description: "Algo malo pasó",
+        position: "top-right",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
   const showWarningSesion = () => {
     toast({
       title: "Aviso",
@@ -268,7 +325,7 @@ const Home = () => {
                           Añadir a mi lista
                         </Button>
                       }
-                      {(isAuthenticated && singleAnime.state.lista.length==0 && estado === '') &&
+                      {(isAuthenticated && singleAnime.state.lista.length===0 && estado === '') &&
                       <Button onClick={onOpen}>
                         Añadir a mi lista
                       </Button>
@@ -287,6 +344,17 @@ const Home = () => {
                         marginBottom={"30px"}
                       >
                         <Flex justifyContent="center">
+                        {isAuthenticated &&
+                        <Button onClick={addFavorito}>
+                          Añadir Favorito
+                        </Button>
+                        }
+                        {isAuthenticated &&
+                        <Button onClick={eliminarFavorito}>
+                          Eliminar Favorito
+                        </Button>
+                        }
+                          
                           <Heading
                             color="gray.600"
                             size="md"

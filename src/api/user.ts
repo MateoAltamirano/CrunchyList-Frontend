@@ -1,15 +1,10 @@
-import axios from 'axios';
-import { IUserReducer, UserActionType } from '../reducers/UserReducer';
-import { Status } from '../utils/types';
-import { IUserLogIn, IUsuarioAnime } from '../models';
-import {
-  ISearchUser,
-  IUser,
-  IUserAnime,
-  IUserAnimeFavs,
-  IUserSignUp,
-} from '../models/User';
-import { enviromentDev } from './baseRoute';
+import axios from "axios";
+import { IUserReducer, UserActionType } from "../reducers/UserReducer";
+import { Status } from "../utils/types";
+import { IUserLogIn, IFavorito } from "../models";
+import { ISearchUser, IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
+import { enviromentDev } from "./baseRoute";
+import { IFollow } from "../models/Follow";
 
 export const getUserByUsername = async (
   token: string | undefined,
@@ -230,6 +225,116 @@ export const getFriendByUsername = async (
     console.log(error.message);
   }
 };
+
+export const getFriends = async (
+  userid: number | undefined,
+  token: string | undefined
+) => {
+  console.log(userid);
+  console.log(token);
+  if(token){
+    try {
+      const response = await axios.get(
+        `${enviromentDev.url}/usuario/${userid}/seguidos`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      const users: ISearchUser[] = response.data;
+      console.log(users);
+      return users;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+};
+
+export const follow = async (
+  idUsuario: number | undefined,
+  idSeguidor: number | undefined,
+  body: IFollow,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.post(
+        `${enviromentDev.url}/usuario/${idUsuario}/${idSeguidor}`,
+        body,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
+
+export const unfollow = async (
+  idUsuario: number | undefined,
+  idSeguidor: number | undefined,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.delete(
+        `${enviromentDev.url}/usuario/${idUsuario}/${idSeguidor}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
+
+
+export const addFav= async (
+  idUsuario: number | undefined,
+  body: IFavorito,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.post(
+        `${enviromentDev.url}/usuario/favoritos`,
+        body,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
+export const eliminarFav= async (
+  idUsuario: number | undefined,
+  idAnime: number,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.delete(
+        `${enviromentDev.url}/usuario/${idUsuario}/favoritos/${idAnime}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
+
+
 export const editAnime = async (
   anime: IUsuarioAnime | undefined,
   usuario: IUser,

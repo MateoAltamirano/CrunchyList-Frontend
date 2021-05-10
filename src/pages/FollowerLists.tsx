@@ -1,44 +1,48 @@
+
 import {
-  Flex,
-  CircularProgress,
-  Box,
-  Heading,
-  Text,
-  useRadioGroup,
-} from '@chakra-ui/react';
-import { useContext, useEffect, useState } from 'react';
-import Card from '../components/Card';
-import { userContext } from '../providers/UserContext';
-import '../styles/myLists.css';
-import {
-  CheckIcon,
-  RepeatClockIcon,
-  TimeIcon,
-  ViewIcon,
-  ViewOffIcon,
-} from '@chakra-ui/icons';
-import RadioButton from '../components/RadioButton';
-import { Redirect, useParams } from 'react-router-dom';
-import AnimeList from '../components/AnimeList';
-import { getFriendByUsername } from '../api/user';
-import { IUser } from '../models/User';
+    Flex,
+    CircularProgress,
+    Box,
+    Heading,
+    Text,
+    useRadioGroup,
+  } from "@chakra-ui/react";
+  import { useContext, useEffect, useState, useCallback } from "react";
+  import Card from "../components/Card";
+  import { userContext } from "../providers/UserContext";
+  import "../styles/myLists.css";
+  import {
+    CheckIcon,
+    RepeatClockIcon,
+    TimeIcon,
+    ViewIcon,
+    ViewOffIcon,
+  } from "@chakra-ui/icons";
+  import RadioButton from "../components/RadioButton";
+  import { Redirect, useParams } from "react-router-dom";
+  import AnimeList from "../components/AnimeList";
+import { getFriendByUsername } from "../api/user";
+import { IUser } from "../models/User";
+  
 
 const FollowLists = () => {
   let userName: { userName: string } = useParams();
 
   const [data, setData] = useState<IUser>();
 
-  const token = localStorage.getItem('token');
-  const getUsers = async () => {
-    if (token) {
-      const res = await getFriendByUsername(token, userName.userName);
-      setData(res);
-    }
-  };
-
+  const getUsers = useCallback(()=>{
+      const getUsersAsync = async () =>{
+        if(token){
+        const res = await getFriendByUsername(token,userName.userName);
+          setData(res);  
+        }
+      };
+      getUsersAsync();
+  },[token,userName.userName]) 
+    
   useEffect(() => {
-    getUsers();
-  }, [token, userName.userName]);
+     getUsers();
+  }, [getUsers,token,userName.userName]);
 
   const user = useContext(userContext);
   if (user === undefined)
