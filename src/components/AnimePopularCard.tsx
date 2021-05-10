@@ -32,7 +32,7 @@ const AnimePopularCard = ({ anime }: AnimeCategoryCardProps) => {
             textShadow="1px 1px black"
             _hover={{ color: "primary.light" }}
           >
-            <Link href={`anime/${anime.idAnime}`}>{anime.nombre}</Link>
+            <Link href={`../anime/${anime.idAnime}`}>{anime.nombre}</Link>
           </Heading>
         </Flex>
       </Card>

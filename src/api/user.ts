@@ -1,7 +1,7 @@
 import axios from "axios";
 import { IUserReducer, UserActionType } from "../reducers/UserReducer";
 import { Status } from "../utils/types";
-import { IUserLogIn, IFavorito } from "../models";
+import { IUserLogIn, IFavorito, IUsuarioAnime } from "../models";
 import { ISearchUser, IUser, IUserAnime, IUserAnimeFavs, IUserSignUp } from "../models/User";
 import { enviromentDev } from "./baseRoute";
 import { IFollow } from "../models/Follow";

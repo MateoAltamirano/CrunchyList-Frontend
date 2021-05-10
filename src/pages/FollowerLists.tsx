@@ -27,7 +27,7 @@ import { IUser } from "../models/User";
 
 const FollowLists = () => {
   let userName: { userName: string } = useParams();
-
+  const token = localStorage.getItem("token");
   const [data, setData] = useState<IUser>();
 
   const getUsers = useCallback(()=>{
