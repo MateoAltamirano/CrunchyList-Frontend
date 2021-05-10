@@ -25,7 +25,7 @@ import {
   import AnimeFavCard from "../components/AnimeFavCard";
   import { BsFillHeartFill } from "react-icons/bs";
   import AnimeListCard from "../components/AnimeListCard";
-import { getFriendByUsername, follow} from "../api/user";
+import { getFriendByUsername, follow, unfollow} from "../api/user";
 import { IUser } from "../models/User";
   
   const FriendProfile = () => {
@@ -120,8 +120,6 @@ import { IUser } from "../models/User";
       let id2;
       if (data === undefined) throw new Error("Please use within Provider");
       id2 =data.idUsuario;
-      console.log(id2);
-      console.log(user.state.idUsuario);
       var today = new Date(),
       date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
@@ -159,6 +157,41 @@ import { IUser } from "../models/User";
         });
       }
     }
+
+    const removeFriend = async () => {
+      let id2;
+      if (data === undefined) throw new Error("Please use within Provider");
+      id2 =data.idUsuario;
+ 
+      const status = await unfollow(
+        user.state.idUsuario,
+        id2,
+        user.state.token
+      ); 
+      if (status === Status.SUCCESS) {
+        toast({
+          title: "Éxito",
+          description: "Se eliminó de Amigos",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        onClose();
+        //history.push("/my-lists");
+        //window.location.reload(false);
+      } else {
+        toast({
+          title: "Error",
+          description: "Algo malo pasó",
+          position: "top-right",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    }
+  
   
     return token ? (
       <Flex h="100%" flexDirection="column">
@@ -198,6 +231,11 @@ import { IUser } from "../models/User";
                       {isAuthenticated &&
                         <Button onClick={addFriend}>
                           Seguir
+                        </Button>
+                        }
+                          {isAuthenticated &&
+                        <Button onClick={removeFriend}>
+                          Dejar de Seguir
                         </Button>
                         }
                     </Flex>

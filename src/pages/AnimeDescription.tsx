@@ -186,7 +186,7 @@ const Home = () => {
     if (status === Status.SUCCESS) {
       toast({
         title: "Éxito",
-        description: "Se elimino de Favoritos",
+        description: "Se eliminó de Favoritos",
         position: "top-right",
         status: "success",
         duration: 2000,

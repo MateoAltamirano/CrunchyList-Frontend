@@ -275,6 +275,28 @@ export const follow = async (
   }
 };
 
+export const unfollow = async (
+  idUsuario: number | undefined,
+  idSeguidor: number | undefined,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.delete(
+        `${enviromentDev.url}/usuario/${idUsuario}/${idSeguidor}`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return Status.SUCCESS;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
+
+
 export const addFav= async (
   idUsuario: number | undefined,
   body: IFavorito,
