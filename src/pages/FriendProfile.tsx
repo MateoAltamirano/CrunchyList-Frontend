@@ -9,7 +9,7 @@ import {
     useRadioGroup,
     Avatar,
   } from "@chakra-ui/react";
-  import {useEffect, useState } from "react";
+  import {useEffect, useState,useCallback } from "react";
   import Card from "../components/Card";
   import "../styles/profile.css";
   import { CheckIcon, SearchIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
@@ -31,12 +31,21 @@ import { IUser } from "../models/User";
     const [data, setData] = useState<IUser>();
     
     const token = localStorage.getItem("token");
-    const getFriend = async () => {
-      if(token){
-        const res = await getFriendByUsername(token,userName.userName);
-        setData(res);
-      }
-    };
+    // const getFriend = async () => {
+    //   if(token){
+    //     const res = await getFriendByUsername(token,userName.userName);
+    //     setData(res);
+    //   }
+    // };
+    const getFriend = useCallback(() => {
+      const getFriendAsync=async()=>{
+        if(token){
+          const res = await getFriendByUsername(token,userName.userName);
+          setData(res);
+        }
+      };
+      getFriendAsync()
+    },[])
     
     useEffect(() => {
       getFriend();

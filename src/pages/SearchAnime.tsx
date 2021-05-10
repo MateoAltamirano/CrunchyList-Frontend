@@ -28,20 +28,19 @@ const SearchAnime = () => {
       if (texto) await getAnimesSearch(texto|| '', animes.dispatch);
     };
     getAnimesAsync();
-  }, [animes.dispatch]);
+  }, [animes.dispatch,query]);
 
   useEffect(() => {
     getAnimes();
   }, [getAnimes]);
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const searchAnime = (data: SearchText) => {
-    if (value && value.trim() != '')  {
+    if (value && value.trim() !== '')  {
       history.push(`/search-anime?q=${value.trim()}`)
       window.location.reload(false);
     } else {

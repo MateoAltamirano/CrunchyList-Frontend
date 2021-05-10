@@ -6,7 +6,7 @@ import {
     Text,
     useRadioGroup,
   } from "@chakra-ui/react";
-  import { useContext, useEffect, useState } from "react";
+  import { useContext, useEffect, useState, useCallback } from "react";
   import Card from "../components/Card";
   import { userContext } from "../providers/UserContext";
   import "../styles/myLists.css";
@@ -30,12 +30,22 @@ import { IUser } from "../models/User";
     const [data, setData] = useState<IUser>();
   
     const token = localStorage.getItem("token");
-    const getUsers = async () => {
-      if(token){
+    // const getUsers = async () => {
+    //   if(token){
+    //     const res = await getFriendByUsername(token,userName.userName);
+    //     setData(res);  
+    //   }
+    // };
+
+    const getUsers = useCallback(()=>{
+      const getUsersAsync = async () =>{
+        if(token){
         const res = await getFriendByUsername(token,userName.userName);
-        setData(res);  
-      }
-    };
+          setData(res);  
+        }
+      };
+      getUsersAsync();
+    },[]) 
     
     useEffect(() => {
       getUsers();
