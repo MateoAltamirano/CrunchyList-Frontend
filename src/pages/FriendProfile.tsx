@@ -45,7 +45,7 @@ import { IUser } from "../models/User";
         }
       };
       getFriendAsync()
-    },[])
+    },[token,userName.userName])
     
     useEffect(() => {
       getFriend();

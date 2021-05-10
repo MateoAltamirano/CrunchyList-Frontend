@@ -33,7 +33,7 @@ const Searchuser = () => {
       }
     };
     getUsersAsync();
-  },[])
+  },[token,userName.userName])
   
   useEffect(() => {
     getUsers();

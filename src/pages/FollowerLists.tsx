@@ -45,7 +45,7 @@ import { IUser } from "../models/User";
         }
       };
       getUsersAsync();
-    },[]) 
+    },[token,userName.userName]) 
     
     useEffect(() => {
       getUsers();

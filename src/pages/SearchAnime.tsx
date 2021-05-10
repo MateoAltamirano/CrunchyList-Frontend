@@ -14,6 +14,7 @@ type SearchText = {
 
 const SearchAnime = () => {
   let query = new URLSearchParams(useLocation().search);
+  let queryValue = query.get("q")
   const [value, setValue] = useState(query.get("q")? query.get("q") : '');
   const handleChange = (event: any) => setValue(event.target.value)
   const history = useHistory();
@@ -24,11 +25,10 @@ const SearchAnime = () => {
 
   const getAnimes = useCallback(() => {
     const getAnimesAsync = async () => {
-      let texto = query.get("q");
-      if (texto) await getAnimesSearch(texto|| '', animes.dispatch);
+      if (queryValue) await getAnimesSearch(queryValue|| '', animes.dispatch);
     };
     getAnimesAsync();
-  }, [animes.dispatch,query]);
+  }, [animes.dispatch,queryValue]);
 
   useEffect(() => {
     getAnimes();
