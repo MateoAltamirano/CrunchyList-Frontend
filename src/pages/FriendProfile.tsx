@@ -43,12 +43,6 @@ import { Status } from "../utils/types";
     const token = localStorage.getItem("token");
 
     const { isAuthenticated } = user.state;
-    const getFriend = async () => {
-      if(token){
-        const res = await getFriendByUsername(token,userName.userName);
-        setData(res);
-      }
-    };
 
     // const getFriend = async () => {
     //   if(token){
@@ -56,6 +50,16 @@ import { Status } from "../utils/types";
     //     setData(res);
     //   }
     // };
+
+    const getFriend = useCallback(() => {
+      const getFriendAsync=async()=>{
+        if(token){
+          const res = await getFriendByUsername(token,userName.userName);
+          setData(res);
+        }
+      };
+      getFriendAsync()
+    },[token,userName.userName])
 
 
     
