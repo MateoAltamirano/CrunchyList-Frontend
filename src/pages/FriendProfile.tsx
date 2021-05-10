@@ -30,7 +30,6 @@ import { Status } from "../utils/types";
   const FriendProfile = () => {
     const history = useHistory();
     const user = useContext(userContext);
-    let isFollowed = false;
     if (user === undefined)
       throw new Error("Please use within Provider");
     let userName: { userName: string } = useParams();
@@ -68,12 +67,10 @@ import { Status } from "../utils/types";
           let cont = res?.filter(usuario => usuario.username === userName.userName);
          console.log(cont);
           if (cont !== undefined && cont.length > 0){
-            isFollowed = true;
             setData2(true);
           }else{
             setData2(false);
           }
-          console.log(isFollowed);
         }
       };
       isFollowAsync()
@@ -81,7 +78,7 @@ import { Status } from "../utils/types";
 
     useEffect(() => {
       isFollow();
-    }, [isFollow,token,user.state.idUsuario,isFollowed]);
+    }, [isFollow,token,user.state.idUsuario]);
    
 
     useEffect(() => {
