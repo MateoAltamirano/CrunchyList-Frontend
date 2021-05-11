@@ -130,7 +130,7 @@ export const createUser = async (body: IUserSignUp) => {
 
 export const searchUsers = async (
   username: string,
-  token: string | undefined
+  token?: string | undefined
 ) => {
 
   if(token){
