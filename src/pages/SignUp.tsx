@@ -48,7 +48,7 @@ const SignUp = () => {
       };
       signUpUserAsync();
     },
-    [toast]
+    [toast,history]
   );
 
   const onSubmit = (data: IUserSignUp) => {
