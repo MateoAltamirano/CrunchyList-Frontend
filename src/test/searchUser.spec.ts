@@ -4,7 +4,7 @@ test("Get rodrixkill user", async ()=>{
     const username = 'rodrixKill'
     //act
     const response = await searchUsers(username)
-   
+    console.log(response)
     const responseexpected = [{"nombre": "Rodrigo Villarroel", "username": "rodrixKill"}]
     //assert
     expect(response).toStrictEqual(responseexpected)
