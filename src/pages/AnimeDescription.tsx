@@ -151,7 +151,7 @@ const Home = () => {
       }
     };
     isFavAsync()
-  },[token,user.state.idUsuario]);
+  },[token,user.state.idUsuario,id.id]);
 
   useEffect(() => {
     isFav();
