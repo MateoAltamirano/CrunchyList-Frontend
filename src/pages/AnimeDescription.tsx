@@ -18,7 +18,7 @@ import {
 import { useCallback, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getSingleAnime, addToList } from "../api/animes";
-import { addFav, eliminarFav } from "../api/user";
+import { addFav, eliminarFav, getFav } from "../api/user";
 import Card from "../components/Card";
 import { userContext } from "../providers/UserContext";
 import "../styles/description.css";
@@ -29,6 +29,7 @@ import { ILista } from "../models";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { IUserAnimeFavs } from "../models/User";
 
 const Home = () => {
   const [idEstado, setIdEstado] = useState(0);
@@ -38,6 +39,8 @@ const Home = () => {
   const user = useContext(userContext);
   const singleAnime = useContext(singleAnimesContext);
   const [estado, setEstado] = useState('');
+  const [data, setData] = useState<Boolean>();
+  const token = localStorage.getItem("token");
   // singleAnime && singleAnime.state.lista.length>0 ? singleAnime.state.estados.find(e=> e.idEstado===singleAnime.state.lista[0].idEstado)?.nombre :
   if (user === undefined || singleAnime === undefined)
     throw new Error("Please use within Provider");
@@ -131,6 +134,31 @@ const Home = () => {
     }
     //
   };
+
+
+
+  const isFav = useCallback(() => {
+    const isFavAsync= async ()=>{
+      if(token && user.state.idUsuario !== undefined){
+        const res = await getFav(user.state.idUsuario,token);
+        let animeFavid = parseInt(id.id);
+        let cont = res?.filter((anime: IUserAnimeFavs)=> anime.idAnime === animeFavid);
+       console.log(cont);
+        if (cont !== undefined && cont.length > 0){
+          setData(true);
+        }else{
+          setData(false);
+        }
+      }
+    };
+    isFavAsync()
+  },[token,user.state.idUsuario,id.id]);
+
+  useEffect(() => {
+    isFav();
+  }, [isFav,token,user.state.idUsuario]);
+
+
   const addFavorito = async () => {
     let id2 = parseInt(id.id);
     let data = {
@@ -158,7 +186,7 @@ const Home = () => {
         title: "Error",
         description: "Algo malo pasó",
         position: "top-right",
-        status: "success",
+        status: "error",
         duration: 2000,
         isClosable: true,
       });
@@ -188,9 +216,9 @@ const Home = () => {
     } else {
       toast({
         title: "Error",
-        description: "Algo malo pasó",
+        description: "Algo malo pasó,  por favor vuelva a intentar en un momento",
         position: "top-right",
-        status: "success",
+        status: "error",
         duration: 2000,
         isClosable: true,
       });
@@ -292,7 +320,7 @@ const Home = () => {
       <Box className="description"></Box>
       <Flex position="absolute" top={"75%"} w={"100%"} padding="0 3rem">
         <Card w={"100%"} marginBottom="60px">
-          {singleAnime.state.status === Status.LOADING ? (
+          {singleAnime.state.status === Status.LOADING || data === undefined ? (
             <CircularProgress
               isIndeterminate
               color="secondary.main"
@@ -344,12 +372,12 @@ const Home = () => {
                         marginBottom={"30px"}
                       >
                         <Flex justifyContent="center">
-                        {isAuthenticated &&
+                        {isAuthenticated && !data &&
                         <Button onClick={addFavorito}>
                           Añadir Favorito
                         </Button>
                         }
-                        {isAuthenticated &&
+                        {isAuthenticated && data &&
                         <Button onClick={eliminarFavorito}>
                           Eliminar Favorito
                         </Button>
