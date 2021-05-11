@@ -65,7 +65,7 @@ const SignUp = () => {
                   message:'Usar máximo 15 caracteres'
                 },
                 pattern:{
-                  value:/^\S*$/,
+                  value:/(?=(?:^\w))([A-Za-z ]+)(?<=[^ ])$/,
                   message:'No se permiten espacios en blanco'
                 }
               })}
@@ -119,7 +119,7 @@ const SignUp = () => {
                 },
                 pattern:{
                   value:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-                  message:'Usar minusculas, mayúsculas y números '
+                  message:'Usar minúsculas, mayúsculas y números '
                 }
               })}
             />
