@@ -292,7 +292,25 @@ export const unfollow = async (
     return Status.FAILED;
   }
 };
-
+export const getFav= async (
+  idUsuario: number | undefined,
+  token: string | undefined
+) => {
+  try {
+    if (token) {
+      const response = await axios.get(
+        `${enviromentDev.url}/usuario/${idUsuario}/favoritos`,
+        { headers: { "X-JWT-Token": token } }
+      );
+      if (response.status >= 200) return response.data;
+    } else {
+      return Status.FAILED;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return Status.FAILED;
+  }
+};
 
 export const addFav= async (
   body: IFavorito,
