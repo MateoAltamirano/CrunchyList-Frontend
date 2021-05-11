@@ -49,6 +49,7 @@ const Home = () => {
   const getAnime = useCallback(
     (id: number, idUser?: number, token?: string) => {
       const getAnimeAsync = async () => {
+        if(id)
         await getSingleAnime(id, singleAnime.dispatch, idUser, token);
       };
       getAnimeAsync();

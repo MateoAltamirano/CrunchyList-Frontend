@@ -34,7 +34,16 @@ const SignUp = () => {
             duration: 2000,
             isClosable: true,
           });
+          history.push("/login");
         } else {
+          toast({
+            title: "Error",
+            description: `El usuario ${body.username} ya existe`,
+            position: "top-right",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
         }
       };
       signUpUserAsync();
@@ -45,7 +54,7 @@ const SignUp = () => {
   const onSubmit = (data: IUserSignUp) => {
     delete data['password2']
     logInAndGetUser(data);
-    history.push("/login");
+    
   };
 
   return (
@@ -61,11 +70,11 @@ const SignUp = () => {
               {...register("nombre", {
                 required: "El nombre es requerido", 
                 maxLength:{
-                  value:15,
-                  message:'Usar máximo 15 caracteres'
+                  value:20,
+                  message:'Usar máximo 20 caracteres'
                 },
                 pattern:{
-                  value:/(?=(?:^\w))([A-Za-z ]+)(?<=[^ ])$/,
+                  value:/(?=(?:^\w))([A-Za-zÀ-ÖØ-öø-ÿ ]+)(?<=[^ ])$/,
                   message:'No se permiten espacios en blanco'
                 }
               })}
