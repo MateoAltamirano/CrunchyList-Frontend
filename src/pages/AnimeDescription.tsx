@@ -319,7 +319,7 @@ const Home = () => {
       <Box className="description"></Box>
       <Flex position="absolute" top={"75%"} w={"100%"} padding="0 3rem">
         <Card w={"100%"} marginBottom="60px">
-          {singleAnime.state.status === Status.LOADING || data === undefined ? (
+          {(singleAnime.state.status === Status.LOADING || data === undefined) && isAuthenticated ? (
             <CircularProgress
               isIndeterminate
               color="secondary.main"
