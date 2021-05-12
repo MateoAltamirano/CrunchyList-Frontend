@@ -143,7 +143,6 @@ const Home = () => {
         const res = await getFav(user.state.idUsuario,token);
         let animeFavid = parseInt(id.id);
         let cont = res?.filter((anime: IUserAnimeFavs)=> anime.idAnime === animeFavid);
-       console.log(cont);
         if (cont !== undefined && cont.length > 0){
           setData(true);
         }else{
