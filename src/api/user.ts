@@ -130,11 +130,9 @@ export const createUser = async (body: IUserSignUp) => {
 
 export const searchUsers = async (
   username: string,
-  token: string | undefined
+  token?: string | undefined
 ) => {
-
-  if(token){
-
+ 
     try {
       const response = await axios.get(
         `${enviromentDev.url}/getUsuario/${username}`,
@@ -145,7 +143,7 @@ export const searchUsers = async (
     } catch (error) {
       console.log(error.message);
     }
-  }
+
 };
 
 export const getFriendByUsername = async (
