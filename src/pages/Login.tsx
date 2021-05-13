@@ -3,7 +3,7 @@ import { useCallback, useContext } from "react";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
-import logo from "../assets/img/LogoWhiteMAL.png";
+import logo from "../assets/img/logoLogin.png";
 import { Link } from "react-router-dom";
 import { getUserByUsername, login } from "../api/user";
 import { IUserLogIn } from "../models/";
@@ -61,7 +61,8 @@ const LogIn = () => {
   return (
     <Box className="bg">
       <Box backgroundColor={"primary.main"} className="loginCard">
-        <img alt={"logo"} src={logo}></img>
+        LOGO
+        {/* <img alt={"logo"} src={logo}></img> */}
         <h1>Iniciar Sesión</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={"input-box"}>

@@ -17,7 +17,7 @@ import {
   useToast
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
-
+import logo from "../assets/img/logoNav.png";
 import {
   HamburgerIcon,
   CloseIcon,
@@ -71,7 +71,7 @@ const NavBar = () => {
           />
         </Flex>
 
-        <Flex flex={{ base: 1 }}>
+        <Flex flex={{ base: 1 }} alignItems={"center"}>
           <Link
             fontWeight={500}
             color={"gray.600"}
@@ -81,7 +81,8 @@ const NavBar = () => {
             }}
             href="/"
           >
-            LOGO
+          LOGO
+          {/* <img alt={"logo"} src={logo} width={"90px"} /> */}
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />

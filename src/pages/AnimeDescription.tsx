@@ -97,7 +97,7 @@ const Home = () => {
   };
 
   const goToProfile = () => {
-    history.push("/my-lists");
+    //history.push("/my-lists");
   };
 
   const preloadForm = {
@@ -160,6 +160,7 @@ const Home = () => {
 
 
   const addFavorito = async () => {
+    
     let id2 = parseInt(id.id);
     let data = {
       "idUsuario": user.state.idUsuario,
@@ -170,6 +171,7 @@ const Home = () => {
       user.state.token
     );
     if (status === Status.SUCCESS) {
+      setData(true)
       toast({
         title: "Éxito",
         description: "Añadido a Favoritos",
@@ -202,6 +204,7 @@ const Home = () => {
       user.state.token
     );
     if (status === Status.SUCCESS) {
+      setData(false)
       toast({
         title: "Éxito",
         description: "Se eliminó de Favoritos",
