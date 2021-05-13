@@ -35,7 +35,7 @@ import { formatDateISO } from "../utils/formating-functions";
 const Home = () => {
   const [idEstado, setIdEstado] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const history = useHistory();
+  //const history = useHistory();
   const toast = useToast();
   const user = useContext(userContext);
   const singleAnime = useContext(singleAnimesContext);

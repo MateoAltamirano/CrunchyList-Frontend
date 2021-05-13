@@ -17,7 +17,6 @@ import {
   useToast
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
-import logo from "../assets/img/logoNav.png";
 import {
   HamburgerIcon,
   CloseIcon,
@@ -30,6 +29,7 @@ import { useHistory } from "react-router";
 import { UserActionType } from "../reducers/UserReducer";
 import { Props } from "framer-motion/types/types";
 import { useForm } from "react-hook-form";
+import logo from "../assets/img/logoNav.png";
 
 const NavBar = () => {
   let history = useHistory();
@@ -81,8 +81,8 @@ const NavBar = () => {
             }}
             href="/"
           >
-          LOGO
-          {/* <img alt={"logo"} src={logo} width={"90px"} /> */}
+          {/* LOGO */}
+          <img alt={"logo"} src={logo} width={"90px"} />
           </Link>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />

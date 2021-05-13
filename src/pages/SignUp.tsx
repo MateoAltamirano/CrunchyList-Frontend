@@ -3,13 +3,13 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
-import logo from "../assets/img/logoLogin.png";
 import { Link } from "react-router-dom";
 import { createUser } from "../api/user";
 import { IUserSignUp } from "../models/User";
 import { useHistory } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { Status } from "../utils/types";
+//import logo from "../assets/img/logoLogin.png";
 
 const SignUp = () => {
   const toast = useToast();

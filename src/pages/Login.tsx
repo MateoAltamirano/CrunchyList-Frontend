@@ -3,7 +3,6 @@ import { useCallback, useContext } from "react";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
 import "../styles/forms.css";
-import logo from "../assets/img/logoLogin.png";
 import { Link } from "react-router-dom";
 import { getUserByUsername, login } from "../api/user";
 import { IUserLogIn } from "../models/";
@@ -11,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import { userContext } from "../providers/UserContext";
 import { Status } from "../utils/types";
 import { useToast } from "@chakra-ui/react";
+//import logo from "../assets/img/logoLogin.png";
 
 const LogIn = () => {
   const user = useContext(userContext);
