@@ -27,7 +27,7 @@ import { singleAnimesContext } from "../providers/SingleAnimeContext";
 import { useParams } from "react-router-dom";
 import { ILista } from "../models";
 import { useToast, useDisclosure } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { IUserAnimeFavs } from "../models/User";
 import { formatDateISO } from "../utils/formating-functions";
