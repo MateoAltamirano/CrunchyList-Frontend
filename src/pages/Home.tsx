@@ -108,7 +108,7 @@ const Home = () => {
           Crunchy List
         </Heading>
         <Text fontSize="2xl" color="white">
-          La base de datos de anime más grande del universo
+          La base de datos de anime más grande del mundo
         </Text>
       </Box>
       <Flex position="absolute" top={"75%"} w={"100%"} padding="0 3rem">

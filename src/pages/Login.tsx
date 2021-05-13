@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import { userContext } from "../providers/UserContext";
 import { Status } from "../utils/types";
 import { useToast } from "@chakra-ui/react";
-//import logo from "../assets/img/logoLogin.png";
+import logo from "../assets/img/logoLogin.png";
 
 const LogIn = () => {
   const user = useContext(userContext);
@@ -61,8 +61,8 @@ const LogIn = () => {
   return (
     <Box className="bg">
       <Box backgroundColor={"primary.main"} className="loginCard">
-        LOGO
-        {/* <img alt={"logo"} src={logo}></img> */}
+        {/* LOGO */}
+        <img alt={"logo"} src={logo}></img>
         <h1>Iniciar Sesión</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={"input-box"}>

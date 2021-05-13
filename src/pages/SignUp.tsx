@@ -9,7 +9,7 @@ import { IUserSignUp } from "../models/User";
 import { useHistory } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { Status } from "../utils/types";
-//import logo from "../assets/img/logoLogin.png";
+import logo from "../assets/img/logoLogin.png";
 
 const SignUp = () => {
   const toast = useToast();
@@ -60,8 +60,8 @@ const SignUp = () => {
   return (
     <Box className="bg">
       <Box backgroundColor={"primary.main"} className="loginCard">
-        LOGO
-        {/* <img alt={"logo"} src={logo} /> */}
+        {/* LOGO */}
+        <img alt={"logo"} src={logo} />
         <h1>Crear Cuenta</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={"input-box"}>
