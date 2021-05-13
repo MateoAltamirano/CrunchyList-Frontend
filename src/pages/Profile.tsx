@@ -22,6 +22,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import AnimeFavCard from "../components/AnimeFavCard";
 import { BsFillHeartFill } from "react-icons/bs";
 import AnimeListCard from "../components/AnimeListCard";
+import { BiMessageSquareError } from "react-icons/bi";
 
 const Profile = () => {
   const history = useHistory();
@@ -104,6 +105,21 @@ const Profile = () => {
           <Card w={"100%"} marginBottom="60px">
             {status === Status.LOADING ? (
               <CircularProgress isIndeterminate color="secondary.main" />
+            ) : status === Status.FAILED ? (
+              <Flex
+              h="100%"
+              w="100%"
+              alignItems="center"
+              justifyContent="center"
+              flexDirection="column"
+            >
+              <BiMessageSquareError fontSize="10rem" />
+              <Heading size="3xl">Oops!</Heading>
+        
+              <Text m="1rem 5rem" fontSize="2xl">
+                Se perdio la conexion con el Servidor
+              </Text>
+            </Flex>
             ) : (
               <Flex flexDirection="column" w={"100%"}>
                 <Flex flexWrap="wrap" marginBottom="1rem" w={"100%"}>
