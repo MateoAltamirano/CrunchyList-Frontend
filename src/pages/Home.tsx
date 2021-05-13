@@ -131,7 +131,7 @@ const Home = () => {
             <Heading size="3xl">Oops!</Heading>
       
             <Text m="1rem 5rem" fontSize="2xl">
-              Se perdio la conexion con el Servidor
+              Se perdió la conexión con el Servidor
             </Text>
           </Flex>
           ):(
