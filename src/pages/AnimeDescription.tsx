@@ -30,6 +30,7 @@ import { useToast, useDisclosure } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { IUserAnimeFavs } from "../models/User";
+import { formatDateISO } from "../utils/formating-functions";
 
 const Home = () => {
   const [idEstado, setIdEstado] = useState(0);
@@ -422,7 +423,7 @@ const Home = () => {
                         </Heading>
                         <Heading color="gray.600" className={"label-content"}>
                           Emisión:{" "}
-                          <span>{anime.fechaEstreno?.split("T")[0]}</span>
+                          <span>{formatDateISO(anime.fechaEstreno?anime.fechaEstreno.toString():'')}</span>
                         </Heading>
                         <Heading color="gray.600" className={"label-content"}>
                           Estudio: <span>{anime.estudio}</span>

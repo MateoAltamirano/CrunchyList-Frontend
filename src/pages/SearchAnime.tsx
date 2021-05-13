@@ -42,7 +42,7 @@ const SearchAnime = () => {
   const searchAnime = (data: SearchText) => {
     if (value && value.trim() !== '')  {
       history.push(`/search-anime?q=${value.trim()}`)
-      window.location.reload(false);
+      //window.location.reload(false);
     } else {
       toast({
         title: "Adventencia",
